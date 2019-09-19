@@ -22,6 +22,11 @@ public class Eventos implements Serializable {
     private double impInt;
     private double exento;
     private double iva1;
+    private int codCliente;
+    private int fecha;
+    private int hora;
+    private int nroVendedor1;
+    private int nroCotizacion;
 
     public Eventos() {
     }
@@ -90,6 +95,46 @@ public class Eventos implements Serializable {
         this.iva1 = iva1;
     }
 
+    public int getCodCliente() {
+        return codCliente;
+    }
+
+    public void setCodCliente(int codCliente) {
+        this.codCliente = codCliente;
+    }
+
+    public int getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(int fecha) {
+        this.fecha = fecha;
+    }
+
+    public int getHora() {
+        return hora;
+    }
+
+    public void setHora(int hora) {
+        this.hora = hora;
+    }
+
+    public int getNroVendedor1() {
+        return nroVendedor1;
+    }
+
+    public void setNroVendedor1(int nroVendedor1) {
+        this.nroVendedor1 = nroVendedor1;
+    }
+
+    public int getNroCotizacion() {
+        return nroCotizacion;
+    }
+
+    public void setNroCotizacion(int nroCotizacion) {
+        this.nroCotizacion = nroCotizacion;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -98,6 +143,7 @@ public class Eventos implements Serializable {
         return idEvento == eventos.idEvento &&
                 cajaZ == eventos.cajaZ;
     }
+
 
     @Override
     public String toString() {
@@ -110,6 +156,11 @@ public class Eventos implements Serializable {
                 ", impInt=" + impInt +
                 ", exento=" + exento +
                 ", iva1=" + iva1 +
+                ", codCliente=" + codCliente +
+                ", fecha=" + fecha +
+                ", hora=" + hora +
+                ", nroVendedor1=" + nroVendedor1 +
+                ", nroCotizacion=" + nroCotizacion +
                 '}';
     }
 
