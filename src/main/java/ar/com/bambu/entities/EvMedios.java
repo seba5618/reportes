@@ -1,5 +1,6 @@
 package ar.com.bambu.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
@@ -13,6 +14,7 @@ public class EvMedios implements Serializable {
     @Id
     private long idEvento;
     @Id
+    @Column(name = "CAJA_Z")
     private int cajaZ;
     @Id
     private int posicion;
@@ -80,6 +82,18 @@ public class EvMedios implements Serializable {
         return idEvento == evMedios.idEvento &&
                 cajaZ == evMedios.cajaZ &&
                 posicion == evMedios.posicion;
+    }
+
+    @Override
+    public String toString() {
+        return "EvMedios{" +
+                "idEvento=" + idEvento +
+                ", cajaZ=" + cajaZ +
+                ", posicion=" + posicion +
+                ", modoPago=" + modoPago +
+                ", codSubMedio=" + codSubMedio +
+                ", importe=" + importe +
+                '}';
     }
 
     @Override

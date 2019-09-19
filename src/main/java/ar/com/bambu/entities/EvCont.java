@@ -87,6 +87,18 @@ public class EvCont {
     }
 
     @Override
+    public String toString() {
+        return "EvCont{" +
+                "posicion=" + posicion +
+                ", cajaZ=" + cajaZ +
+                ", idEvento=" + idEvento +
+                ", cantidad=" + cantidad +
+                ", codArticulo=" + codArticulo +
+                ", total=" + total +
+                '}';
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(posicion, cajaZ, idEvento);
     }

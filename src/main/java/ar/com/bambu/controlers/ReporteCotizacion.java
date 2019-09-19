@@ -40,12 +40,13 @@ public class ReporteCotizacion {
     EvMedioRepository medioRepository;
 
     @RequestMapping(path="/cotizacion", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<ByteArrayResource>  sendEmail(@RequestBody Eventos ev) throws Exception{
+    public ResponseEntity<ByteArrayResource>  getCotizacion(@RequestBody Eventos ev) throws Exception{
         List<Eventos> all = repo.findAll();
         Eventos evento = repo.findById(new EventosId(ev.getIdEvento(), ev.getCajaZ())).get();
         List<EvCont> detalle = repoCont.findByIdEvento(ev.getIdEvento());
         EvMedios pie = medioRepository.findByIdEvento(ev.getIdEvento());
-        all.forEach(c-> System.out.println(c.getIdEvento()));
+        System.out.println(evento);
+        System.out.println(pie);
         byte[] pdf = createPDF(detalle);
 
         return ResponseEntity.ok().body(new ByteArrayResource(pdf));
