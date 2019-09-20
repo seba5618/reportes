@@ -44,7 +44,7 @@ public class ReporteCotizacion {
         Eventos evento = repo.findById(new EventosId(ev.getIdEvento(), ev.getCajaZ())).get();
         List<EvCont> detalle = repoCont.findByIdEvento(ev.getIdEvento());
         List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(ev.getIdEvento());
-        EvMedios pie = medioRepository.findByIdEvento(ev.getIdEvento());
+        EvMedios pie = medioRepository.findByIdEventoWithMedioName(ev.getIdEvento());
 
         Cotizacion cotizacion = new Cotizacion();
         cotizacion.setCabecera(evento);
