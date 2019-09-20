@@ -29,7 +29,6 @@ public class ReporteCotizacion {
 
 
     String fileName="Wood.jasper";
-    String outFileName="Wood.pdf";
 
 
     @Autowired
@@ -44,15 +43,26 @@ public class ReporteCotizacion {
         List<Eventos> all = repo.findAll();
         Eventos evento = repo.findById(new EventosId(ev.getIdEvento(), ev.getCajaZ())).get();
         List<EvCont> detalle = repoCont.findByIdEvento(ev.getIdEvento());
+        List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(ev.getIdEvento());
         EvMedios pie = medioRepository.findByIdEvento(ev.getIdEvento());
+
+        Cotizacion cotizacion = new Cotizacion();
+        cotizacion.setCabecera(evento);
+        cotizacion.setDetalle(byIdEventoArtiName);
+        cotizacion.setPie(pie);
+        byte[] pdf = createPDF(cotizacion);
         System.out.println(evento);
-        System.out.println(pie);
-        byte[] pdf = createPDF(detalle);
+        detalle.forEach(c-> System.out.println(c.toString()));
+
+        byIdEventoArtiName.forEach(c-> System.out.println("con nombre"+c.toString()));
+
+        System.out.println("PIE"+pie);
 
         return ResponseEntity.ok().body(new ByteArrayResource(pdf));
     }
 
-    private byte[] createPDF(List<EvCont> detalle) throws  Exception{
+
+    private byte[] createPDF(Cotizacion cotizacion) throws  Exception{
 
 
 
@@ -60,7 +70,9 @@ public class ReporteCotizacion {
                 .getClassLoader().getResourceAsStream(fileName);
 
         HashMap hm= new HashMap();
-        JasperPrint print=JasperFillManager.fillReport(inputStream,hm,new JRBeanCollectionDataSource(detalle));
+        hm.put("model",cotizacion);
+        System.out.println(inputStream);
+        JasperPrint print=JasperFillManager.fillReport(inputStream,hm,new JRBeanCollectionDataSource(cotizacion.getDetalle()));
 
         byte[] bytes = JasperExportManager.exportReportToPdf(print);
 

@@ -1,8 +1,6 @@
 package ar.com.bambu.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -16,8 +14,37 @@ public class EvCont {
     @Id
     private long idEvento;
     private int cantidad;
-    private int codArticulo;
     private double total;
+    private int codArticulo;
+
+    @Transient
+    private String articuloName;
+
+    public EvCont(EvCont ev, String articuloName) {
+        this.posicion=ev.posicion;
+        this.cajaZ=ev.cajaZ;
+        this.idEvento=ev.idEvento;
+        this.cantidad=ev.cantidad;
+        this.total=ev.total;
+        this.codArticulo=ev.codArticulo;
+        this.articuloName = articuloName;
+    }
+
+    public int getCodArticulo() {
+        return codArticulo;
+    }
+
+    public void setCodArticulo(int codArticulo) {
+        this.codArticulo = codArticulo;
+    }
+
+    public String getArticuloName() {
+        return articuloName;
+    }
+
+    public void setArticuloName(String articuloName) {
+        this.articuloName = articuloName;
+    }
 
     public EvCont() {
     }
@@ -60,13 +87,6 @@ public class EvCont {
         this.cantidad = cantidad;
     }
 
-    public int getCodArticulo() {
-        return codArticulo;
-    }
-
-    public void setCodArticulo(int codArticulo) {
-        this.codArticulo = codArticulo;
-    }
 
     public double getTotal() {
         return total;
@@ -75,6 +95,7 @@ public class EvCont {
     public void setTotal(double total) {
         this.total = total;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -93,8 +114,8 @@ public class EvCont {
                 ", cajaZ=" + cajaZ +
                 ", idEvento=" + idEvento +
                 ", cantidad=" + cantidad +
-                ", codArticulo=" + codArticulo +
                 ", total=" + total +
+                ", articuloName=" + articuloName +
                 '}';
     }
 

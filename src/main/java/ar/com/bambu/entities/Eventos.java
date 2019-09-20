@@ -31,6 +31,10 @@ public class Eventos implements Serializable {
     public Eventos() {
     }
 
+    public double getTotalVenta(){
+        return this.importeSinIva+this.impInt+this.exento+this.iva1;
+    }
+
     public long getIdEvento() {
         return idEvento;
     }
