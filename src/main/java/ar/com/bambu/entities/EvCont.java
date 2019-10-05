@@ -17,6 +17,8 @@ public class EvCont {
     private double total;
     private int codArticulo;
 
+
+
     @Transient
     private String articuloName;
 
@@ -96,6 +98,9 @@ public class EvCont {
         this.total = total;
     }
 
+    public Double getPrecioUnitario() {
+        return (total / cantidad) ;
+    }
 
     @Override
     public boolean equals(Object o) {

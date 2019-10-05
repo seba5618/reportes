@@ -24,15 +24,18 @@ public class Eventos implements Serializable {
     private double iva1;
     private int codCliente;
     private int fecha;
+
+
     private int hora;
     private int nroVendedor1;
     private int nroCotizacion;
+    private int cajero;
 
     public Eventos() {
     }
 
-    public double getTotalVenta(){
-        return this.importeSinIva+this.impInt+this.exento+this.iva1;
+    public double getTotalVenta() {
+        return this.importeSinIva + this.impInt + this.exento + this.iva1;
     }
 
     public long getIdEvento() {
@@ -137,6 +140,14 @@ public class Eventos implements Serializable {
 
     public void setNroCotizacion(int nroCotizacion) {
         this.nroCotizacion = nroCotizacion;
+    }
+
+    public int getCajero() {
+        return cajero;
+    }
+
+    public void setCajero(int cajero) {
+        this.cajero = cajero;
     }
 
     @Override

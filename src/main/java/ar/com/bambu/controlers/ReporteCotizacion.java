@@ -59,6 +59,7 @@ public class ReporteCotizacion {
         cotizacion.setCabecera(evento);
         cotizacion.setDetalle(byIdEventoArtiName);
         cotizacion.setPie(pie);
+
         byte[] pdf = createPDF(cotizacion);
         ResponseEntity<ByteArrayResource> response = ResponseEntity.ok().header("Content-Disposition", "attachment; filename=taa.pdf").body(new ByteArrayResource(pdf));
 
@@ -70,6 +71,8 @@ public class ReporteCotizacion {
                 .getClassLoader().getResourceAsStream(fileName);
         HashMap hm = new HashMap();
         hm.put("model", cotizacion);
+        System.out.println("***** VIENDO EL INPUTSTRING");
+        System.out.println(inputStream);
         JasperPrint print = JasperFillManager.fillReport(inputStream, hm, new JRBeanCollectionDataSource(cotizacion.getDetalle()));
 
         return JasperExportManager.exportReportToPdf(print);
