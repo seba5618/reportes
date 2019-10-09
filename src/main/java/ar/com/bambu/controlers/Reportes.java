@@ -4,10 +4,13 @@ import ar.com.bambu.entities.EvCont;
 import ar.com.bambu.entities.EvMedios;
 import ar.com.bambu.entities.Eventos;
 import ar.com.bambu.entities.EventosId;
-import ar.com.bambu.models.Cotizacion;
+import ar.com.bambu.models.impl.Cotizacion;
+import ar.com.bambu.models.impl.FacturaDetalle;
+import ar.com.bambu.models.impl.FacturaElectronica;
 import ar.com.bambu.repos.EvContRepository;
 import ar.com.bambu.repos.EvMedioRepository;
 import ar.com.bambu.repos.EventosRepository;
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -22,17 +25,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
 @RestController
-@RequestMapping
-public class ReporteCotizacion {
+@RequestMapping(path = "/reporte")
+public class Reportes {
 
 
-    @Value("${jasper.file}")
-    String fileName;
+    @Value("${jasper.file.cotizacion}")
+    String fileNameCotizacion;
+    @Value("${jasper.file.factura}")
+    String fileNameFactura;
 
     @Autowired
     EventosRepository repo;
@@ -66,9 +72,26 @@ public class ReporteCotizacion {
         return response;
     }
 
+    @RequestMapping(path = "/factura", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<ByteArrayResource> getFactura(@RequestBody Eventos ev) throws Exception {
+        FacturaElectronica facturaElectronica = new FacturaElectronica();
+        ArrayList<FacturaDetalle> objects = new ArrayList<>();
+        objects.add(new FacturaDetalle());
+        facturaElectronica.setDetalle(objects);
+        InputStream inputStream = getClass()
+                .getClassLoader().getResourceAsStream(fileNameFactura);
+        HashMap hm = new HashMap();
+        System.out.println("stream: "+inputStream);
+
+        JasperPrint print = JasperFillManager.fillReport(inputStream, hm, new JREmptyDataSource());
+        byte[] bytes = JasperExportManager.exportReportToPdf(print);
+        ResponseEntity<ByteArrayResource> response = ResponseEntity.ok().header("Content-Disposition", "attachment; filename=factura.pdf").body(new ByteArrayResource(bytes));
+        return response;
+    }
+
     private byte[] createPDF(Cotizacion cotizacion) throws Exception {
         InputStream inputStream = getClass()
-                .getClassLoader().getResourceAsStream(fileName);
+                .getClassLoader().getResourceAsStream(fileNameCotizacion);
         HashMap hm = new HashMap();
         hm.put("model", cotizacion);
         System.out.println("***** VIENDO EL INPUTSTRING");
