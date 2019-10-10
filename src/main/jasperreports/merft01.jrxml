@@ -239,7 +239,7 @@
 				<staticText>
 					<reportElement x="337" y="18" width="100" height="20" uuid="4f170ba7-508f-4a22-9db2-7e57d75e8e28"/>
 					<textElement>
-						<font size="14" isBold="true"/>
+						<font size="13" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Comprobante:]]></text>
 				</staticText>
