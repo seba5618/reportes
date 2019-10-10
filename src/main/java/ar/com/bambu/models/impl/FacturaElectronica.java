@@ -3,11 +3,12 @@ package ar.com.bambu.models.impl;
 import ar.com.bambu.models.Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FacturaElectronica implements Serializable, Model<Void, FacturaDetalle, Void> {
 
-    List<FacturaDetalle> detalle;
+    List<FacturaDetalle> detalle = new ArrayList<>();
 
     @Override
     public Void getCabecera() {
@@ -26,6 +27,10 @@ public class FacturaElectronica implements Serializable, Model<Void, FacturaDeta
 
     public void setDetalle(List<FacturaDetalle> detalle) {
         this.detalle = detalle;
+    }
+
+    public void addDetalle(FacturaDetalle detalle){
+        this.detalle.add(detalle);
     }
 
 

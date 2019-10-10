@@ -4,6 +4,7 @@ import ar.com.bambu.entities.EvCont;
 import ar.com.bambu.entities.EvMedios;
 import ar.com.bambu.entities.Eventos;
 import ar.com.bambu.entities.EventosId;
+import ar.com.bambu.models.FacturaElectronicaBuilder;
 import ar.com.bambu.models.impl.Cotizacion;
 import ar.com.bambu.models.impl.FacturaDetalle;
 import ar.com.bambu.models.impl.FacturaElectronica;
@@ -74,17 +75,29 @@ public class Reportes {
 
     @RequestMapping(path = "/factura", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<ByteArrayResource> getFactura(@RequestBody Eventos ev) throws Exception {
-        FacturaElectronica facturaElectronica = new FacturaElectronica();
-        ArrayList<FacturaDetalle> objects = new ArrayList<>();
-        objects.add(new FacturaDetalle());
-        facturaElectronica.setDetalle(objects);
+        Eventos evento;
+        try {
+            evento = repo.findById(new EventosId(ev.getIdEvento(), ev.getCajaZ())).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.noContent().eTag("Combinación evento: " + ev.getIdEvento() + " y cajaZ: " + ev.getCajaZ() + " no válida.").build();
+        }
+
         InputStream inputStream = getClass()
                 .getClassLoader().getResourceAsStream(fileNameFactura);
-        HashMap hm = new HashMap();
-        System.out.println("stream: "+inputStream);
-        System.out.println("detalle: "+facturaElectronica.getDetalle().size());
-        facturaElectronica.getDetalle().forEach(c -> System.out.println(c));
-        JasperPrint print = JasperFillManager.fillReport(inputStream, hm, new JRBeanCollectionDataSource(facturaElectronica.getDetalle()));
+
+
+        FacturaElectronicaBuilder facturaElectronicaBuilder = new FacturaElectronicaBuilder();
+        List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(ev.getIdEvento());
+        EvMedios pie = medioRepository.findByIdEventoWithMedioName(ev.getIdEvento());
+        facturaElectronicaBuilder.withEvento(evento);
+        facturaElectronicaBuilder.withDetalle(byIdEventoArtiName);
+        facturaElectronicaBuilder.withPie(pie);
+
+        FacturaElectronica facturaElectronica = facturaElectronicaBuilder.build();
+
+
+        JasperPrint print = JasperFillManager.fillReport(inputStream, new HashMap(), new JRBeanCollectionDataSource(facturaElectronica.getDetalle()));
         byte[] bytes = JasperExportManager.exportReportToPdf(print);
         ResponseEntity<ByteArrayResource> response = ResponseEntity.ok().header("Content-Disposition", "attachment; filename=factura.pdf").body(new ByteArrayResource(bytes));
         return response;

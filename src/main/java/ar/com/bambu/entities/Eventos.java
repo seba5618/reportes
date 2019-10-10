@@ -24,6 +24,7 @@ public class Eventos implements Serializable {
     private double iva1;
     private int codCliente;
     private int fecha;
+    private int caja;
 
 
     private int hora;
@@ -32,6 +33,14 @@ public class Eventos implements Serializable {
     private int cajero;
 
     public Eventos() {
+    }
+
+    public int getCaja() {
+        return caja;
+    }
+
+    public void setCaja(int caja) {
+        this.caja = caja;
     }
 
     public double getTotalVenta() {

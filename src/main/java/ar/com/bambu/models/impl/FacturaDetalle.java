@@ -54,6 +54,22 @@ public class FacturaDetalle implements Serializable {
     private String letras_ESP;
     private String CODBARRAS;
 
+    public void setTipoComprobante(int tipoEvento) {
+        if (tipoEvento == 16) {
+            this.DOCSERIE = "A";
+        } else if (tipoEvento == 17) {
+            this.DOCSERIE = "B";
+        } else {
+            this.DOCSERIE = "X";
+        }
+    }
+
+    public void setNumeroYTipoComprobante(int caja, long ticket){
+        String.format("%04d%08d",caja, ticket);
+        this.NUMDOC= String.format("%04d-%08d",caja, ticket);
+        this.DOCESPECIE = "NF";
+    }
+
     public Double getF2_DESCONT() {
         return f2_DESCONT;
     }
