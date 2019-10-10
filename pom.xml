@@ -54,8 +54,14 @@
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
-            <version>6.9.0</version>
+            <version>6.10.0</version>
         </dependency>
+        <dependency>
+            <groupId>net.sf.barcode4j</groupId>
+            <artifactId>barcode4j</artifactId>
+            <version>2.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -63,19 +69,29 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <jvmArguments>
+            <!--             -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005-->
+                    </jvmArguments>
+                </configuration>
             </plugin>
-            <plugin>
+          <plugin>
                 <groupId>com.alexnederlof</groupId>
                 <artifactId>jasperreports-plugin</artifactId>
                 <version>2.6</version>
 
+
+
                 <executions>
                     <execution>
                         <phase>compile</phase>
+
                         <goals>
                             <goal>jasper</goal>
+
                         </goals>
                     </execution>
+
                 </executions>
                 <configuration>
                     <!-- These are the default configurations: -->
@@ -88,10 +104,30 @@
                     <numberOfThreads>4</numberOfThreads>
                     <failOnMissingSourceDirectory>true</failOnMissingSourceDirectory>
                     <sourceScanner>org.codehaus.plexus.compiler.util.scan.StaleSourceScanner</sourceScanner>
+
                 </configuration>
             </plugin>
+<!--            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jasperreports-maven-plugin</artifactId>
+                <version>1.0-beta-2</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <inherited>false</inherited>
+                        <goals>
+                            <goal>compile-reports</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <sourceDirectory>src/main/jasperreports</sourceDirectory>
+                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                    <compiler>net.sf.jasperreports.engine.design.JRJdtCompiler</compiler>
+                </configuration>
+            </plugin>-->
         </plugins>
-        <defaultGoal>jasper spring-boot:run</defaultGoal>
+        <defaultGoal>clean compile com.alexnederlof:jasperreports-plugin:jasper spring-boot:run</defaultGoal>
     </build>
 
 </project>
