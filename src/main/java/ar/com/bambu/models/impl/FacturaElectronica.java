@@ -16,7 +16,7 @@ public class FacturaElectronica implements Serializable, Model<Void, FacturaDeta
 
     @Override
     public List<FacturaDetalle> getDetalle() {
-        return null;
+        return detalle;
     }
 
     @Override
@@ -27,4 +27,6 @@ public class FacturaElectronica implements Serializable, Model<Void, FacturaDeta
     public void setDetalle(List<FacturaDetalle> detalle) {
         this.detalle = detalle;
     }
+
+
 }

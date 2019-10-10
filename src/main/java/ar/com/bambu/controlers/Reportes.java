@@ -82,8 +82,9 @@ public class Reportes {
                 .getClassLoader().getResourceAsStream(fileNameFactura);
         HashMap hm = new HashMap();
         System.out.println("stream: "+inputStream);
-
-        JasperPrint print = JasperFillManager.fillReport(inputStream, hm, new JREmptyDataSource());
+        System.out.println("detalle: "+facturaElectronica.getDetalle().size());
+        facturaElectronica.getDetalle().forEach(c -> System.out.println(c));
+        JasperPrint print = JasperFillManager.fillReport(inputStream, hm, new JRBeanCollectionDataSource(facturaElectronica.getDetalle()));
         byte[] bytes = JasperExportManager.exportReportToPdf(print);
         ResponseEntity<ByteArrayResource> response = ResponseEntity.ok().header("Content-Disposition", "attachment; filename=factura.pdf").body(new ByteArrayResource(bytes));
         return response;

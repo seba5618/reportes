@@ -3,15 +3,15 @@ package ar.com.bambu.models.impl;
 import java.io.Serializable;
 
 public class FacturaDetalle implements Serializable {
-    private Double F2_DESCONT;
-    private String F2_XOBS;
-    private Double D2_PRUNIT;
-    private Double C6_DESCONT;
+    public Double f2_DESCONT;
+    private String f2_XOBS;
+    private Double d2_PRUNIT;
+    private Double c6_DESCONT=4.6;
     private String REMITOS;
     private Double DESCPV;
     private Double VALMERC;
     private String DOCESPECIE;
-    private String DOCSERIE;
+    private String DOCSERIE="X";
     private String SERIE;
     private String CAEE;
     private String EMCAEE;
@@ -19,8 +19,8 @@ public class FacturaDetalle implements Serializable {
     private String NUMERODOCORI;
     private String CUITCLI;
     private String IIBB;
-    private Double Retencion_IVA_21;
-    private Double Retencion_IVA_105;
+    private Double retencion_IVA_21;
+    private Double retencion_IVA_105;
     private String FECHADIGIT;
     private Double TOTALDOC;
     private Double TOTIVA;
@@ -36,56 +36,54 @@ public class FacturaDetalle implements Serializable {
     private String TRANSPORTE;
     private String DIRTRANS;
     private String TELTRANS;
-    private String A1_TIPO;
+    private String a1_TIPO;
     private String TIPODOC;
     private String COD_TIPODOC;
-    private String D2_ITEM;
-    private String D2_COD;
-    private Double D2_QUANT;
-    private Double D2_PRCVEN;
-    private Double D2_TOTAL;
+    private String d2_ITEM;
+    private String d2_COD;
+    private Double d2_QUANT;
+    private Double d2_PRCVEN;
+    private Double d2_TOTAL;
     private Double IVA21;
     private Double IVA105;
     private String REMITO;
     private String SERREM;
-    private String B1_DESC;
-    private String B1_SEGUM;
-    private String B1_UM;
-    private String Letras_ESP;
+    private String b1_DESC="Tet";
+    private String b1_SEGUM;
+    private String b1_UM;
+    private String letras_ESP;
     private String CODBARRAS;
 
-
-
     public Double getF2_DESCONT() {
-        return F2_DESCONT;
+        return f2_DESCONT;
     }
 
     public void setF2_DESCONT(Double f2_DESCONT) {
-        F2_DESCONT = f2_DESCONT;
+        this.f2_DESCONT = f2_DESCONT;
     }
 
     public String getF2_XOBS() {
-        return F2_XOBS;
+        return f2_XOBS;
     }
 
     public void setF2_XOBS(String f2_XOBS) {
-        F2_XOBS = f2_XOBS;
+        this.f2_XOBS = f2_XOBS;
     }
 
     public Double getD2_PRUNIT() {
-        return D2_PRUNIT;
+        return d2_PRUNIT;
     }
 
     public void setD2_PRUNIT(Double d2_PRUNIT) {
-        D2_PRUNIT = d2_PRUNIT;
+        this.d2_PRUNIT = d2_PRUNIT;
     }
 
     public Double getC6_DESCONT() {
-        return C6_DESCONT;
+        return c6_DESCONT;
     }
 
     public void setC6_DESCONT(Double c6_DESCONT) {
-        C6_DESCONT = c6_DESCONT;
+        this.c6_DESCONT = c6_DESCONT;
     }
 
     public String getREMITOS() {
@@ -185,19 +183,19 @@ public class FacturaDetalle implements Serializable {
     }
 
     public Double getRetencion_IVA_21() {
-        return Retencion_IVA_21;
+        return retencion_IVA_21;
     }
 
     public void setRetencion_IVA_21(Double retencion_IVA_21) {
-        Retencion_IVA_21 = retencion_IVA_21;
+        this.retencion_IVA_21 = retencion_IVA_21;
     }
 
     public Double getRetencion_IVA_105() {
-        return Retencion_IVA_105;
+        return retencion_IVA_105;
     }
 
     public void setRetencion_IVA_105(Double retencion_IVA_105) {
-        Retencion_IVA_105 = retencion_IVA_105;
+        this.retencion_IVA_105 = retencion_IVA_105;
     }
 
     public String getFECHADIGIT() {
@@ -321,11 +319,11 @@ public class FacturaDetalle implements Serializable {
     }
 
     public String getA1_TIPO() {
-        return A1_TIPO;
+        return a1_TIPO;
     }
 
     public void setA1_TIPO(String a1_TIPO) {
-        A1_TIPO = a1_TIPO;
+        this.a1_TIPO = a1_TIPO;
     }
 
     public String getTIPODOC() {
@@ -345,43 +343,43 @@ public class FacturaDetalle implements Serializable {
     }
 
     public String getD2_ITEM() {
-        return D2_ITEM;
+        return d2_ITEM;
     }
 
     public void setD2_ITEM(String d2_ITEM) {
-        D2_ITEM = d2_ITEM;
+        this.d2_ITEM = d2_ITEM;
     }
 
     public String getD2_COD() {
-        return D2_COD;
+        return d2_COD;
     }
 
     public void setD2_COD(String d2_COD) {
-        D2_COD = d2_COD;
+        this.d2_COD = d2_COD;
     }
 
     public Double getD2_QUANT() {
-        return D2_QUANT;
+        return d2_QUANT;
     }
 
     public void setD2_QUANT(Double d2_QUANT) {
-        D2_QUANT = d2_QUANT;
+        this.d2_QUANT = d2_QUANT;
     }
 
     public Double getD2_PRCVEN() {
-        return D2_PRCVEN;
+        return d2_PRCVEN;
     }
 
     public void setD2_PRCVEN(Double d2_PRCVEN) {
-        D2_PRCVEN = d2_PRCVEN;
+        this.d2_PRCVEN = d2_PRCVEN;
     }
 
     public Double getD2_TOTAL() {
-        return D2_TOTAL;
+        return d2_TOTAL;
     }
 
     public void setD2_TOTAL(Double d2_TOTAL) {
-        D2_TOTAL = d2_TOTAL;
+        this.d2_TOTAL = d2_TOTAL;
     }
 
     public Double getIVA21() {
@@ -417,35 +415,35 @@ public class FacturaDetalle implements Serializable {
     }
 
     public String getB1_DESC() {
-        return B1_DESC;
+        return b1_DESC;
     }
 
     public void setB1_DESC(String b1_DESC) {
-        B1_DESC = b1_DESC;
+        this.b1_DESC = b1_DESC;
     }
 
     public String getB1_SEGUM() {
-        return B1_SEGUM;
+        return b1_SEGUM;
     }
 
     public void setB1_SEGUM(String b1_SEGUM) {
-        B1_SEGUM = b1_SEGUM;
+        this.b1_SEGUM = b1_SEGUM;
     }
 
     public String getB1_UM() {
-        return B1_UM;
+        return b1_UM;
     }
 
     public void setB1_UM(String b1_UM) {
-        B1_UM = b1_UM;
+        this.b1_UM = b1_UM;
     }
 
     public String getLetras_ESP() {
-        return Letras_ESP;
+        return letras_ESP;
     }
 
     public void setLetras_ESP(String letras_ESP) {
-        Letras_ESP = letras_ESP;
+        this.letras_ESP = letras_ESP;
     }
 
     public String getCODBARRAS() {
@@ -454,5 +452,61 @@ public class FacturaDetalle implements Serializable {
 
     public void setCODBARRAS(String CODBARRAS) {
         this.CODBARRAS = CODBARRAS;
+    }
+
+    @Override
+    public String toString() {
+        return "FacturaDetalle{" +
+                "f2_DESCONT=" + f2_DESCONT +
+                ", f2_XOBS='" + f2_XOBS + '\'' +
+                ", d2_PRUNIT=" + d2_PRUNIT +
+                ", c6_DESCONT=" + c6_DESCONT +
+                ", REMITOS='" + REMITOS + '\'' +
+                ", DESCPV=" + DESCPV +
+                ", VALMERC=" + VALMERC +
+                ", DOCESPECIE='" + DOCESPECIE + '\'' +
+                ", DOCSERIE='" + DOCSERIE + '\'' +
+                ", SERIE='" + SERIE + '\'' +
+                ", CAEE='" + CAEE + '\'' +
+                ", EMCAEE='" + EMCAEE + '\'' +
+                ", NUMDOC='" + NUMDOC + '\'' +
+                ", NUMERODOCORI='" + NUMERODOCORI + '\'' +
+                ", CUITCLI='" + CUITCLI + '\'' +
+                ", IIBB='" + IIBB + '\'' +
+                ", retencion_IVA_21=" + retencion_IVA_21 +
+                ", retencion_IVA_105=" + retencion_IVA_105 +
+                ", FECHADIGIT='" + FECHADIGIT + '\'' +
+                ", TOTALDOC=" + TOTALDOC +
+                ", TOTIVA=" + TOTIVA +
+                ", DIRECC='" + DIRECC + '\'' +
+                ", LOCALIDAD='" + LOCALIDAD + '\'' +
+                ", NOMBRECLI='" + NOMBRECLI + '\'' +
+                ", CONTACTOCLI='" + CONTACTOCLI + '\'' +
+                ", TIENDA='" + TIENDA + '\'' +
+                ", CLIENTE='" + CLIENTE + '\'' +
+                ", DESCCONDPAGO='" + DESCCONDPAGO + '\'' +
+                ", copy='" + copy + '\'' +
+                ", sequence=" + sequence +
+                ", TRANSPORTE='" + TRANSPORTE + '\'' +
+                ", DIRTRANS='" + DIRTRANS + '\'' +
+                ", TELTRANS='" + TELTRANS + '\'' +
+                ", a1_TIPO='" + a1_TIPO + '\'' +
+                ", TIPODOC='" + TIPODOC + '\'' +
+                ", COD_TIPODOC='" + COD_TIPODOC + '\'' +
+                ", d2_ITEM='" + d2_ITEM + '\'' +
+                ", d2_COD='" + d2_COD + '\'' +
+                ", d2_QUANT=" + d2_QUANT +
+                ", d2_PRCVEN=" + d2_PRCVEN +
+                ", d2_TOTAL=" + d2_TOTAL +
+                ", IVA21=" + IVA21 +
+                ", IVA105=" + IVA105 +
+                ", REMITO='" + REMITO + '\'' +
+                ", SERREM='" + SERREM + '\'' +
+                ", b1_DESC='" + b1_DESC + '\'' +
+                ", b1_SEGUM='" + b1_SEGUM + '\'' +
+                ", b1_UM='" + b1_UM + '\'' +
+                ", letras_ESP='" + letras_ESP + '\'' +
+                ", CODBARRAS='" + CODBARRAS + '\'' +
+                '}';
     }
 }
