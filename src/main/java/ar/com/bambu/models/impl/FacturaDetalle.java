@@ -2,6 +2,7 @@ package ar.com.bambu.models.impl;
 
 import ar.com.bambu.entities.Clientes;
 import ar.com.bambu.entities.EvCont;
+import ar.com.bambu.entities.EvMedios;
 
 import java.io.Serializable;
 
@@ -92,6 +93,11 @@ public class FacturaDetalle implements Serializable {
         this.LOCALIDAD= clientes.getLocalidad();
         this.IIBB= clientes.getIngBrutos();
         this.a1_TIPO= clientes.getCondIvaString();
+    }
+
+    public void setCondicionVenta(EvMedios ev){
+        this.DESCCONDPAGO=ev.getNombreMedio();
+        this.REMITOS="";
     }
 
     public Double getF2_DESCONT() {

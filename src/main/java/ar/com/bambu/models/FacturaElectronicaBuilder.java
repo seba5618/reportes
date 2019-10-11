@@ -51,6 +51,7 @@ public class FacturaElectronicaBuilder {
            detalle.setNumeroYTipoComprobante(this.cabecera.getCaja(), this.cabecera.getNroTicket());
            detalle.setDetalleFactura(c);
            detalle.setDataCliente(this.clientes);
+           detalle.setCondicionVenta(pie);
            result.addDetalle(detalle);
         });
 
