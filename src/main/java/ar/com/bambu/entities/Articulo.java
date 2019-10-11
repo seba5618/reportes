@@ -11,6 +11,8 @@ public class Articulo {
     private int codInterno;
 
     private String nombre;
+    private String unidad;
+
 
 
     public Articulo() {
@@ -37,6 +39,13 @@ public class Articulo {
         this.nombre = nombre;
     }
 
+    public String getUnidad() {
+        return unidad;
+    }
+
+    public void setUnidad(String unidad) {
+        this.unidad = unidad;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -1,17 +1,13 @@
 package ar.com.bambu.controlers;
 
-import ar.com.bambu.entities.EvCont;
-import ar.com.bambu.entities.EvMedios;
-import ar.com.bambu.entities.Eventos;
-import ar.com.bambu.entities.EventosId;
+import ar.com.bambu.entities.*;
 import ar.com.bambu.models.FacturaElectronicaBuilder;
 import ar.com.bambu.models.impl.Cotizacion;
-import ar.com.bambu.models.impl.FacturaDetalle;
 import ar.com.bambu.models.impl.FacturaElectronica;
+import ar.com.bambu.repos.ClientesRepository;
 import ar.com.bambu.repos.EvContRepository;
 import ar.com.bambu.repos.EvMedioRepository;
 import ar.com.bambu.repos.EventosRepository;
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -26,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,6 +42,8 @@ public class Reportes {
     EvContRepository repoCont;
     @Autowired
     EvMedioRepository medioRepository;
+    @Autowired
+    ClientesRepository clientesRepository;
 
 
     @RequestMapping(path = "/cotizacion", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
@@ -76,12 +73,17 @@ public class Reportes {
     @RequestMapping(path = "/factura", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<ByteArrayResource> getFactura(@RequestBody Eventos ev) throws Exception {
         Eventos evento;
+
         try {
             evento = repo.findById(new EventosId(ev.getIdEvento(), ev.getCajaZ())).get();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.noContent().eTag("Combinación evento: " + ev.getIdEvento() + " y cajaZ: " + ev.getCajaZ() + " no válida.").build();
         }
+
+
+        Clientes clientes = clientesRepository.findByCodClienteConCondicionIva(evento.getCodCliente());
+
 
         InputStream inputStream = getClass()
                 .getClassLoader().getResourceAsStream(fileNameFactura);
@@ -90,9 +92,8 @@ public class Reportes {
         FacturaElectronicaBuilder facturaElectronicaBuilder = new FacturaElectronicaBuilder();
         List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(ev.getIdEvento());
         EvMedios pie = medioRepository.findByIdEventoWithMedioName(ev.getIdEvento());
-        facturaElectronicaBuilder.withEvento(evento);
-        facturaElectronicaBuilder.withDetalle(byIdEventoArtiName);
-        facturaElectronicaBuilder.withPie(pie);
+        facturaElectronicaBuilder.withEvento(evento).withDetalle(byIdEventoArtiName).withPie(pie).withCliente(clientes);
+
 
         FacturaElectronica facturaElectronica = facturaElectronicaBuilder.build();
 

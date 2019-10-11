@@ -1,5 +1,6 @@
 package ar.com.bambu.models;
 
+import ar.com.bambu.entities.Clientes;
 import ar.com.bambu.entities.EvCont;
 import ar.com.bambu.entities.EvMedios;
 import ar.com.bambu.entities.Eventos;
@@ -17,6 +18,7 @@ public class FacturaElectronicaBuilder {
     Eventos cabecera;
     List<EvCont> detalle;
     EvMedios pie;
+    Clientes clientes;
 
 
 
@@ -35,6 +37,11 @@ public class FacturaElectronicaBuilder {
         return this;
     }
 
+    public FacturaElectronicaBuilder withCliente(Clientes cl){
+        this.clientes =cl;
+        return this;
+    }
+
     public FacturaElectronica build(){
         FacturaElectronica result = new FacturaElectronica();
 
@@ -42,6 +49,8 @@ public class FacturaElectronicaBuilder {
            FacturaDetalle detalle = new FacturaDetalle();
            detalle.setTipoComprobante(this.cabecera.getTipoEvento());
            detalle.setNumeroYTipoComprobante(this.cabecera.getCaja(), this.cabecera.getNroTicket());
+           detalle.setDetalleFactura(c);
+           detalle.setDataCliente(this.clientes);
            result.addDetalle(detalle);
         });
 

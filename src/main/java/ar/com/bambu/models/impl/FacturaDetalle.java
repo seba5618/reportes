@@ -1,5 +1,6 @@
 package ar.com.bambu.models.impl;
 
+import ar.com.bambu.entities.Clientes;
 import ar.com.bambu.entities.EvCont;
 
 import java.io.Serializable;
@@ -8,7 +9,7 @@ public class FacturaDetalle implements Serializable {
     public Double f2_DESCONT;
     private String f2_XOBS;
     private Double d2_PRUNIT;
-    private Double c6_DESCONT=4.6;
+    private Double c6_DESCONT=0d;
     private String REMITOS;
     private Double DESCPV;
     private Double VALMERC;
@@ -73,8 +74,24 @@ public class FacturaDetalle implements Serializable {
     }
 
     public void setDetalleFactura(EvCont detalle){
-        this.d2_COD=String.valueOf(detalle.getCodArticulo());
-        this
+        this.d2_COD=String.format("%08d",detalle.getCodArticulo());
+        this.b1_DESC=detalle.getArticuloName();
+        this.d2_QUANT=new Double(detalle.getCantidad());
+        this.d2_PRUNIT=detalle.getPrecioUnitario();
+        this.b1_UM=detalle.getUnidadDeMedida();
+    }
+
+    public void setDataCliente(Clientes clientes){
+        if(clientes == null){
+            return;
+        }
+        this.CLIENTE=String.format("%06d", clientes.getCodCliente());
+        this.NOMBRECLI= clientes.getNombre();
+        this.CUITCLI= clientes.getCUIT();
+        this.DIRECC= clientes.getDomicilio();
+        this.LOCALIDAD= clientes.getLocalidad();
+        this.IIBB= clientes.getIngBrutos();
+        this.a1_TIPO= clientes.getCondIvaString();
     }
 
     public Double getF2_DESCONT() {

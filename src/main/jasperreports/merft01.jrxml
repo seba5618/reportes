@@ -459,7 +459,7 @@
 			</textField>
 			<textField pattern="###0.00" isBlankWhenNull="true">
 				<reportElement x="4" y="0" width="59" height="10" uuid="1565a3ef-92d7-4978-a9ac-a1d34d80ae1b"/>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Left">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{d2_COD}]]></textFieldExpression>
