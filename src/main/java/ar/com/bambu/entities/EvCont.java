@@ -21,8 +21,10 @@ public class EvCont {
 
     @Transient
     private String articuloName;
+    @Transient
+    private String unidadDeMedida;
 
-    public EvCont(EvCont ev, String articuloName) {
+    public EvCont(EvCont ev, String articuloName, String unidadDeMedida) {
         this.posicion=ev.posicion;
         this.cajaZ=ev.cajaZ;
         this.idEvento=ev.idEvento;
@@ -30,6 +32,15 @@ public class EvCont {
         this.total=ev.total;
         this.codArticulo=ev.codArticulo;
         this.articuloName = articuloName;
+        this.unidadDeMedida=unidadDeMedida;
+    }
+
+    public String getUnidadDeMedida() {
+        return unidadDeMedida;
+    }
+
+    public void setUnidadDeMedida(String unidadDeMedida) {
+        this.unidadDeMedida = unidadDeMedida;
     }
 
     public int getCodArticulo() {

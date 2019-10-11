@@ -20,16 +20,19 @@ public class FacturaElectronicaBuilder {
 
 
 
-    public void withEvento(Eventos ev){
+    public FacturaElectronicaBuilder withEvento(Eventos ev){
         this.cabecera=ev;
+        return this;
     }
 
-    public void withDetalle(List<EvCont> detalle){
+    public FacturaElectronicaBuilder withDetalle(List<EvCont> detalle){
         this.detalle=detalle;
+        return this;
     }
 
-    public void withPie(EvMedios ev){
+    public FacturaElectronicaBuilder withPie(EvMedios ev){
         this.pie=ev;
+        return this;
     }
 
     public FacturaElectronica build(){

@@ -1,5 +1,7 @@
 package ar.com.bambu.models.impl;
 
+import ar.com.bambu.entities.EvCont;
+
 import java.io.Serializable;
 
 public class FacturaDetalle implements Serializable {
@@ -68,6 +70,11 @@ public class FacturaDetalle implements Serializable {
         String.format("%04d%08d",caja, ticket);
         this.NUMDOC= String.format("%04d-%08d",caja, ticket);
         this.DOCESPECIE = "NF";
+    }
+
+    public void setDetalleFactura(EvCont detalle){
+        this.d2_COD=String.valueOf(detalle.getCodArticulo());
+        this
     }
 
     public Double getF2_DESCONT() {
