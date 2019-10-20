@@ -14,7 +14,9 @@ import java.util.List;
 public interface EvContRepository extends JpaRepository<EvCont, EvContId> {
     public List<EvCont> findByIdEvento(Long idEvento);
 
-    @Query(value = "select new ar.com.bambu.entities.EvCont (ev, art.nombre as articuloName, art.unidad as unidad) from EvCont ev join Articulo art on ev.codArticulo=art.codInterno where ev.idEvento=:idEvento")
+    @Query(value = "select new ar.com.bambu.entities.EvCont (ev, art) " +
+            "from EvCont ev join Articulo art on ev.codArticulo=art.codInterno " +
+            "where ev.idEvento=:idEvento")
     public List<EvCont> findByIdEventoArtiName(@Param("idEvento") Long idEvento);
 
 }

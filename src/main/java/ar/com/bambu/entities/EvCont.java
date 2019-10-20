@@ -7,16 +7,23 @@ import java.util.Objects;
 @IdClass(EvContId.class)
 public class EvCont {
 
+    private static final int PROMOCION_PRE_PAGO = 4;
+    private static final int PROMOCION_POST_PAGO = 5;
+
     @Id
     private int posicion;
     @Id
     private int cajaZ;
     @Id
     private long idEvento;
-    private int cantidad;
+    private Double cantidad;
+    private Integer origen;
     private double total;
     private int codArticulo;
 
+    private Double importeSinIva;
+    private Double impInt;
+    private Double IVA1;
 
 
     @Transient
@@ -24,15 +31,51 @@ public class EvCont {
     @Transient
     private String unidadDeMedida;
 
-    public EvCont(EvCont ev, String articuloName, String unidadDeMedida) {
-        this.posicion=ev.posicion;
-        this.cajaZ=ev.cajaZ;
-        this.idEvento=ev.idEvento;
-        this.cantidad=ev.cantidad;
-        this.total=ev.total;
-        this.codArticulo=ev.codArticulo;
-        this.articuloName = articuloName;
-        this.unidadDeMedida=unidadDeMedida;
+    public EvCont(EvCont ev, Articulo art) {
+        this.posicion = ev.posicion;
+        this.importeSinIva = ev.importeSinIva;
+        this.impInt = ev.impInt;
+        this.IVA1 = ev.IVA1;
+        this.cajaZ = ev.cajaZ;
+        this.idEvento = ev.idEvento;
+        this.cantidad = ev.cantidad;
+        this.total = ev.total;
+        this.codArticulo = ev.codArticulo;
+        this.articuloName = art.getNombre();
+        this.unidadDeMedida = art.getUnidad();
+        this.origen = ev.origen;
+    }
+
+    public Double getMontoPromocion() {
+        Double result = 0d;
+        if (this.origen == PROMOCION_PRE_PAGO || this.origen == PROMOCION_POST_PAGO) {
+            result = total;
+        }
+        return result;
+    }
+
+    public Double getImporteSinIVA() {
+        return importeSinIva;
+    }
+
+    public void setImporteSinIVA(Double importeSinIVA) {
+        this.importeSinIva = importeSinIVA;
+    }
+
+    public Double getImpInt() {
+        return impInt;
+    }
+
+    public void setImpInt(Double impInt) {
+        this.impInt = impInt;
+    }
+
+    public Double getIVA1() {
+        return IVA1;
+    }
+
+    public void setIVA1(Double IVA1) {
+        this.IVA1 = IVA1;
     }
 
     public String getUnidadDeMedida() {
@@ -92,14 +135,13 @@ public class EvCont {
         this.idEvento = idEvento;
     }
 
-    public int getCantidad() {
+    public Double getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
+    public void setCantidad(Double cantidad) {
         this.cantidad = cantidad;
     }
-
 
     public double getTotal() {
         return total;
@@ -109,8 +151,20 @@ public class EvCont {
         this.total = total;
     }
 
-    public Double getPrecioUnitario() {
-        return (total / cantidad) ;
+    public Double getPrecioUnitarioSinIva() {
+        return this.importeSinIva+this.impInt;
+    }
+
+    public Double getPrecioUnitarioConIva() {
+        return this.importeSinIva+this.IVA1+this.impInt;
+    }
+
+    public Integer getOrigen() {
+        return origen;
+    }
+
+    public void setOrigen(Integer origen) {
+        this.origen = origen;
     }
 
     @Override

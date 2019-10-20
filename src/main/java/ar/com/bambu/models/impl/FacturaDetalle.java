@@ -5,17 +5,21 @@ import ar.com.bambu.entities.EvCont;
 import ar.com.bambu.entities.EvMedios;
 
 import java.io.Serializable;
+import java.util.List;
+
+import static ar.com.bambu.entities.Eventos.TIPO_FACTURA_A;
+import static ar.com.bambu.entities.Eventos.TIPO_FACTURA_B;
 
 public class FacturaDetalle implements Serializable {
-    public Double f2_DESCONT;
-    private String f2_XOBS;
+    public Double f2_DESCONT = 0d;
+    private String f2_XOBS = "";
     private Double d2_PRUNIT;
-    private Double c6_DESCONT=0d;
+    private Double c6_DESCONT = 0d;
     private String REMITOS;
     private Double DESCPV;
     private Double VALMERC;
     private String DOCESPECIE;
-    private String DOCSERIE="X";
+    private String DOCSERIE = "X";
     private String SERIE;
     private String CAEE;
     private String EMCAEE;
@@ -52,52 +56,62 @@ public class FacturaDetalle implements Serializable {
     private Double IVA105;
     private String REMITO;
     private String SERREM;
-    private String b1_DESC="Tet";
+    private String b1_DESC;
     private String b1_SEGUM;
     private String b1_UM;
     private String letras_ESP;
     private String CODBARRAS;
 
     public void setTipoComprobante(int tipoEvento) {
-        if (tipoEvento == 16) {
+        if (tipoEvento == TIPO_FACTURA_A) {
             this.DOCSERIE = "A";
-        } else if (tipoEvento == 17) {
+        } else if (tipoEvento == TIPO_FACTURA_B) {
             this.DOCSERIE = "B";
         } else {
             this.DOCSERIE = "X";
         }
     }
 
-    public void setNumeroYTipoComprobante(int caja, long ticket){
-        String.format("%04d%08d",caja, ticket);
-        this.NUMDOC= String.format("%04d-%08d",caja, ticket);
+    public void setNumeroYTipoComprobante(int caja, long ticket) {
+        String.format("%04d%08d", caja, ticket);
+        this.NUMDOC = String.format("%04d-%08d", caja, ticket);
         this.DOCESPECIE = "NF";
     }
 
-    public void setDetalleFactura(EvCont detalle){
-        this.d2_COD=String.format("%08d",detalle.getCodArticulo());
-        this.b1_DESC=detalle.getArticuloName();
-        this.d2_QUANT=new Double(detalle.getCantidad());
-        this.d2_PRUNIT=detalle.getPrecioUnitario();
-        this.b1_UM=detalle.getUnidadDeMedida();
+    public void setDetalleFactura(EvCont detalle, int tipoEvento) {
+        this.d2_COD = String.format("%08d", detalle.getCodArticulo());
+        this.b1_DESC = detalle.getArticuloName();
+        this.d2_QUANT = detalle.getCantidad();
+        if (tipoEvento == TIPO_FACTURA_A) {
+            this.d2_PRUNIT = detalle.getPrecioUnitarioSinIva();
+        } else {
+            this.d2_PRUNIT = detalle.getPrecioUnitarioConIva();
+        }
+        this.b1_UM = detalle.getUnidadDeMedida();
     }
 
-    public void setDataCliente(Clientes clientes){
-        if(clientes == null){
+    public void setDataCliente(Clientes clientes) {
+        if (clientes == null) {
             return;
         }
-        this.CLIENTE=String.format("%06d", clientes.getCodCliente());
-        this.NOMBRECLI= clientes.getNombre();
-        this.CUITCLI= clientes.getCUIT();
-        this.DIRECC= clientes.getDomicilio();
-        this.LOCALIDAD= clientes.getLocalidad();
-        this.IIBB= clientes.getIngBrutos();
-        this.a1_TIPO= clientes.getCondIvaString();
+        this.CLIENTE = String.format("%06d", clientes.getCodCliente());
+        this.NOMBRECLI = clientes.getNombre();
+        this.CUITCLI = clientes.getCUIT();
+        this.DIRECC = clientes.getDomicilio();
+        this.LOCALIDAD = clientes.getLocalidad();
+        this.IIBB = clientes.getIngBrutos();
+        this.a1_TIPO = clientes.getCondIvaString();
     }
 
-    public void setCondicionVenta(EvMedios ev){
-        this.DESCCONDPAGO=ev.getNombreMedio();
-        this.REMITOS="";
+    public void setDataPieMontoPromociones(List<EvCont> detalle) {
+        detalle.forEach(c -> f2_DESCONT += c.getMontoPromocion());
+    }
+
+    public void setCondicionVenta(EvMedios ev) {
+        if (ev != null) {
+            this.DESCCONDPAGO = ev.getNombreMedio();
+        }
+        this.REMITOS = "";
     }
 
     public Double getF2_DESCONT() {

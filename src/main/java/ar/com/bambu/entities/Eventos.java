@@ -11,6 +11,10 @@ import java.util.Objects;
 @IdClass(EventosId.class)
 public class Eventos implements Serializable {
 
+
+    public static final int TIPO_FACTURA_B = 17;
+    public static final int TIPO_FACTURA_A = 16;
+
     @Id
     private long idEvento;
     @Id
