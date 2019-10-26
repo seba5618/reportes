@@ -32,8 +32,9 @@ public class FacturaElectronicaBuilder {
     }
 
     public FacturaElectronicaBuilder withDetalle(List<EvCont> detalle) {
+        Stream<EvCont> sorted = detalle.stream().sorted((o1, o2) -> o2.getCantidad().compareTo(o1.getCantidad()));
         List<EvCont> filteredDetalle = new ArrayList<>();
-        detalle.forEach(evCont -> this.filtrarAnulados(filteredDetalle, evCont));
+        sorted.forEach(evCont -> this.filtrarAnulados(filteredDetalle, evCont));
 
         this.detalle = filteredDetalle.stream().filter( evCont -> evCont.getCantidad()>0).collect(Collectors.toList());
         return this;
@@ -59,18 +60,25 @@ public class FacturaElectronicaBuilder {
             detalle.setDetalleFactura(c, this.cabecera.getTipoEvento());
             detalle.setDataCliente(this.clientes);
             detalle.setCondicionVenta(pie);
-            detalle.setDataPieMontoPromociones(this.detalle);
+            detalle.setDataPieMontoPromociones(this.detalle, this.cabecera.getTipoEvento());
             result.addDetalle(detalle);
         });
 
         return result;
     }
 
+    /**
+     * Asume la lista esta ordenada de cantidad mayor a menor y devuelve otra lista sin los eventos de anulacion y con
+     * las ventas anuladas en cantidad zero.
+     * @param source
+     * @param newElem
+     * @return
+     */
     private List<EvCont> filtrarAnulados(List<EvCont> source, EvCont newElem) {
 
-        Stream<EvCont> sorted = source.stream().sorted((o1, o2) -> o2.getCantidad().compareTo(o1.getCantidad()));
 
-        Optional<EvCont> articuloEnTicketOptional = sorted.filter(evCont -> evCont.getCodArticulo() == newElem.getCodArticulo()
+
+        Optional<EvCont> articuloEnTicketOptional = source.stream().filter(evCont -> evCont.getCodArticulo() == newElem.getCodArticulo()
                 && evCont.getOrigen() == newElem.getOrigen()).findAny();
         if (articuloEnTicketOptional.isPresent()) {
             EvCont articuloEnTicket = articuloEnTicketOptional.get();

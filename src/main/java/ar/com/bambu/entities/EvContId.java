@@ -6,13 +6,13 @@ import java.util.Objects;
 public class EvContId implements Serializable {
 
     private int posicion;
-    private int cajaZ;
+    private long cajaZ;
     private long idEvento;
 
     public EvContId() {
     }
 
-    public EvContId(int posicion, int cajaZ, long idEvento) {
+    public EvContId(int posicion, long cajaZ, long idEvento) {
         this.posicion = posicion;
         this.cajaZ = cajaZ;
         this.idEvento = idEvento;
@@ -26,11 +26,11 @@ public class EvContId implements Serializable {
         this.posicion = posicion;
     }
 
-    public int getCajaZ() {
+    public long getCajaZ() {
         return cajaZ;
     }
 
-    public void setCajaZ(int cajaZ) {
+    public void setCajaZ(long cajaZ) {
         this.cajaZ = cajaZ;
     }
 

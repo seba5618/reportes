@@ -13,7 +13,8 @@ public class EvCont {
     @Id
     private int posicion;
     @Id
-    private int cajaZ;
+    @Column(name = "CAJA_Z")
+    private long cajaZ;
     @Id
     private long idEvento;
     private Double cantidad;
@@ -30,8 +31,11 @@ public class EvCont {
     private String articuloName;
     @Transient
     private String unidadDeMedida;
+    @Transient
+    private ArticuloIva articuloIVA;
 
-    public EvCont(EvCont ev, Articulo art) {
+    public EvCont(EvCont ev, Articulo art, ArticuloIva articuloIVA) {
+
         this.posicion = ev.posicion;
         this.importeSinIva = ev.importeSinIva;
         this.impInt = ev.impInt;
@@ -44,18 +48,84 @@ public class EvCont {
         this.articuloName = art.getNombre();
         this.unidadDeMedida = art.getUnidad();
         this.origen = ev.origen;
+        this.articuloIVA = articuloIVA;
     }
 
-    public Double getMontoPromocion() {
+    public Double getMontoPromocionSinIva() {
         Double result = 0d;
-        if (this.origen == PROMOCION_PRE_PAGO || this.origen == PROMOCION_POST_PAGO) {
-            result = total;
+        if (this.isPromocion()) {
+            result = this.getImporteSinIva() * this.getCantidad();
         }
         return result;
     }
 
-    public Double getImporteSinIVA() {
+    public Double getMontoPromocionConIva() {
+        Double result = 0d;
+        if (this.isPromocion()) {
+            result = (this.getImporteSinIva() + this.getIVA1()) * cantidad;
+        }
+        return result;
+    }
+
+    public Double getMontoSinIVA(){
+        Double result = 0d;
+
+            result = this.getImporteSinIva() * this.getCantidad();
+
+        return result;
+    }
+
+    public Double getMontoConIVA(){
+        Double result = 0d;
+
+            result = (this.getImporteSinIva() + this.getIVA1()) * cantidad;
+
+        return result;
+    }
+
+    public Double getMontoIVAComun(){
+        Double result = 0d;
+        if (this.articuloIVA.getCodIva() == 0){
+            result += this.getIVA1() * this.getCantidad();
+        }
+        return result;
+    }
+
+    public Double getMontoIVAReducido(){
+        Double result = 0d;
+        if (this.articuloIVA.getCodIva() == 1){
+            result += this.getIVA1() * this.getCantidad();
+        }
+        return result;
+    }
+
+    public Double getMontoExento(){
+        Double result = 0d;
+        if (this.articuloIVA.getCodIva() == 2){
+            result +=  total;
+        }
+        return result;
+    }
+
+    public boolean isPromocion(){
+        return this.origen == PROMOCION_PRE_PAGO || this.origen == PROMOCION_POST_PAGO;
+    }
+
+
+    public Double getImporteSinIva() {
         return importeSinIva;
+    }
+
+    public void setImporteSinIva(Double importeSinIva) {
+        this.importeSinIva = importeSinIva;
+    }
+
+    public ArticuloIva getArticuloIVA() {
+        return articuloIVA;
+    }
+
+    public void setArticuloIVA(ArticuloIva articuloIVA) {
+        this.articuloIVA = articuloIVA;
     }
 
     public void setImporteSinIVA(Double importeSinIVA) {
@@ -119,11 +189,11 @@ public class EvCont {
         this.posicion = posicion;
     }
 
-    public int getCajaZ() {
+    public long getCajaZ() {
         return cajaZ;
     }
 
-    public void setCajaZ(int cajaZ) {
+    public void setCajaZ(long cajaZ) {
         this.cajaZ = cajaZ;
     }
 

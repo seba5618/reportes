@@ -17,7 +17,7 @@ public class FacturaDetalle implements Serializable {
     private Double c6_DESCONT = 0d;
     private String REMITOS;
     private Double DESCPV;
-    private Double VALMERC;
+    private Double VALMERC = 0d;
     private String DOCESPECIE;
     private String DOCSERIE = "X";
     private String SERIE;
@@ -27,10 +27,10 @@ public class FacturaDetalle implements Serializable {
     private String NUMERODOCORI;
     private String CUITCLI;
     private String IIBB;
-    private Double retencion_IVA_21;
-    private Double retencion_IVA_105;
+    private Double retencion_IVA_21 = 0d;
+    private Double retencion_IVA_105 = 0d;
     private String FECHADIGIT;
-    private Double TOTALDOC;
+    private Double TOTALDOC = 0d;
     private Double TOTIVA;
     private String DIRECC;
     private String LOCALIDAD;
@@ -52,8 +52,8 @@ public class FacturaDetalle implements Serializable {
     private Double d2_QUANT;
     private Double d2_PRCVEN;
     private Double d2_TOTAL;
-    private Double IVA21;
-    private Double IVA105;
+    private Double IVA21 = 0d;
+    private Double IVA105 = 0d;
     private String REMITO;
     private String SERREM;
     private String b1_DESC;
@@ -65,10 +65,12 @@ public class FacturaDetalle implements Serializable {
     public void setTipoComprobante(int tipoEvento) {
         if (tipoEvento == TIPO_FACTURA_A) {
             this.DOCSERIE = "A";
+            this.SERIE = "A";
         } else if (tipoEvento == TIPO_FACTURA_B) {
             this.DOCSERIE = "B";
         } else {
             this.DOCSERIE = "X";
+
         }
     }
 
@@ -103,8 +105,25 @@ public class FacturaDetalle implements Serializable {
         this.a1_TIPO = clientes.getCondIvaString();
     }
 
-    public void setDataPieMontoPromociones(List<EvCont> detalle) {
-        detalle.forEach(c -> f2_DESCONT += c.getMontoPromocion());
+    public void setDataPieMontoPromociones(List<EvCont> detalle, int tipoEvento) {
+        detalle.forEach(c -> {
+
+                    if (tipoEvento == TIPO_FACTURA_A) {
+                        this.VALMERC += c.getMontoSinIVA();
+                        this.retencion_IVA_21 += c.getMontoIVAComun();
+                        this.retencion_IVA_105 += c.getMontoIVAReducido();
+                        f2_DESCONT += c.getMontoPromocionSinIva();
+                        this.TOTALDOC = this.VALMERC + retencion_IVA_21 + retencion_IVA_105;
+                    } else {
+                        this.VALMERC += c.getMontoConIVA();
+                        f2_DESCONT += c.getMontoPromocionConIva();
+                        this.TOTALDOC = this.VALMERC ;
+                    }
+
+                }
+
+        );
+        f2_DESCONT *= -1;
     }
 
     public void setCondicionVenta(EvMedios ev) {

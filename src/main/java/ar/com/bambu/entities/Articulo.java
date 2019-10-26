@@ -12,6 +12,8 @@ public class Articulo {
 
     private String nombre;
     private String unidad;
+    private Integer codIva;
+
 
 
 
@@ -21,6 +23,14 @@ public class Articulo {
     public Articulo(int codInterno, String nombre) {
         this.codInterno = codInterno;
         this.nombre = nombre;
+    }
+
+    public Integer getCodIva() {
+        return codIva;
+    }
+
+    public void setCodIva(Integer codIva) {
+        this.codIva = codIva;
     }
 
     public int getCodInterno() {
