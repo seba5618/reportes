@@ -229,6 +229,10 @@ public class EvCont {
         return this.importeSinIva+this.IVA1+this.impInt;
     }
 
+    public Double getPrecioUnitario() {
+        return (this.total / this.cantidad) ;
+    }
+
     public Integer getOrigen() {
         return origen;
     }

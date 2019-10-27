@@ -16,7 +16,7 @@
 	<field name="posicion" class="java.lang.Integer"/>
 	<field name="cajaZ" class="java.lang.Integer"/>
 	<field name="idEvento" class="java.lang.Long"/>
-	<field name="cantidad" class="java.lang.Integer"/>
+	<field name="cantidad" class="java.lang.Double"/>
 	<field name="codArticulo" class="java.lang.Integer"/>
 	<field name="total" class="java.lang.Double"/>
 	<field name="articuloName" class="java.lang.String"/>
