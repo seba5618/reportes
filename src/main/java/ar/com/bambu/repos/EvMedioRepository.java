@@ -14,6 +14,6 @@ public interface EvMedioRepository extends JpaRepository<EvMedios, EvMediosId> {
     EvMedios findByIdEvento(Long idEvento);
 
     @Query(value = "select new ar.com.bambu.entities.EvMedios (ev, medio.nombre as medioNombre) from EvMedios ev join Medios medio on ev.modoPago=medio.codMedio where ev.idEvento=:idEvento")
-    EvMedios findByIdEventoWithMedioName(@Param("idEvento")Long idEvento);
+    List<EvMedios> findByIdEventoWithMedioName(@Param("idEvento")Long idEvento);
 
 }

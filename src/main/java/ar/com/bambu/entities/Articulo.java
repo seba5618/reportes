@@ -2,9 +2,11 @@ package ar.com.bambu.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import java.util.Objects;
 
 @Entity
+@IdClass(ArticuloId.class)
 public class Articulo {
 
     @Id
@@ -13,6 +15,8 @@ public class Articulo {
     private String nombre;
     private String unidad;
     private Integer codIva;
+    @Id
+    private String codigoBarra;
 
 
 
@@ -27,6 +31,14 @@ public class Articulo {
 
     public Integer getCodIva() {
         return codIva;
+    }
+
+    public String getCodigoBarra() {
+        return codigoBarra;
+    }
+
+    public void setCodigoBarra(String codigoBarra) {
+        this.codigoBarra = codigoBarra;
     }
 
     public void setCodIva(Integer codIva) {

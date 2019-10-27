@@ -61,6 +61,7 @@ public class FacturaElectronicaBuilder {
             detalle.setDataCliente(this.clientes);
             detalle.setCondicionVenta(pie);
             detalle.setDataPieMontoPromociones(this.detalle, this.cabecera.getTipoEvento());
+            detalle.setFechaWithFechaInvel(cabecera);
             result.addDetalle(detalle);
         });
 

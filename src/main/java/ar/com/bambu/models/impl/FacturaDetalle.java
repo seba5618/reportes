@@ -3,6 +3,8 @@ package ar.com.bambu.models.impl;
 import ar.com.bambu.entities.Clientes;
 import ar.com.bambu.entities.EvCont;
 import ar.com.bambu.entities.EvMedios;
+import ar.com.bambu.entities.Eventos;
+import ar.com.bambu.utils.ConversorDatos;
 
 import java.io.Serializable;
 import java.util.List;
@@ -39,7 +41,7 @@ public class FacturaDetalle implements Serializable {
     private String TIENDA;
     private String CLIENTE;
     private String DESCCONDPAGO;
-    private String copy;
+    private String copy= "Original";
     private Integer sequence;
     private String TRANSPORTE;
     private String DIRTRANS;
@@ -131,6 +133,13 @@ public class FacturaDetalle implements Serializable {
             this.DESCCONDPAGO = ev.getNombreMedio();
         }
         this.REMITOS = "";
+    }
+
+    public void setFechaWithFechaInvel(Eventos ev) {
+        if (ev != null) {
+            this.FECHADIGIT = ConversorDatos.fechaInvelATexto((short)ev.getFecha(),ConversorDatos.AAAAMMDD);
+        }
+
     }
 
     public Double getF2_DESCONT() {

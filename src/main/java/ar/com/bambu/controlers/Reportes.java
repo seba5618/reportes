@@ -57,7 +57,7 @@ public class Reportes {
         }
 
         List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(ev.getIdEvento());
-        EvMedios pie = medioRepository.findByIdEventoWithMedioName(ev.getIdEvento());
+        EvMedios pie = medioRepository.findByIdEventoWithMedioName(ev.getIdEvento()).get(0);
 
         Cotizacion cotizacion = new Cotizacion();
         cotizacion.setCabecera(evento);
@@ -91,7 +91,7 @@ public class Reportes {
 
         FacturaElectronicaBuilder facturaElectronicaBuilder = new FacturaElectronicaBuilder();
         List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(ev.getIdEvento());
-        EvMedios pie = medioRepository.findByIdEventoWithMedioName(ev.getIdEvento());
+        EvMedios pie = medioRepository.findByIdEventoWithMedioName(ev.getIdEvento()).get(0);
         facturaElectronicaBuilder.withEvento(evento).withDetalle(byIdEventoArtiName).withPie(pie).withCliente(clientes);
 
 
