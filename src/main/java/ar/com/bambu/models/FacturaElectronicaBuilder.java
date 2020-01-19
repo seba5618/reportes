@@ -37,6 +37,9 @@ public class FacturaElectronicaBuilder {
         sorted.forEach(evCont -> this.filtrarAnulados(filteredDetalle, evCont));
 
         this.detalle = filteredDetalle.stream().filter( evCont -> evCont.getCantidad()>0).collect(Collectors.toList());
+        Stream<EvCont> sortedByPosicion = this.detalle.stream().sorted((o1, o2) -> Integer.compare(o1.getPosicion(),o2.getPosicion()));
+
+        this.detalle =sortedByPosicion.collect(Collectors.toList());
         return this;
     }
 
@@ -80,7 +83,7 @@ public class FacturaElectronicaBuilder {
 
 
         Optional<EvCont> articuloEnTicketOptional = source.stream().filter(evCont -> evCont.getCodArticulo() == newElem.getCodArticulo()
-                && evCont.getOrigen() == newElem.getOrigen()).findAny();
+                && evCont.getOrigen() == newElem.getOrigen()&& Math.abs(evCont.getPrecioUnitario())== Math.abs(newElem.getPrecioUnitario())).findAny();
         if (articuloEnTicketOptional.isPresent()) {
             EvCont articuloEnTicket = articuloEnTicketOptional.get();
             articuloEnTicket.setCantidad(articuloEnTicket.getCantidad() + newElem.getCantidad());

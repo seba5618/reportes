@@ -35,7 +35,8 @@ public class Reportes {
     String fileNameCotizacion;
     @Value("${jasper.file.factura}")
     String fileNameFactura;
-
+    @Value("${jasper.file.remito}")
+    String fileNameRemito;
     @Autowired
     EventosRepository repo;
     @Autowired
@@ -57,12 +58,12 @@ public class Reportes {
         }
 
         List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(ev.getIdEvento());
-        EvMedios pie = medioRepository.findByIdEventoWithMedioName(ev.getIdEvento()).get(0);
+        //EvMedios pie = medioRepository.findByIdEventoWithMedioName(ev.getIdEvento()).get(0);
 
         Cotizacion cotizacion = new Cotizacion();
         cotizacion.setCabecera(evento);
         cotizacion.setDetalle(byIdEventoArtiName);
-        cotizacion.setPie(pie);
+        //cotizacion.setPie(pie);
 
         byte[] pdf = createPDF(cotizacion);
         ResponseEntity<ByteArrayResource> response = ResponseEntity.ok().header("Content-Disposition", "attachment; filename=taa.pdf").body(new ByteArrayResource(pdf));
@@ -87,6 +88,40 @@ public class Reportes {
 
         InputStream inputStream = getClass()
                 .getClassLoader().getResourceAsStream(fileNameFactura);
+
+
+        FacturaElectronicaBuilder facturaElectronicaBuilder = new FacturaElectronicaBuilder();
+        List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(ev.getIdEvento());
+        EvMedios pie = medioRepository.findByIdEventoWithMedioName(ev.getIdEvento()).get(0);
+        facturaElectronicaBuilder.withEvento(evento).withDetalle(byIdEventoArtiName).withPie(pie).withCliente(clientes);
+
+
+        FacturaElectronica facturaElectronica = facturaElectronicaBuilder.build();
+
+
+        JasperPrint print = JasperFillManager.fillReport(inputStream, new HashMap(), new JRBeanCollectionDataSource(facturaElectronica.getDetalle()));
+        byte[] bytes = JasperExportManager.exportReportToPdf(print);
+        ResponseEntity<ByteArrayResource> response = ResponseEntity.ok().header("Content-Disposition", "attachment; filename=factura.pdf").body(new ByteArrayResource(bytes));
+        return response;
+    }
+
+    @RequestMapping(path = "/remito", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<ByteArrayResource> getRemito(@RequestBody Eventos ev) throws Exception {
+        Eventos evento;
+
+        try {
+            evento = repo.findById(new EventosId(ev.getIdEvento(), ev.getCajaZ())).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.noContent().eTag("Combinación evento: " + ev.getIdEvento() + " y cajaZ: " + ev.getCajaZ() + " no válida.").build();
+        }
+
+
+        Clientes clientes = clientesRepository.findByCodClienteConCondicionIva(evento.getCodCliente());
+
+
+        InputStream inputStream = getClass()
+                .getClassLoader().getResourceAsStream(fileNameRemito);
 
 
         FacturaElectronicaBuilder facturaElectronicaBuilder = new FacturaElectronicaBuilder();

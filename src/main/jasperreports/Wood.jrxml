@@ -205,34 +205,6 @@
 			</textField>
 		</band>
 	</pageFooter>
-	<lastPageFooter>
-		<band height="90">
-			<staticText>
-				<reportElement x="0" y="0" width="100" height="18" uuid="5d004147-c6e1-4ec4-baa4-782d9eab5f30"/>
-				<text><![CDATA[Modo de Pago:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="20" width="100" height="18" uuid="84352bc7-fc3d-4460-b3fa-d3992acb20b2"/>
-				<text><![CDATA[Submedio:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="370" y="0" width="100" height="18" uuid="65aae97d-8db1-4250-9c16-1abc56a0c5a6"/>
-				<text><![CDATA[Total:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="100" y="0" width="74" height="18" uuid="c61dccdb-a6d9-4713-b048-7e78f88b3be1"/>
-				<textFieldExpression><![CDATA[$P{model}.getPie().getNombreMedio()]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="100" y="20" width="74" height="18" uuid="2e2884b0-e0c9-4192-a393-4c5269f5f00a"/>
-				<textFieldExpression><![CDATA[$P{model}.getPie().getCodSubMedio()]]></textFieldExpression>
-			</textField>
-			<textField pattern="¤#,##0.00;¤-#,##0.00">
-				<reportElement x="470" y="0" width="74" height="18" uuid="6e468841-e03e-4067-ab7d-55cdac664283"/>
-				<textFieldExpression><![CDATA[$P{model}.getPie().getImporte()]]></textFieldExpression>
-			</textField>
-		</band>
-	</lastPageFooter>
 	<summary>
 		<band splitType="Stretch"/>
 	</summary>
