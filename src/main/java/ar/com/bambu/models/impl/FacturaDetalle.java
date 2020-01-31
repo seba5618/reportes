@@ -7,6 +7,7 @@ import ar.com.bambu.entities.Eventos;
 import ar.com.bambu.utils.ConversorDatos;
 
 import java.io.Serializable;
+import java.nio.file.Paths;
 import java.util.List;
 
 import static ar.com.bambu.entities.Eventos.TIPO_FACTURA_A;
@@ -38,7 +39,8 @@ public class FacturaDetalle implements Serializable {
     private String LOCALIDAD;
     private String NOMBRECLI;
     private String CONTACTOCLI;
-    private String TIENDA;
+   // private String TIENDA= "C:/pasa/jasperreports/logo.JPG";
+    private String TIENDA= "C:/pasa/jasperreports/logo.JPG";
     private String CLIENTE;
     private String DESCCONDPAGO;
     private String copy= "Original";
@@ -138,6 +140,15 @@ public class FacturaDetalle implements Serializable {
     public void setFechaWithFechaInvel(Eventos ev) {
         if (ev != null) {
             this.FECHADIGIT = ConversorDatos.fechaInvelATexto((short)ev.getFecha(),ConversorDatos.AAAAMMDD);
+        }
+
+    }
+
+    public void setPathLogo(Integer ev) {
+        if (ev != null) {
+            this.TIENDA = System.getProperty("user.dir") + "\\LOGOS\\"+ "\\Suc"+ev.toString()+".JPG";
+            System.out.println("***** VIENDO PATH****");
+            System.out.println(this.TIENDA);
         }
 
     }

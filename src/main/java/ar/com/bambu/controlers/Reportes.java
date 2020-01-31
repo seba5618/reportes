@@ -4,10 +4,7 @@ import ar.com.bambu.entities.*;
 import ar.com.bambu.models.FacturaElectronicaBuilder;
 import ar.com.bambu.models.impl.Cotizacion;
 import ar.com.bambu.models.impl.FacturaElectronica;
-import ar.com.bambu.repos.ClientesRepository;
-import ar.com.bambu.repos.EvContRepository;
-import ar.com.bambu.repos.EvMedioRepository;
-import ar.com.bambu.repos.EventosRepository;
+import ar.com.bambu.repos.*;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -45,6 +42,8 @@ public class Reportes {
     EvMedioRepository medioRepository;
     @Autowired
     ClientesRepository clientesRepository;
+    @Autowired
+    TpvConfigRepository tpvConfigRepository;
 
 
     @RequestMapping(path = "/cotizacion", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
@@ -84,7 +83,7 @@ public class Reportes {
 
 
         Clientes clientes = clientesRepository.findByCodClienteConCondicionIva(evento.getCodCliente());
-
+        TpvConfig sucursal = tpvConfigRepository.findByCodSucusal();
 
         InputStream inputStream = getClass()
                 .getClassLoader().getResourceAsStream(fileNameFactura);
@@ -93,7 +92,7 @@ public class Reportes {
         FacturaElectronicaBuilder facturaElectronicaBuilder = new FacturaElectronicaBuilder();
         List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(ev.getIdEvento());
         EvMedios pie = medioRepository.findByIdEventoWithMedioName(ev.getIdEvento()).get(0);
-        facturaElectronicaBuilder.withEvento(evento).withDetalle(byIdEventoArtiName).withPie(pie).withCliente(clientes);
+        facturaElectronicaBuilder.withEvento(evento).withDetalle(byIdEventoArtiName).withPie(pie).withCliente(clientes).withTpvconfig(sucursal);
 
 
         FacturaElectronica facturaElectronica = facturaElectronicaBuilder.build();
@@ -118,7 +117,10 @@ public class Reportes {
 
 
         Clientes clientes = clientesRepository.findByCodClienteConCondicionIva(evento.getCodCliente());
+        TpvConfig sucursal = tpvConfigRepository.findByCodSucusal();
 
+        System.out.println("***** VIENDO EL CODIGO DE SUCURSAL****");
+        System.out.println(Integer.toString(sucursal.getSucursal()));
 
         InputStream inputStream = getClass()
                 .getClassLoader().getResourceAsStream(fileNameRemito);
@@ -126,8 +128,9 @@ public class Reportes {
 
         FacturaElectronicaBuilder facturaElectronicaBuilder = new FacturaElectronicaBuilder();
         List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(ev.getIdEvento());
-        EvMedios pie = medioRepository.findByIdEventoWithMedioName(ev.getIdEvento()).get(0);
-        facturaElectronicaBuilder.withEvento(evento).withDetalle(byIdEventoArtiName).withPie(pie).withCliente(clientes);
+        //EvMedios pie = medioRepository.findByIdEventoWithMedioName(ev.getIdEvento()).get(0);
+        facturaElectronicaBuilder.withEvento(evento).withDetalle(byIdEventoArtiName).withCliente(clientes).withTpvconfig(sucursal);
+        //facturaElectronicaBuilder.withEvento(evento).withDetalle(byIdEventoArtiName).withPie(pie).withCliente(clientes);
 
 
         FacturaElectronica facturaElectronica = facturaElectronicaBuilder.build();

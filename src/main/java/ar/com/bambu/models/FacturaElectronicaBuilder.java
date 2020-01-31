@@ -1,9 +1,6 @@
 package ar.com.bambu.models;
 
-import ar.com.bambu.entities.Clientes;
-import ar.com.bambu.entities.EvCont;
-import ar.com.bambu.entities.EvMedios;
-import ar.com.bambu.entities.Eventos;
+import ar.com.bambu.entities.*;
 import ar.com.bambu.models.impl.FacturaDetalle;
 import ar.com.bambu.models.impl.FacturaElectronica;
 
@@ -24,6 +21,7 @@ public class FacturaElectronicaBuilder {
     List<EvCont> detalle;
     EvMedios pie;
     Clientes clientes;
+    TpvConfig tpvConfig;
 
 
     public FacturaElectronicaBuilder withEvento(Eventos ev) {
@@ -53,6 +51,11 @@ public class FacturaElectronicaBuilder {
         return this;
     }
 
+    public FacturaElectronicaBuilder withTpvconfig(TpvConfig cl) {
+        this.tpvConfig = cl;
+        return this;
+    }
+
     public FacturaElectronica build() {
         FacturaElectronica result = new FacturaElectronica();
 
@@ -65,6 +68,7 @@ public class FacturaElectronicaBuilder {
             detalle.setCondicionVenta(pie);
             detalle.setDataPieMontoPromociones(this.detalle, this.cabecera.getTipoEvento());
             detalle.setFechaWithFechaInvel(cabecera);
+            detalle.setPathLogo(this.tpvConfig.getSucursal());
             result.addDetalle(detalle);
         });
 
