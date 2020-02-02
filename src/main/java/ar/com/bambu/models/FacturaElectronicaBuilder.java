@@ -4,6 +4,7 @@ import ar.com.bambu.entities.*;
 import ar.com.bambu.models.impl.FacturaDetalle;
 import ar.com.bambu.models.impl.FacturaElectronica;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -63,12 +64,19 @@ public class FacturaElectronicaBuilder {
             FacturaDetalle detalle = new FacturaDetalle();
             detalle.setTipoComprobante(this.cabecera.getTipoEvento());
             detalle.setNumeroYTipoComprobante(this.cabecera.getCaja(), this.cabecera.getNroTicket());
+            detalle.setFechaVigencia(this.cabecera.getDosificacionOrden());
             detalle.setDetalleFactura(c, this.cabecera.getTipoEvento());
             detalle.setDataCliente(this.clientes);
             detalle.setCondicionVenta(pie);
             detalle.setDataPieMontoPromociones(this.detalle, this.cabecera.getTipoEvento());
             detalle.setFechaWithFechaInvel(cabecera);
             detalle.setPathLogo(this.tpvConfig.getSucursal());
+            //usaremos esto para las observaciones
+            try {
+                detalle.setF2_XOBS();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             result.addDetalle(detalle);
         });
 

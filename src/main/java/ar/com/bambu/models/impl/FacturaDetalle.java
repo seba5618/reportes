@@ -6,9 +6,10 @@ import ar.com.bambu.entities.EvMedios;
 import ar.com.bambu.entities.Eventos;
 import ar.com.bambu.utils.ConversorDatos;
 
-import java.io.Serializable;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Properties;
 
 import static ar.com.bambu.entities.Eventos.TIPO_FACTURA_A;
 import static ar.com.bambu.entities.Eventos.TIPO_FACTURA_B;
@@ -27,6 +28,7 @@ public class FacturaDetalle implements Serializable {
     private String CAEE;
     private String EMCAEE;
     private String NUMDOC;
+    private String VIGENCIA;
     private String NUMERODOCORI;
     private String CUITCLI;
     private String IIBB;
@@ -48,6 +50,7 @@ public class FacturaDetalle implements Serializable {
     private String TRANSPORTE;
     private String DIRTRANS;
     private String TELTRANS;
+
     private String a1_TIPO;
     private String TIPODOC;
     private String COD_TIPODOC;
@@ -66,6 +69,7 @@ public class FacturaDetalle implements Serializable {
     private String letras_ESP;
     private String CODBARRAS;
 
+
     public void setTipoComprobante(int tipoEvento) {
         if (tipoEvento == TIPO_FACTURA_A) {
             this.DOCSERIE = "A";
@@ -82,6 +86,10 @@ public class FacturaDetalle implements Serializable {
         String.format("%04d%08d", caja, ticket);
         this.NUMDOC = String.format("%04d-%08d", caja, ticket);
         this.DOCESPECIE = "NF";
+    }
+
+    public void setFechaVigencia(String dosificacion) {
+        this.VIGENCIA = dosificacion;
     }
 
     public void setDetalleFactura(EvCont detalle, int tipoEvento) {
@@ -167,6 +175,20 @@ public class FacturaDetalle implements Serializable {
 
     public void setF2_XOBS(String f2_XOBS) {
         this.f2_XOBS = f2_XOBS;
+    }
+
+    public void setF2_XOBS() throws IOException {
+        char CR  = (char) 0x0D;
+        char LF  = (char) 0x0A;
+        String CRLF  = "" + CR + LF;
+
+
+        String twoLines = "Line1" + CRLF + "Line2";   // 12 characters
+        String fichero = System.getProperty("user.dir") + "\\jasper.properties";
+        Properties p = new Properties();
+        p.load(new FileReader(fichero));
+        this.f2_XOBS = p.getProperty("pie1","***") + CRLF + p.getProperty("pie2"," ") + CRLF + p.getProperty("pie3"," ") + CRLF + p.getProperty("pie4"," ") ;
+
     }
 
     public Double getD2_PRUNIT() {
@@ -256,6 +278,15 @@ public class FacturaDetalle implements Serializable {
     public void setNUMDOC(String NUMDOC) {
         this.NUMDOC = NUMDOC;
     }
+
+    public String getVIGENCIA() {
+        return VIGENCIA;
+    }
+
+    public void setVIGENCIA(String VIGENCIA) {
+        this.VIGENCIA = VIGENCIA;
+    }
+
 
     public String getNUMERODOCORI() {
         return NUMERODOCORI;
@@ -569,6 +600,7 @@ public class FacturaDetalle implements Serializable {
                 ", CAEE='" + CAEE + '\'' +
                 ", EMCAEE='" + EMCAEE + '\'' +
                 ", NUMDOC='" + NUMDOC + '\'' +
+                ", VIGENCIA='" + VIGENCIA + '\'' +
                 ", NUMERODOCORI='" + NUMERODOCORI + '\'' +
                 ", CUITCLI='" + CUITCLI + '\'' +
                 ", IIBB='" + IIBB + '\'' +

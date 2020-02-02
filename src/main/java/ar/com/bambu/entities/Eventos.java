@@ -35,6 +35,15 @@ public class Eventos implements Serializable {
     private int nroVendedor1;
     private int nroCotizacion;
     private int cajero;
+    private String dosificacionOrden;
+
+    public String getDosificacionOrden() {
+        return dosificacionOrden;
+    }
+
+    public void setDosificacionOrden(String dosificacionOrden) {
+        this.dosificacionOrden = dosificacionOrden;
+    }
 
     public Eventos() {
     }
@@ -162,6 +171,9 @@ public class Eventos implements Serializable {
     public void setCajero(int cajero) {
         this.cajero = cajero;
     }
+
+
+
 
     @Override
     public boolean equals(Object o) {

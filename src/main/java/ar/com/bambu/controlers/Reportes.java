@@ -56,6 +56,32 @@ public class Reportes {
             return ResponseEntity.noContent().eTag("Combinación evento: " + ev.getIdEvento() + " y cajaZ: " + ev.getCajaZ() + " no válida.").build();
         }
 
+        Clientes clientes = clientesRepository.findByCodClienteConCondicionIva(evento.getCodCliente());
+        TpvConfig sucursal = tpvConfigRepository.findByCodSucusal();
+
+        InputStream inputStream = getClass()
+                .getClassLoader().getResourceAsStream(fileNameCotizacion);
+
+
+        FacturaElectronicaBuilder facturaElectronicaBuilder = new FacturaElectronicaBuilder();
+        List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(ev.getIdEvento());
+
+        System.out.println("***** VIENDO VIGENCIA****");
+        System.out.println(evento.getDosificacionOrden());
+
+        //EvMedios pie = medioRepository.findByIdEventoWithMedioName(ev.getIdEvento()).get(0);
+        facturaElectronicaBuilder.withEvento(evento).withDetalle(byIdEventoArtiName).withCliente(clientes).withTpvconfig(sucursal);
+
+
+        FacturaElectronica facturaElectronica = facturaElectronicaBuilder.build();
+
+
+        JasperPrint print = JasperFillManager.fillReport(inputStream, new HashMap(), new JRBeanCollectionDataSource(facturaElectronica.getDetalle()));
+        byte[] bytes = JasperExportManager.exportReportToPdf(print);
+        ResponseEntity<ByteArrayResource> response = ResponseEntity.ok().header("Content-Disposition", "attachment; filename=factura.pdf").body(new ByteArrayResource(bytes));
+        return response;
+
+      /*  desde aca es cotizacion vieja
         List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(ev.getIdEvento());
         //EvMedios pie = medioRepository.findByIdEventoWithMedioName(ev.getIdEvento()).get(0);
 
@@ -68,6 +94,8 @@ public class Reportes {
         ResponseEntity<ByteArrayResource> response = ResponseEntity.ok().header("Content-Disposition", "attachment; filename=taa.pdf").body(new ByteArrayResource(pdf));
 
         return response;
+
+       */
     }
 
     @RequestMapping(path = "/factura", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
