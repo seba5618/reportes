@@ -44,7 +44,8 @@ public class Reportes {
     ClientesRepository clientesRepository;
     @Autowired
     TpvConfigRepository tpvConfigRepository;
-
+    @Autowired
+    CajerosRepository cajerosRepository;
 
     @RequestMapping(path = "/cotizacion", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<ByteArrayResource> getCotizacion(@RequestBody Eventos ev) throws Exception {
@@ -58,6 +59,10 @@ public class Reportes {
 
         Clientes clientes = clientesRepository.findByCodClienteConCondicionIva(evento.getCodCliente());
         TpvConfig sucursal = tpvConfigRepository.findByCodSucusal();
+        Cajeros cajeros = cajerosRepository. findByCodCajero(evento.getNroVendedor1());
+        if(cajeros == null ) {
+            System.out.println("***** SONAMOS NO HAY CAJERO EN ESE VENDEDOR****");
+        }
 
         InputStream inputStream = getClass()
                 .getClassLoader().getResourceAsStream(fileNameCotizacion);
@@ -66,11 +71,8 @@ public class Reportes {
         FacturaElectronicaBuilder facturaElectronicaBuilder = new FacturaElectronicaBuilder();
         List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(ev.getIdEvento());
 
-        System.out.println("***** VIENDO VIGENCIA****");
-        System.out.println(evento.getDosificacionOrden());
-
         //EvMedios pie = medioRepository.findByIdEventoWithMedioName(ev.getIdEvento()).get(0);
-        facturaElectronicaBuilder.withEvento(evento).withDetalle(byIdEventoArtiName).withCliente(clientes).withTpvconfig(sucursal);
+        facturaElectronicaBuilder.withEvento(evento).withDetalle(byIdEventoArtiName).withCliente(clientes).withTpvconfig(sucursal).withCajeros(cajeros);
 
 
         FacturaElectronica facturaElectronica = facturaElectronicaBuilder.build();

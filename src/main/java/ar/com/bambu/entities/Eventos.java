@@ -164,7 +164,7 @@ public class Eventos implements Serializable {
         this.nroCotizacion = nroCotizacion;
     }
 
-    public int getCajero() {
+    public Integer getCajero() {
         return cajero;
     }
 

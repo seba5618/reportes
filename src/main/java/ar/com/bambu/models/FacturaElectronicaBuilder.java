@@ -23,6 +23,7 @@ public class FacturaElectronicaBuilder {
     EvMedios pie;
     Clientes clientes;
     TpvConfig tpvConfig;
+    Cajeros cajeros;
 
 
     public FacturaElectronicaBuilder withEvento(Eventos ev) {
@@ -57,6 +58,11 @@ public class FacturaElectronicaBuilder {
         return this;
     }
 
+    public FacturaElectronicaBuilder withCajeros(Cajeros cl) {
+        this.cajeros= cl;
+        return this;
+    }
+
     public FacturaElectronica build() {
         FacturaElectronica result = new FacturaElectronica();
 
@@ -71,6 +77,12 @@ public class FacturaElectronicaBuilder {
             detalle.setDataPieMontoPromociones(this.detalle, this.cabecera.getTipoEvento());
             detalle.setFechaWithFechaInvel(cabecera);
             detalle.setPathLogo(this.tpvConfig.getSucursal());
+            detalle.setNUMVENDDOR(this.cabecera.getNroVendedor1());
+            if(this.cajeros != null)
+                detalle.setNOMVENDEDOR(" " + this.cajeros.getNombreCajero());
+            else
+                detalle.setNOMVENDEDOR(" ");
+
             //usaremos esto para las observaciones
             try {
                 detalle.setF2_XOBS();

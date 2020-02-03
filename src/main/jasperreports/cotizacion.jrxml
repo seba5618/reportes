@@ -110,6 +110,8 @@
 	<field name="b1_UM" class="java.lang.String"/>
 	<field name="letras_ESP" class="java.lang.String"/>
 	<field name="CODBARRAS" class="java.lang.String"/>
+	<field name="NUMVENDDOR" class="java.lang.Integer"/>
+	<field name="NOMVENDEDOR" class="java.lang.String"/>
 	<group name="Cabecera" isStartNewPage="true" isReprintHeaderOnEachPage="true">
 		<groupExpression><![CDATA[$F{NUMDOC}+$F{DOCSERIE}+$F{copy}]]></groupExpression>
 		<groupHeader>
@@ -139,7 +141,7 @@
 					<textFieldExpression><![CDATA[$F{DIRECC}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="293" y="156" width="98" height="12" uuid="78fe325e-e817-4bed-aa67-e04864b3606a"/>
+					<reportElement x="263" y="156" width="98" height="12" uuid="78fe325e-e817-4bed-aa67-e04864b3606a"/>
 					<textElement>
 						<font fontName="SansSerif" size="9"/>
 					</textElement>
@@ -167,14 +169,16 @@
 					<textFieldExpression><![CDATA[$F{a1_TIPO}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="438" y="156" width="100" height="12" uuid="ba960b66-8e8b-4693-b6d4-d77fa19e9a65"/>
+					<reportElement x="420" y="156" width="100" height="12" uuid="ba960b66-8e8b-4693-b6d4-d77fa19e9a65">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
 					<textElement>
 						<font fontName="SansSerif" size="9"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{IIBB}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{NUMVENDDOR} + $F{NOMVENDEDOR}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement stretchType="ContainerHeight" x="442" y="139" width="80" height="13" uuid="cb10d5d6-3405-49d2-84ce-b837912133e4">
+					<reportElement stretchType="ContainerHeight" x="420" y="139" width="80" height="13" uuid="cb10d5d6-3405-49d2-84ce-b837912133e4">
 						<property name="com.jaspersoft.studio.unit.y" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
@@ -325,7 +329,7 @@
 					<text><![CDATA[Cond. I.V.A:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="391" y="138" width="46" height="14" uuid="5b27cba0-29c0-41e4-8547-c6cf34a27c36">
+					<reportElement x="370" y="138" width="46" height="14" uuid="5b27cba0-29c0-41e4-8547-c6cf34a27c36">
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
@@ -335,7 +339,9 @@
 					<text><![CDATA[Vigencia:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="391" y="156" width="42" height="12" uuid="1d4b8ca2-3cf8-4783-9b42-708e017978ca"/>
+					<reportElement x="370" y="156" width="42" height="12" uuid="1d4b8ca2-3cf8-4783-9b42-708e017978ca">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
 					<textElement>
 						<font fontName="SansSerif" size="9" isBold="true"/>
 					</textElement>
@@ -349,7 +355,7 @@
 					<text><![CDATA[X]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="391" y="170" width="42" height="12" uuid="1281bce0-9cdf-42da-ba0a-685c56d88624">
+					<reportElement x="370" y="170" width="42" height="12" uuid="1281bce0-9cdf-42da-ba0a-685c56d88624">
 						<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					</reportElement>
 					<textElement>
@@ -358,8 +364,9 @@
 					<text><![CDATA[CUIT:]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="439" y="170" width="100" height="12" uuid="1cc3b64c-c7ff-4d93-8074-26f6a5f1e6fb">
+					<reportElement x="420" y="170" width="100" height="12" uuid="1cc3b64c-c7ff-4d93-8074-26f6a5f1e6fb">
 						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					</reportElement>
 					<textElement>
 						<font fontName="SansSerif" size="9"/>

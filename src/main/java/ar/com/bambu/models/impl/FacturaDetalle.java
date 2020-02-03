@@ -68,6 +68,9 @@ public class FacturaDetalle implements Serializable {
     private String b1_UM;
     private String letras_ESP;
     private String CODBARRAS;
+    private Integer NUMVENDDOR;
+
+    private String NOMVENDEDOR;
 
 
     public void setTipoComprobante(int tipoEvento) {
@@ -582,6 +585,22 @@ public class FacturaDetalle implements Serializable {
 
     public void setCODBARRAS(String CODBARRAS) {
         this.CODBARRAS = CODBARRAS;
+    }
+
+    public Integer getNUMVENDDOR() {
+        return NUMVENDDOR;
+    }
+
+    public void setNUMVENDDOR(Integer NUMVENDDOR) {
+        this.NUMVENDDOR = NUMVENDDOR;
+    }
+
+    public String getNOMVENDEDOR() {
+        return NOMVENDEDOR;
+    }
+
+    public void setNOMVENDEDOR(String NOMVENDEDOR) {
+        this.NOMVENDEDOR = NOMVENDEDOR;
     }
 
     @Override

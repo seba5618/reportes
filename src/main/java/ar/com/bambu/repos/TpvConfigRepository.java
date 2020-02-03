@@ -1,6 +1,5 @@
 package ar.com.bambu.repos;
 
-import ar.com.bambu.entities.Clientes;
 import ar.com.bambu.entities.TpvConfig;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
