@@ -115,7 +115,7 @@
 	<group name="Cabecera" isStartNewPage="true" isReprintHeaderOnEachPage="true">
 		<groupExpression><![CDATA[$F{NUMDOC}+$F{DOCSERIE}+$F{copy}]]></groupExpression>
 		<groupHeader>
-			<band height="244">
+			<band height="212">
 				<rectangle>
 					<reportElement x="274" y="19" width="29" height="24" uuid="d6497ad4-1e2e-4449-b4e7-38f71f0b2671"/>
 				</rectangle>
@@ -125,13 +125,6 @@
 						<font size="10" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[new SimpleDateFormat("yyyyMMdd").parse($F{FECHADIGIT})]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement x="463" y="67" width="78" height="21" uuid="3bfce053-dfa8-46ad-9c42-6b5e949f3c03"/>
-					<textElement textAlignment="Center">
-						<font size="10"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{copy}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
 					<reportElement x="78" y="156" width="215" height="12" uuid="98cece49-2d3f-4b96-98e3-d42d23888e5a"/>
@@ -190,31 +183,24 @@
 				<staticText>
 					<reportElement x="4" y="199" width="58" height="12" uuid="e2d7fce2-0dc8-4b12-9f51-c0eacc92677a"/>
 					<textElement>
-						<font size="9" isBold="true"/>
+						<font fontName="Aharoni" size="9" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Código]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="62" y="199" width="203" height="12" uuid="b5df8328-44d8-4b0f-a436-a80160677e03"/>
 					<textElement>
-						<font size="9" isBold="true"/>
+						<font fontName="Aharoni" size="9" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Descripción]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="284" y="199" width="58" height="12" uuid="2f3dfb49-f211-43ea-a904-309a2d348b7e"/>
 					<textElement>
-						<font size="9" isBold="true"/>
+						<font fontName="Aharoni" size="9" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Cantidad]]></text>
 				</staticText>
-				<textField>
-					<reportElement x="270" y="44" width="38" height="20" uuid="2d205632-c589-4b5f-8ebc-13d901ad6049"/>
-					<textElement textAlignment="Center">
-						<font size="7"/>
-					</textElement>
-					<textFieldExpression><![CDATA["COD: " + $F{COD_TIPODOC}]]></textFieldExpression>
-				</textField>
 				<staticText>
 					<reportElement x="337" y="18" width="100" height="20" uuid="4f170ba7-508f-4a22-9db2-7e57d75e8e28"/>
 					<textElement>
@@ -245,6 +231,9 @@
 				</staticText>
 				<line>
 					<reportElement x="0" y="133" width="555" height="1" uuid="f3539ba5-4ec3-4b50-af3b-8140f428c5c5"/>
+					<graphicElement>
+						<pen lineWidth="1.0"/>
+					</graphicElement>
 				</line>
 				<line>
 					<reportElement x="0" y="211" width="555" height="1" uuid="0633aef8-a4e8-4ba9-9f88-63249ab59c22"/>
@@ -255,49 +244,17 @@
 				<staticText>
 					<reportElement x="403" y="199" width="30" height="12" uuid="bce043a0-cd0b-4288-806d-226ef797cabe"/>
 					<textElement textAlignment="Center">
-						<font size="9" isBold="true"/>
+						<font fontName="Aharoni" size="9" isBold="true"/>
 					</textElement>
 					<text><![CDATA[UM]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="337" y="108" width="159" height="10" uuid="91a1d85b-004e-4038-9f62-87574adb4eb2"/>
+					<reportElement x="21" y="118" width="154" height="20" uuid="8141f045-14be-489d-b919-2d8b3704a24c">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
 					<textElement>
-						<font size="7"/>
-					</textElement>
-					<text><![CDATA[ING. BRUTOS CONV. MULT. N° 921-748273-1]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="337" y="118" width="126" height="10" uuid="cc615775-2f81-4b7b-ae54-f8a0110173b0"/>
-					<textElement>
-						<font size="7"/>
-					</textElement>
-					<text><![CDATA[INICIO DE ACTIVIDAD: 01/11/1980]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="337" y="98" width="126" height="10" uuid="5733c685-93b2-4438-80ca-f77a000233be"/>
-					<textElement>
-						<font size="7"/>
-					</textElement>
-					<text><![CDATA[C.U.I.T.: 20-11790771-7]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="6" y="99" width="140" height="10" uuid="a3740f92-9761-4074-a501-3e61bb9aa578"/>
-					<textElement>
-						<font size="7"/>
-					</textElement>
-					<text><![CDATA[Alberdi 1529 - Tel/FAX. (03496) 425160]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="6" y="109" width="126" height="10" uuid="c4c430e8-b6b0-4b12-acd8-5a24e2cdac63"/>
-					<textElement>
-						<font size="7"/>
-					</textElement>
-					<text><![CDATA[(3080) - Esperanza SANTA FE]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="6" y="119" width="114" height="10" uuid="8141f045-14be-489d-b919-2d8b3704a24c"/>
-					<textElement>
-						<font size="7"/>
+						<font fontName="Times New Roman" size="9" isBold="true"/>
 					</textElement>
 					<text><![CDATA[I.V.A. RESPONSABLE INSCRIPTO]]></text>
 				</staticText>
@@ -376,17 +333,27 @@
 				<staticText>
 					<reportElement x="345" y="199" width="58" height="12" uuid="0842bbcf-9642-446d-81bc-f1a1e7653746"/>
 					<textElement>
-						<font size="9" isBold="true"/>
+						<font fontName="Aharoni" size="9" isBold="true"/>
 					</textElement>
 					<text><![CDATA[P. Unitario]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="518" y="200" width="37" height="12" uuid="efb66906-00cc-4b00-8b6e-19d8efa5185f"/>
 					<textElement>
-						<font size="9" isBold="true"/>
+						<font fontName="Aharoni" size="9" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Total]]></text>
 				</staticText>
+				<textField>
+					<reportElement x="498" y="3" width="51" height="30" uuid="25a14df3-1835-4a78-bf59-b5bdbd7c2f5d"/>
+					<textFieldExpression><![CDATA["Pagina: " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="289" y="44" width="1" height="89" uuid="a5997ca6-f4a1-4362-b9ad-7239f05e2227"/>
+					<graphicElement>
+						<pen lineWidth="1.0"/>
+					</graphicElement>
+				</line>
 			</band>
 		</groupHeader>
 	</group>
@@ -400,42 +367,42 @@
 	<detail>
 		<band height="13" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="64" y="-29" width="201" height="10" isRemoveLineWhenBlank="true" uuid="4e2bd981-445f-4a70-addf-997526d56d7c"/>
+				<reportElement x="64" y="3" width="201" height="10" isRemoveLineWhenBlank="true" uuid="4e2bd981-445f-4a70-addf-997526d56d7c"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{b1_DESC}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="408" y="-29" width="20" height="10" uuid="b67ac5f5-493a-4de7-b8b5-0452a0bc3cd8"/>
+				<reportElement x="408" y="3" width="20" height="10" uuid="b67ac5f5-493a-4de7-b8b5-0452a0bc3cd8"/>
 				<textElement textAlignment="Center">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{b1_UM}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.##;-###0.##" isBlankWhenNull="true">
-				<reportElement x="284" y="-29" width="39" height="10" uuid="4cc53bd0-dd74-4449-8c6b-cc01388e8124"/>
+			<textField pattern="###0.###;-###0.###" isBlankWhenNull="true">
+				<reportElement x="272" y="3" width="39" height="10" uuid="4cc53bd0-dd74-4449-8c6b-cc01388e8124"/>
 				<textElement textAlignment="Right">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{d2_QUANT}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement x="345" y="-30" width="46" height="10" uuid="09be021a-da1d-4972-a320-e741f876c769"/>
+				<reportElement x="340" y="3" width="46" height="10" uuid="09be021a-da1d-4972-a320-e741f876c769"/>
 				<textElement textAlignment="Right">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{d2_PRUNIT}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00" isBlankWhenNull="true">
-				<reportElement x="4" y="-29" width="59" height="10" uuid="1565a3ef-92d7-4978-a9ac-a1d34d80ae1b"/>
+				<reportElement x="4" y="3" width="59" height="10" uuid="1565a3ef-92d7-4978-a9ac-a1d34d80ae1b"/>
 				<textElement textAlignment="Left">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{d2_COD}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
-				<reportElement x="493" y="-29" width="59" height="10" uuid="063e8c4e-05fe-423f-9bfb-b80585e211c5"/>
+				<reportElement x="489" y="3" width="59" height="10" uuid="063e8c4e-05fe-423f-9bfb-b80585e211c5"/>
 				<textElement textAlignment="Right">
 					<font size="7" isBold="true"/>
 				</textElement>
@@ -456,21 +423,21 @@
 				<textFieldExpression><![CDATA["OBSERVACIONES: "+($F{f2_XOBS}==null ? "" : $F{f2_XOBS})]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="379" y="103" width="69" height="15" uuid="aee657c4-2155-4581-8710-4e3ef3a9a0f8">
+				<reportElement x="379" y="103" width="69" height="27" uuid="aee657c4-2155-4581-8710-4e3ef3a9a0f8">
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement>
-					<font size="11" isBold="true"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TOTAL]]></text>
 			</staticText>
 			<textField pattern="###0.00" isBlankWhenNull="true">
-				<reportElement x="450" y="103" width="98" height="15" uuid="2a0c9ee0-7c39-487d-acc2-03f9d0bfa1ff">
+				<reportElement x="428" y="103" width="120" height="27" uuid="2a0c9ee0-7c39-487d-acc2-03f9d0bfa1ff">
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="SansSerif" size="11" isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{TOTALDOC}]]></textFieldExpression>
 			</textField>

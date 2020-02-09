@@ -13,6 +13,8 @@ import java.util.Properties;
 
 import static ar.com.bambu.entities.Eventos.TIPO_FACTURA_A;
 import static ar.com.bambu.entities.Eventos.TIPO_FACTURA_B;
+import static ar.com.bambu.entities.Eventos.COTIZACION;
+import static ar.com.bambu.entities.Eventos.REMITO;
 
 public class FacturaDetalle implements Serializable {
     public Double f2_DESCONT = 0d;
@@ -85,9 +87,15 @@ public class FacturaDetalle implements Serializable {
         }
     }
 
-    public void setNumeroYTipoComprobante(int caja, long ticket) {
-        String.format("%04d%08d", caja, ticket);
-        this.NUMDOC = String.format("%04d-%08d", caja, ticket);
+    public void setNumeroYTipoComprobante(int caja, long ticket, int tipoEvento) {
+        if (tipoEvento == COTIZACION){
+            String.format("%08d", ticket);
+            this.NUMDOC = String.format("%08d", ticket);
+
+        } else {
+            String.format("%04d%08d", caja, ticket);
+            this.NUMDOC = String.format("%04d-%08d", caja, ticket);
+        }
         this.DOCESPECIE = "NF";
     }
 

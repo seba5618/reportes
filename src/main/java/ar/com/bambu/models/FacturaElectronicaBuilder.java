@@ -34,6 +34,8 @@ public class FacturaElectronicaBuilder {
     public FacturaElectronicaBuilder withDetalle(List<EvCont> detalle) {
         Stream<EvCont> sorted = detalle.stream().sorted((o1, o2) -> o2.getCantidad().compareTo(o1.getCantidad()));
         List<EvCont> filteredDetalle = new ArrayList<>();
+
+        System.out.println("***** filtrar anulados 1 ****");
         sorted.forEach(evCont -> this.filtrarAnulados(filteredDetalle, evCont));
 
         this.detalle = filteredDetalle.stream().filter( evCont -> evCont.getCantidad()>0).collect(Collectors.toList());
@@ -69,7 +71,7 @@ public class FacturaElectronicaBuilder {
         detalle.forEach(c -> {
             FacturaDetalle detalle = new FacturaDetalle();
             detalle.setTipoComprobante(this.cabecera.getTipoEvento());
-            detalle.setNumeroYTipoComprobante(this.cabecera.getCaja(), this.cabecera.getNroTicket());
+            detalle.setNumeroYTipoComprobante(this.cabecera.getCaja(), this.cabecera.getNroTicket(),this.cabecera.getTipoEvento());
             detalle.setFechaVigencia(this.cabecera.getDosificacionOrden());
             detalle.setDetalleFactura(c, this.cabecera.getTipoEvento());
             detalle.setDataCliente(this.clientes);
@@ -105,15 +107,21 @@ public class FacturaElectronicaBuilder {
     private List<EvCont> filtrarAnulados(List<EvCont> source, EvCont newElem) {
 
 
+               Optional<EvCont> articuloEnTicketOptional = source.stream().filter(evCont -> evCont.getCodArticulo() == newElem.getCodArticulo()
+                && evCont.getOrigen() == newElem.getOrigen()&& Math.abs(Math.abs(evCont.getPrecioUnitarioSinIva())- Math.abs(newElem.getPrecioUnitarioSinIva()) ) < 0.006 ).findAny();
 
-        Optional<EvCont> articuloEnTicketOptional = source.stream().filter(evCont -> evCont.getCodArticulo() == newElem.getCodArticulo()
-                && evCont.getOrigen() == newElem.getOrigen()&& Math.abs(evCont.getPrecioUnitario())== Math.abs(newElem.getPrecioUnitario())).findAny();
         if (articuloEnTicketOptional.isPresent()) {
             EvCont articuloEnTicket = articuloEnTicketOptional.get();
+
+            System.out.println("Antes " + articuloEnTicket.getCantidad() +  "  Art " + articuloEnTicket.getCodArticulo()+ "Sumo "+ newElem.getCantidad() + " Posi " + newElem.getPosicion());
             articuloEnTicket.setCantidad(articuloEnTicket.getCantidad() + newElem.getCantidad());
+            System.out.println("Despues " + articuloEnTicket.getCantidad() +  "  Art " + articuloEnTicket.getCodArticulo());
+            System.out.println("Precios " + Math.abs(articuloEnTicket.getPrecioUnitarioSinIva()) +  "  nuevo " + Math.abs(newElem.getPrecioUnitarioSinIva()));
 
         } else {
-            source.add(newElem);
+      
+                source.add(newElem);
+            
         }
         return source;
     }
