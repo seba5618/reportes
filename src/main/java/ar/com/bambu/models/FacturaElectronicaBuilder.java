@@ -83,11 +83,13 @@ public class FacturaElectronicaBuilder {
             if(this.cajeros != null)
                 detalle.setNOMVENDEDOR(" " + this.cajeros.getNombreCajero());
             else
-                detalle.setNOMVENDEDOR(" ");
+                detalle.setNOMVENDEDOR("-");
+
+            detalle.setCODCLIENTE(this.cabecera.getCodCliente());
 
             //usaremos esto para las observaciones
             try {
-                detalle.setF2_XOBS();
+                detalle.setF2_XOBS(this.cabecera.getTipoEvento());
             } catch (IOException e) {
                 e.printStackTrace();
             }

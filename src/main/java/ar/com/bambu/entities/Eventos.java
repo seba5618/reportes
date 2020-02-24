@@ -15,7 +15,7 @@ public class Eventos implements Serializable {
     public static final int TIPO_FACTURA_B = 17;
     public static final int TIPO_FACTURA_A = 16;
     public static final int COTIZACION= 92;
-    public static final int REMITO= 11;
+    public static final int REMITOS1= 11;
 
     @Id
     private long idEvento;
@@ -38,6 +38,7 @@ public class Eventos implements Serializable {
     private int nroCotizacion;
     private int cajero;
     private String dosificacionOrden;
+
 
     public String getDosificacionOrden() {
         return dosificacionOrden;

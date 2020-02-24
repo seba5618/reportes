@@ -183,21 +183,21 @@
 				<staticText>
 					<reportElement x="4" y="199" width="58" height="12" uuid="e2d7fce2-0dc8-4b12-9f51-c0eacc92677a"/>
 					<textElement>
-						<font fontName="Aharoni" size="9" isBold="true"/>
+						<font fontName="Arial Black" size="8" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Código]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="62" y="199" width="203" height="12" uuid="b5df8328-44d8-4b0f-a436-a80160677e03"/>
 					<textElement>
-						<font fontName="Aharoni" size="9" isBold="true"/>
+						<font fontName="Arial Black" size="8" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Descripción]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="284" y="199" width="58" height="12" uuid="2f3dfb49-f211-43ea-a904-309a2d348b7e"/>
 					<textElement>
-						<font fontName="Aharoni" size="9" isBold="true"/>
+						<font fontName="Arial Black" size="8" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Cantidad]]></text>
 				</staticText>
@@ -244,7 +244,7 @@
 				<staticText>
 					<reportElement x="403" y="199" width="30" height="12" uuid="bce043a0-cd0b-4288-806d-226ef797cabe"/>
 					<textElement textAlignment="Center">
-						<font fontName="Aharoni" size="9" isBold="true"/>
+						<font fontName="Arial Black" size="8" isBold="true"/>
 					</textElement>
 					<text><![CDATA[UM]]></text>
 				</staticText>
@@ -333,14 +333,14 @@
 				<staticText>
 					<reportElement x="345" y="199" width="58" height="12" uuid="0842bbcf-9642-446d-81bc-f1a1e7653746"/>
 					<textElement>
-						<font fontName="Aharoni" size="9" isBold="true"/>
+						<font fontName="Arial Black" size="8" isBold="true"/>
 					</textElement>
 					<text><![CDATA[P. Unitario]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="518" y="200" width="37" height="12" uuid="efb66906-00cc-4b00-8b6e-19d8efa5185f"/>
 					<textElement>
-						<font fontName="Aharoni" size="9" isBold="true"/>
+						<font fontName="Arial Black" size="8" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Total]]></text>
 				</staticText>

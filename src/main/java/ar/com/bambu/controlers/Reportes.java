@@ -147,6 +147,10 @@ public class Reportes {
 
 
         Clientes clientes = clientesRepository.findByCodClienteConCondicionIva(evento.getCodCliente());
+        Cajeros cajeros = cajerosRepository. findByCodCajero(evento.getNroVendedor1());
+        if(cajeros == null ) {
+            System.out.println("***** SONAMOS NO HAY CAJERO EN ESE VENDEDOR****");
+        }
         TpvConfig sucursal = tpvConfigRepository.findByCodSucusal();
 
         System.out.println("***** VIENDO EL CODIGO DE SUCURSAL****");
@@ -159,7 +163,7 @@ public class Reportes {
         FacturaElectronicaBuilder facturaElectronicaBuilder = new FacturaElectronicaBuilder();
         List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(ev.getIdEvento());
         //EvMedios pie = medioRepository.findByIdEventoWithMedioName(ev.getIdEvento()).get(0);
-        facturaElectronicaBuilder.withEvento(evento).withDetalle(byIdEventoArtiName).withCliente(clientes).withTpvconfig(sucursal);
+        facturaElectronicaBuilder.withEvento(evento).withDetalle(byIdEventoArtiName).withCliente(clientes).withTpvconfig(sucursal).withCajeros(cajeros);
         //facturaElectronicaBuilder.withEvento(evento).withDetalle(byIdEventoArtiName).withPie(pie).withCliente(clientes);
 
 

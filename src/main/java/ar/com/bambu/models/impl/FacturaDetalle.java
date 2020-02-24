@@ -11,10 +11,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Properties;
 
-import static ar.com.bambu.entities.Eventos.TIPO_FACTURA_A;
-import static ar.com.bambu.entities.Eventos.TIPO_FACTURA_B;
-import static ar.com.bambu.entities.Eventos.COTIZACION;
-import static ar.com.bambu.entities.Eventos.REMITO;
+import static ar.com.bambu.entities.Eventos.*;
 
 public class FacturaDetalle implements Serializable {
     public Double f2_DESCONT = 0d;
@@ -71,8 +68,9 @@ public class FacturaDetalle implements Serializable {
     private String letras_ESP;
     private String CODBARRAS;
     private Integer NUMVENDDOR;
-
     private String NOMVENDEDOR;
+
+    private Integer CODCLIENTE;
 
 
     public void setTipoComprobante(int tipoEvento) {
@@ -88,7 +86,7 @@ public class FacturaDetalle implements Serializable {
     }
 
     public void setNumeroYTipoComprobante(int caja, long ticket, int tipoEvento) {
-        if (tipoEvento == COTIZACION){
+        if (tipoEvento == COTIZACION || tipoEvento == REMITOS1 ){
             String.format("%08d", ticket);
             this.NUMDOC = String.format("%08d", ticket);
 
@@ -125,6 +123,7 @@ public class FacturaDetalle implements Serializable {
         this.DIRECC = clientes.getDomicilio();
         this.LOCALIDAD = clientes.getLocalidad();
         this.IIBB = clientes.getIngBrutos();
+        this.a1_TIPO = clientes.getCondIvaString();
         this.a1_TIPO = clientes.getCondIvaString();
     }
 
@@ -188,17 +187,22 @@ public class FacturaDetalle implements Serializable {
         this.f2_XOBS = f2_XOBS;
     }
 
-    public void setF2_XOBS() throws IOException {
-        char CR  = (char) 0x0D;
-        char LF  = (char) 0x0A;
-        String CRLF  = "" + CR + LF;
+    public void setF2_XOBS( Integer tipo_evento) throws IOException {
+
+        if( tipo_evento != COTIZACION )
+            this.f2_XOBS = "" ;
+        else {
+            char CR = (char) 0x0D;
+            char LF = (char) 0x0A;
+            String CRLF = "" + CR + LF;
 
 
-        String twoLines = "Line1" + CRLF + "Line2";   // 12 characters
-        String fichero = System.getProperty("user.dir") + "\\jasper.properties";
-        Properties p = new Properties();
-        p.load(new FileReader(fichero));
-        this.f2_XOBS = p.getProperty("pie1","***") + CRLF + p.getProperty("pie2"," ") + CRLF + p.getProperty("pie3"," ") + CRLF + p.getProperty("pie4"," ") ;
+            String twoLines = "Line1" + CRLF + "Line2";   // 12 characters
+            String fichero = System.getProperty("user.dir") + "\\application.properties";
+            Properties p = new Properties();
+            p.load(new FileReader(fichero));
+            this.f2_XOBS = p.getProperty("pie1", "***") + CRLF + p.getProperty("pie2", " ") + CRLF + p.getProperty("pie3", " ") + CRLF + p.getProperty("pie4", " ");
+        }
 
     }
 
@@ -609,6 +613,14 @@ public class FacturaDetalle implements Serializable {
 
     public void setNOMVENDEDOR(String NOMVENDEDOR) {
         this.NOMVENDEDOR = NOMVENDEDOR;
+    }
+
+    public Integer getCODCLIENTE() {
+        return CODCLIENTE;
+    }
+
+    public void setCODCLIENTE(Integer CODCLIENTE) {
+        this.CODCLIENTE = CODCLIENTE;
     }
 
     @Override
