@@ -5,10 +5,11 @@ import ar.com.bambu.models.FacturaElectronicaBuilder;
 import ar.com.bambu.models.impl.Cotizacion;
 import ar.com.bambu.models.impl.FacturaElectronica;
 import ar.com.bambu.repos.*;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -79,7 +82,11 @@ public class Reportes {
 
 
         JasperPrint print = JasperFillManager.fillReport(inputStream, new HashMap(), new JRBeanCollectionDataSource(facturaElectronica.getDetalle()));
-        byte[] bytes = JasperExportManager.exportReportToPdf(print);
+        JasperPrint print2 = JasperFillManager.fillReport(inputStream, new HashMap(), new JRBeanCollectionDataSource(facturaElectronica.getDetalle()));
+        ArrayList<JasperPrint> lista = new ArrayList<>();
+        lista.add(print);
+        lista.add(print2);
+        byte[] bytes = this.exportToPdf(lista);
         ResponseEntity<ByteArrayResource> response = ResponseEntity.ok().header("Content-Disposition", "attachment; filename=factura.pdf").body(new ByteArrayResource(bytes));
         return response;
 
@@ -186,5 +193,14 @@ public class Reportes {
         JasperPrint print = JasperFillManager.fillReport(inputStream, hm, new JRBeanCollectionDataSource(cotizacion.getDetalle()));
 
         return JasperExportManager.exportReportToPdf(print);
+    }
+
+    private byte[] exportToPdf(List<JasperPrint> jasperPrint) throws JRException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        JRPdfExporter exporter = new JRPdfExporter(DefaultJasperReportsContext.getInstance());
+        exporter.setExporterInput(SimpleExporterInput.getInstance(jasperPrint));
+        exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(baos));
+        exporter.exportReport();
+        return baos.toByteArray();
     }
 }
