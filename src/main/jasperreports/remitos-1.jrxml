@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="merft01" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d69e54c2-3d6e-4732-be5a-76a1832a6f14">
+	<property name="ireport.zoom" value="1.3310000000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="48"/>
+	<parameter name="SF2" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[TABELA]]></parameterDescription>
+		<defaultValueExpression><![CDATA["SF2010"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SA1" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[TABELA]]></parameterDescription>
+		<defaultValueExpression><![CDATA["SA1010"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SD2" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[TABELA]]></parameterDescription>
+		<defaultValueExpression><![CDATA["SD2010"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SC5" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[TABELA]]></parameterDescription>
+		<defaultValueExpression><![CDATA["SC5010"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SB1" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[TABELA]]></parameterDescription>
+		<defaultValueExpression><![CDATA["SB1010"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SE4" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[TABELA]]></parameterDescription>
+		<defaultValueExpression><![CDATA["SE4010"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SC6" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[TABELA]]></parameterDescription>
+		<defaultValueExpression><![CDATA["SC6010"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SF1" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[TABELA]]></parameterDescription>
+		<defaultValueExpression><![CDATA["SF1010"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SD1" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[TABELA]]></parameterDescription>
+		<defaultValueExpression><![CDATA["SD1010"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SA4" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[TABELA]]></parameterDescription>
+		<defaultValueExpression><![CDATA["SA4010"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MERFT01-01" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["000200000008"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MERFT01-02" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["000200000008"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MERFT01-03" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["1"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MERFT01-04" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["BF2"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="f2_DESCONT" class="java.lang.Double"/>
+	<field name="f2_XOBS" class="java.lang.String"/>
+	<field name="d2_PRUNIT" class="java.lang.Double"/>
+	<field name="c6_DESCONT" class="java.lang.Double"/>
+	<field name="REMITOS" class="java.lang.String"/>
+	<field name="DESCPV" class="java.lang.Double"/>
+	<field name="VALMERC" class="java.lang.Double"/>
+	<field name="DOCESPECIE" class="java.lang.String"/>
+	<field name="DOCSERIE" class="java.lang.String"/>
+	<field name="SERIE" class="java.lang.String"/>
+	<field name="CAEE" class="java.lang.String"/>
+	<field name="EMCAEE" class="java.lang.String"/>
+	<field name="NUMDOC" class="java.lang.String"/>
+	<field name="NUMERODOCORI" class="java.lang.String"/>
+	<field name="CUITCLI" class="java.lang.String"/>
+	<field name="IIBB" class="java.lang.String"/>
+	<field name="retencion_IVA_21" class="java.lang.Double"/>
+	<field name="retencion_IVA_105" class="java.lang.Double"/>
+	<field name="FECHADIGIT" class="java.lang.String"/>
+	<field name="TOTALDOC" class="java.lang.Double"/>
+	<field name="TOTIVA" class="java.lang.Double"/>
+	<field name="DIRECC" class="java.lang.String"/>
+	<field name="LOCALIDAD" class="java.lang.String"/>
+	<field name="NOMBRECLI" class="java.lang.String"/>
+	<field name="CONTACTOCLI" class="java.lang.String"/>
+	<field name="TIENDA" class="java.lang.String"/>
+	<field name="CLIENTE" class="java.lang.String"/>
+	<field name="DESCCONDPAGO" class="java.lang.String"/>
+	<field name="copy" class="java.lang.String"/>
+	<field name="sequence" class="java.lang.Integer"/>
+	<field name="TRANSPORTE" class="java.lang.String"/>
+	<field name="DIRTRANS" class="java.lang.String"/>
+	<field name="TELTRANS" class="java.lang.String"/>
+	<field name="a1_TIPO" class="java.lang.String"/>
+	<field name="TIPODOC" class="java.lang.String"/>
+	<field name="COD_TIPODOC" class="java.lang.String"/>
+	<field name="d2_ITEM" class="java.lang.String"/>
+	<field name="d2_COD" class="java.lang.String"/>
+	<field name="d2_QUANT" class="java.lang.Double"/>
+	<field name="d2_PRCVEN" class="java.lang.Double"/>
+	<field name="d2_TOTAL" class="java.lang.Double"/>
+	<field name="IVA21" class="java.lang.Double"/>
+	<field name="IVA105" class="java.lang.Double"/>
+	<field name="REMITO" class="java.lang.String"/>
+	<field name="SERREM" class="java.lang.String"/>
+	<field name="b1_DESC" class="java.lang.String"/>
+	<field name="b1_SEGUM" class="java.lang.String"/>
+	<field name="b1_UM" class="java.lang.String"/>
+	<field name="letras_ESP" class="java.lang.String"/>
+	<field name="CODBARRAS" class="java.lang.String"/>
+	<field name="NUMVENDDOR" class="java.lang.Integer"/>
+	<field name="NOMVENDEDOR" class="java.lang.String"/>
+	<field name="CODCLIENTE" class="java.lang.Integer"/>
+	<group name="Cabecera" isStartNewPage="true" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{NUMDOC}+$F{DOCSERIE}+$F{copy}]]></groupExpression>
+		<groupHeader>
+			<band height="244">
+				<rectangle>
+					<reportElement x="274" y="19" width="29" height="24" uuid="d6497ad4-1e2e-4449-b4e7-38f71f0b2671"/>
+				</rectangle>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="385" y="67" width="78" height="21" uuid="fa3e9850-435f-4ed9-92ac-878e9c08e5e0"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new SimpleDateFormat("yyyyMMdd").parse($F{FECHADIGIT})]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="78" y="156" width="215" height="12" uuid="98cece49-2d3f-4b96-98e3-d42d23888e5a"/>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DIRECC}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="293" y="156" width="98" height="12" uuid="78fe325e-e817-4bed-aa67-e04864b3606a"/>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{LOCALIDAD}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="78" y="142" width="54" height="12" uuid="544974c5-e8d4-4532-a881-183e1787c2b5"/>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CLIENTE}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="132" y="142" width="185" height="12" uuid="4c18e809-6723-4b87-b4cf-8a946e70b48a"/>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NOMBRECLI}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="78" y="171" width="215" height="12" uuid="9ddd841a-a83e-4c3d-8a4b-ddcab8055a24"/>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{a1_TIPO}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="438" y="156" width="100" height="12" uuid="ba960b66-8e8b-4693-b6d4-d77fa19e9a65"/>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{IIBB}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="438" y="142" width="100" height="12" uuid="cb10d5d6-3405-49d2-84ce-b837912133e4"/>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CUITCLI}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="4" y="228" width="58" height="12" uuid="e2d7fce2-0dc8-4b12-9f51-c0eacc92677a"/>
+					<textElement>
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Código]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="62" y="228" width="203" height="12" uuid="b5df8328-44d8-4b0f-a436-a80160677e03"/>
+					<textElement>
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Descripción]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="284" y="228" width="58" height="12" uuid="2f3dfb49-f211-43ea-a904-309a2d348b7e"/>
+					<textElement>
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cantidad]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="337" y="18" width="100" height="20" uuid="4f170ba7-508f-4a22-9db2-7e57d75e8e28"/>
+					<textElement>
+						<font size="13" isBold="true"/>
+					</textElement>
+					<text><![CDATA[REMITO4]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="337" y="42" width="28" height="20" uuid="e396de39-5a8e-4ee0-877a-6287c624f15d"/>
+					<textElement>
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[N°:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="368" y="42" width="160" height="20" uuid="276eb1ad-11cf-4a97-b541-a55be732ddba"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NUMDOC}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="337" y="67" width="48" height="21" uuid="5e3d7e4a-85a0-4318-8bdf-86a75fb66edd"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<text><![CDATA[Fecha:]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="133" width="555" height="1" uuid="f3539ba5-4ec3-4b50-af3b-8140f428c5c5"/>
+				</line>
+				<line>
+					<reportElement x="0" y="225" width="555" height="1" uuid="b5969e7f-62ac-4c67-8fff-75b990cff62d"/>
+				</line>
+				<line>
+					<reportElement x="0" y="240" width="555" height="1" uuid="0633aef8-a4e8-4ba9-9f88-63249ab59c22"/>
+				</line>
+				<line>
+					<reportElement x="0" y="188" width="555" height="1" uuid="3f4baa68-8f25-458a-b327-9a158a135554"/>
+				</line>
+				<staticText>
+					<reportElement x="403" y="228" width="30" height="12" uuid="bce043a0-cd0b-4288-806d-226ef797cabe"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[UM]]></text>
+				</staticText>
+				<image onErrorType="Blank">
+					<reportElement x="7" y="1" width="213" height="95" uuid="d844ef30-ac67-4aac-963d-9eb7f5510191">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<imageExpression><![CDATA[$F{TIENDA}]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement x="10" y="156" width="68" height="12" uuid="d1d337a7-054e-4a23-985b-bfd802dc834d"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Domicilio:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="142" width="68" height="12" uuid="4416ece7-4db1-4a5a-b459-6ace2293be9e"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Sr./ es.:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="171" width="68" height="12" uuid="3ceca7ee-d3a0-4594-b725-ac74d8d08d7f"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cond. I.V.A:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="391" y="142" width="42" height="12" uuid="5b27cba0-29c0-41e4-8547-c6cf34a27c36"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cuit:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="391" y="156" width="42" height="12" uuid="1d4b8ca2-3cf8-4783-9b42-708e017978ca"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[IIBB:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="192" width="68" height="12" uuid="3ddb7d6f-0965-4d75-939a-b31a405b816d"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Vendedor]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="282" y="20" width="18" height="21" uuid="8006a145-a02e-4693-975d-632c1b28beaa"/>
+					<textElement>
+						<font size="16" isBold="true"/>
+					</textElement>
+					<text><![CDATA[X]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="78" y="192" width="259" height="12" uuid="c2aeaaf3-097d-417d-95af-bba5e974eba7">
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NUMVENDDOR} + $F{NOMVENDEDOR}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="60" y="110" width="105" height="20" uuid="3a01d1bc-d937-4c11-b04b-cff8ff895de1"/>
+					<textElement>
+						<font fontName="SansSerif" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TELTRANS}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="10" y="110" width="52" height="30" uuid="1efde4ad-9b7e-48a2-8443-fa3c8f91b12a">
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<text><![CDATA[Tel./Fax:]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="64" y="0" width="201" height="10" isRemoveLineWhenBlank="true" uuid="4e2bd981-445f-4a70-addf-997526d56d7c"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{b1_DESC}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="408" y="0" width="20" height="10" uuid="b67ac5f5-493a-4de7-b8b5-0452a0bc3cd8"/>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{b1_UM}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.##;-###0.##" isBlankWhenNull="true">
+				<reportElement x="290" y="0" width="39" height="10" uuid="4cc53bd0-dd74-4449-8c6b-cc01388e8124"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d2_QUANT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="4" y="0" width="59" height="10" uuid="1565a3ef-92d7-4978-a9ac-a1d34d80ae1b"/>
+				<textElement textAlignment="Left">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{d2_COD}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="142" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="6" width="555" height="1" uuid="971f4b61-662a-4b55-9733-bf1410178325"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="3" y="29" width="342" height="35" uuid="f1e979da-624a-4f7e-be93-073a224d2aa0"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["OBSERVACIONES: "+($F{f2_XOBS}==null ? "" : $F{f2_XOBS})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="70" width="555" height="1" uuid="3f1417dc-4aac-40bd-ae01-2214a128ebf4"/>
+			</line>
+			<staticText>
+				<reportElement x="212" y="73" width="101" height="21" uuid="71e3bbac-84da-4ce7-80b7-ac4a4528eb4f"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[-Solo uso interno]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -359,7 +359,7 @@
 					<reportElement x="7" y="1" width="213" height="95" uuid="d844ef30-ac67-4aac-963d-9eb7f5510191">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
-					<imageExpression><![CDATA["logo.JPG"]]></imageExpression>
+					<imageExpression><![CDATA[$F{TIENDA}]]></imageExpression>
 				</image>
 				<staticText>
 					<reportElement x="10" y="156" width="68" height="12" uuid="d1d337a7-054e-4a23-985b-bfd802dc834d"/>

@@ -134,7 +134,7 @@
 					<textFieldExpression><![CDATA[$F{DIRECC}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="263" y="156" width="98" height="12" uuid="78fe325e-e817-4bed-aa67-e04864b3606a"/>
+					<reportElement x="238" y="156" width="98" height="12" uuid="78fe325e-e817-4bed-aa67-e04864b3606a"/>
 					<textElement>
 						<font fontName="SansSerif" size="9"/>
 					</textElement>
@@ -162,7 +162,7 @@
 					<textFieldExpression><![CDATA[$F{a1_TIPO}]]></textFieldExpression>
 				</textField>
 				<textField isBlankWhenNull="true">
-					<reportElement x="420" y="156" width="100" height="12" uuid="ba960b66-8e8b-4693-b6d4-d77fa19e9a65">
+					<reportElement stretchType="ContainerHeight" x="384" y="156" width="186" height="12" uuid="ba960b66-8e8b-4693-b6d4-d77fa19e9a65">
 						<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					</reportElement>
 					<textElement>
@@ -286,7 +286,7 @@
 					<text><![CDATA[Cond. I.V.A:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="370" y="138" width="46" height="14" uuid="5b27cba0-29c0-41e4-8547-c6cf34a27c36">
+					<reportElement x="336" y="138" width="46" height="14" uuid="5b27cba0-29c0-41e4-8547-c6cf34a27c36">
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
@@ -296,7 +296,7 @@
 					<text><![CDATA[Vigencia:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="370" y="156" width="42" height="12" uuid="1d4b8ca2-3cf8-4783-9b42-708e017978ca">
+					<reportElement x="336" y="156" width="42" height="12" uuid="1d4b8ca2-3cf8-4783-9b42-708e017978ca">
 						<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					</reportElement>
 					<textElement>
@@ -312,7 +312,7 @@
 					<text><![CDATA[X]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="370" y="170" width="42" height="12" uuid="1281bce0-9cdf-42da-ba0a-685c56d88624">
+					<reportElement x="338" y="170" width="42" height="12" uuid="1281bce0-9cdf-42da-ba0a-685c56d88624">
 						<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					</reportElement>
 					<textElement>
@@ -354,6 +354,15 @@
 						<pen lineWidth="1.0"/>
 					</graphicElement>
 				</line>
+				<textField isBlankWhenNull="true">
+					<reportElement x="18" y="100" width="220" height="16" uuid="df798929-d4c3-4f35-8d3e-041a1955ea61">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font fontName="SansSerif" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{TELTRANS}]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupHeader>
 	</group>

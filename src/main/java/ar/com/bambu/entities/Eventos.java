@@ -39,6 +39,8 @@ public class Eventos implements Serializable {
     private int cajero;
     private String dosificacionOrden;
 
+    private int sucComprobante;
+    private int nroComprobante;
 
     public String getDosificacionOrden() {
         return dosificacionOrden;
@@ -175,6 +177,21 @@ public class Eventos implements Serializable {
         this.cajero = cajero;
     }
 
+    public int getNroComprobante() {
+        return nroComprobante;
+    }
+
+    public void setNroComprobante(int nroComprobante) {
+        this.nroComprobante = nroComprobante;
+    }
+
+    public int getSucComprobante() {
+        return sucComprobante;
+    }
+
+    public void setSucComprobante(int sucComprobante) {
+        this.sucComprobante = sucComprobante;
+    }
 
 
 
