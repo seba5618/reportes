@@ -58,6 +58,12 @@ public class Reportes {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ReporterApplication.class);
 
+    @RequestMapping(path = "/destroy", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
+    public void getDestroy(@RequestBody Eventos ev) throws Exception {
+        System.exit(0);
+    }
+    
+
     @RequestMapping(path = "/cotizacion", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<ByteArrayResource> getCotizacion(@RequestBody Eventos ev) throws Exception {
         Eventos evento;
