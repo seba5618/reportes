@@ -24,7 +24,12 @@ public class FacturaElectronicaBuilder {
     Clientes clientes;
     TpvConfig tpvConfig;
     Cajeros cajeros;
+    FactuMem factuMem;
 
+    public static final int TIPO_FACTURA_B = 17;
+    public static final int TIPO_FACTURA_A = 16;
+    public static final int COTIZACION= 92;
+    public static final int REMITOS1= 11;
 
     public FacturaElectronicaBuilder withEvento(Eventos ev) {
         this.cabecera = ev;
@@ -65,20 +70,29 @@ public class FacturaElectronicaBuilder {
         return this;
     }
 
+    public FacturaElectronicaBuilder withFactuMem(FactuMem cl) {
+        this.factuMem= cl;
+        return this;
+    }
+
     public FacturaElectronica build() {
         FacturaElectronica result = new FacturaElectronica();
 
         detalle.forEach(c -> {
             FacturaDetalle detalle = new FacturaDetalle();
             detalle.setTipoComprobante(this.cabecera.getTipoEvento());
-            detalle.setNumeroYTipoComprobante(this.cabecera.getCaja(), this.cabecera.getNroTicket(),this.cabecera.getTipoEvento());
+
+            if( this.cabecera.getTipoEvento() == TIPO_FACTURA_B || this.cabecera.getTipoEvento() == TIPO_FACTURA_B  )
+                detalle.setNumeroYTipoComprobante(this.cabecera.getSucComprobante(), this.cabecera.getNroComprobante(),this.cabecera.getTipoEvento());
+            else
+                detalle.setNumeroYTipoComprobante(this.cabecera.getCaja(), this.cabecera.getNroTicket(),this.cabecera.getTipoEvento());
             detalle.setFechaVigencia(this.cabecera.getDosificacionOrden());
             detalle.setDetalleFactura(c, this.cabecera.getTipoEvento());
             detalle.setDataCliente(this.clientes);
             detalle.setCondicionVenta(pie);
             detalle.setDataPieMontoPromociones(this.detalle, this.cabecera.getTipoEvento());
             detalle.setFechaWithFechaInvel(cabecera);
-            detalle.setPathLogo(this.tpvConfig.getSucursal());
+            detalle.setPathLogo(this.tpvConfig.getSucursal(), this.cabecera.getTipoEvento());
             detalle.setNUMVENDDOR(this.cabecera.getNroVendedor1());
             if(this.cajeros != null)
                 detalle.setNOMVENDEDOR(" " + this.cajeros.getNombreCajero());
@@ -86,6 +100,7 @@ public class FacturaElectronicaBuilder {
                 detalle.setNOMVENDEDOR("-");
 
             detalle.setCODCLIENTE(this.cabecera.getCodCliente());
+            detalle.setTELTRANS(" " +  this.factuMem.getValor() );
 
             //usaremos esto para las observaciones
             try {

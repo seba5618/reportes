@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="merft01" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d69e54c2-3d6e-4732-be5a-76a1832a6f14">
+	<property name="ireport.zoom" value="1.3310000000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="48"/>
+	<parameter name="SF2" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[TABELA]]></parameterDescription>
+		<defaultValueExpression><![CDATA["SF2010"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SA1" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[TABELA]]></parameterDescription>
+		<defaultValueExpression><![CDATA["SA1010"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SD2" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[TABELA]]></parameterDescription>
+		<defaultValueExpression><![CDATA["SD2010"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SC5" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[TABELA]]></parameterDescription>
+		<defaultValueExpression><![CDATA["SC5010"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SB1" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[TABELA]]></parameterDescription>
+		<defaultValueExpression><![CDATA["SB1010"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SE4" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[TABELA]]></parameterDescription>
+		<defaultValueExpression><![CDATA["SE4010"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SC6" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[TABELA]]></parameterDescription>
+		<defaultValueExpression><![CDATA["SC6010"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SF1" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[TABELA]]></parameterDescription>
+		<defaultValueExpression><![CDATA["SF1010"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SD1" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[TABELA]]></parameterDescription>
+		<defaultValueExpression><![CDATA["SD1010"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SA4" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[TABELA]]></parameterDescription>
+		<defaultValueExpression><![CDATA["SA4010"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MERFT01-01" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["000200000008"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MERFT01-02" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["000200000008"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MERFT01-03" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["1"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="MERFT01-04" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["BF2"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+--CABECERA NF
+F2_DESCONT,ISNULL( CONVERT( VARCHAR(4096), CONVERT(VARBINARY(4096),F2_XOBS)),'') AS F2_XOBS,D2_PRUNIT,C6_DESCONT,(select STUFF((SELECT DISTINCT TOP 5 CAST(',' AS varchar(MAX)) + D2_REMITO
+FROM $P!{SD2} D2REM
+WHERE D2REM.D2_DOC =  $P!{SD2}.D2_DOC
+AND D2REM.D2_SERIE = $P!{SD2}.D2_SERIE
+AND D2REM.D2_CLIENTE = $P!{SD2}.D2_CLIENTE
+AND D2REM.D2_LOJA = $P!{SD2}.D2_LOJA
+FOR XML PATH('')
+), 1, 1, '') as CadenaCodigos)AS REMITOS ,C5_DESC1+C5_DESC2+C5_DESC3+C5_DESC4 AS DESCPV,F2_VALMERC as VALMERC, F2_ESPECIE as DOCESPECIE,SUBSTRING(F2_SERIE,1,1) as DOCSERIE, F2_SERIE AS SERIE, F2_CAEE as CAEE,F2_EMCAEE as EMCAEE,
+SUBSTRING(F2_DOC,1,4) + '-' + SUBSTRING(F2_DOC,5,8) as NUMDOC,F2_DOC as NUMERODOCORI,
+SUBSTRING(A1_CGC,1,2) + '-' + SUBSTRING(A1_CGC,3,8) + '-' + SUBSTRING(A1_CGC,11,1) as CUITCLI, A1_NIGB as IIBB,
+F2_VALIMP1 as Retencion_IVA_21,F2_VALIMP2+F2_VALIMP3 as Retencion_IVA_105,
+F2_DTDIGIT as FECHADIGIT,F2_VALBRUT as TOTALDOC,
+F2_VALIMP1+F2_VALIMP2+F2_VALIMP3+F2_VALMERC AS TOTIVA,
+A1_END as DIRECC,A1_MUN as LOCALIDAD,A1_NOME as NOMBRECLI,A1_CONTATO as CONTACTOCLI,
+F2_LOJA AS TIENDA,F2_CLIENTE as CLIENTE,
+E4_DESCRI as DESCCONDPAGO, copy,sequence,
+A4_NOME AS TRANSPORTE,A4_END as DIRTRANS, A4_TEL as TELTRANS,
+  CASE A1_TIPO
+    WHEN 'I' THEN 'Resp. Inscripto'
+    WHEN 'M' THEN 'Monotribito'
+    WHEN 'F' THEN 'Cons.Final'
+    WHEN 'N' THEN 'Resp. No Inscripto'
+    WHEN 'E' THEN 'Deud. Exterior'
+    WHEN 'X' THEN 'Exento'
+    WHEN 'S' THEN 'No Sujeto'
+  END AS A1_TIPO,
+  CASE F2_ESPECIE
+    WHEN 'NF' THEN 'FACTURA'
+    WHEN 'NDC' THEN 'NOTA DE DEBITO'
+    WHEN 'NCC' THEN 'NOTA DE CREDITO'
+  END AS TIPODOC,
+CASE WHEN(SUBSTRING(F2_SERIE,1,1) = 'A'
+      AND SUBSTRING(F2_ESPECIE,1,2)='NF') THEN '01'
+    WHEN(SUBSTRING(F2_SERIE,1,1) = 'A'
+	  AND SUBSTRING(F2_ESPECIE,1,3)='NDC') THEN '02'
+    WHEN(SUBSTRING(F2_SERIE,1,1) = 'B'
+	  AND SUBSTRING(F2_ESPECIE,1,2)='NF') THEN '06'
+    WHEN(SUBSTRING(F2_SERIE,1,1) = 'B'
+	  AND SUBSTRING(F2_ESPECIE,1,3)='NDC') THEN '07'
+    WHEN(SUBSTRING(F2_SERIE,1,1) = 'E' ) THEN '19'  END AS COD_TIPODOC,
+--ITEMS
+D2_ITEM, D2_COD, D2_QUANT, D2_COD,
+CASE WHEN (SUBSTRING(F2_SERIE,1,1) = 'B' AND D2_ALQIMP1 = 0) THEN (D2_PRCVEN * (1+(D2_ALQIMP2/100)))
+     WHEN (SUBSTRING(F2_SERIE,1,1) = 'B' AND D2_ALQIMP1 <> 0) THEN (D2_PRCVEN * (1+(D2_ALQIMP1/100)))
+     ELSE D2_PRCVEN END D2_PRCVEN,
+CASE WHEN (SUBSTRING(F2_SERIE,1,1) = 'B' AND D2_ALQIMP1 = 0) THEN (D2_TOTAL * (1+(D2_ALQIMP2/100)))
+     WHEN (SUBSTRING(F2_SERIE,1,1) = 'B' AND D2_ALQIMP1 <> 0) THEN (D2_TOTAL * (1+(D2_ALQIMP1/100)))
+     ELSE D2_TOTAL END D2_TOTAL,
+D2_ALQIMP1 as IVA21, D2_ALQIMP2 as IVA105,
+--CASE WHEN RTRIM(D2_PEDIDO) <> '' THEN D2_PEDIDO ELSE (SELECT SD2REM.D2_PEDIDO FROM SD2010 SD2REM WHERE SD2REM.D2_DOC = SD2010.D2_REMITO AND SD2REM.D2_ITEM = SD2010.D2_ITEMREM AND SD2REM.D2_SERIE = SD2010.D2_SERIREM AND SD2REM.D2_CLIENTE = SD2010.D2_CLIENTE AND SD2REM.D2_LOJA = SD2010.D2_LOJA AND SD2REM.D_E_L_E_T_ <> '*') END  as PV,
+D2_REMITO AS REMITO, D2_SERIREM AS SERREM, B1_DESC, B1_SEGUM, B1_UM,
+[dbo].[FUN_GET_NUMLETRAS](F2_VALBRUT) as Letras_ESP,
+'30505687279' + CASE WHEN(SUBSTRING(F2_SERIE,1,1) = 'A'
+      AND SUBSTRING(F2_ESPECIE,1,2)='NF') THEN '01'
+	 WHEN(SUBSTRING(F2_SERIE,1,1) = 'A'
+	  AND SUBSTRING(F2_ESPECIE,1,3)='NDC') THEN '02'
+	 WHEN(SUBSTRING(F2_SERIE,1,1) = 'B'
+	  AND SUBSTRING(F2_ESPECIE,1,2)='NF') THEN '06'
+	 WHEN(SUBSTRING(F2_SERIE,1,1) = 'B'
+	  AND SUBSTRING(F2_ESPECIE,1,3)='NDC') THEN '07'  END + SUBSTRING(F2_DOC,1,4) + F2_CAEE + F2_EMCAEE + [dbo].[fn_ObtenerDig]('30505687279' + CASE WHEN(SUBSTRING(F2_SERIE,1,1) = 'A'
+      AND SUBSTRING(F2_ESPECIE,1,2)='NF') THEN '01'
+	 WHEN(SUBSTRING(F2_SERIE,1,1) = 'A'
+	  AND SUBSTRING(F2_ESPECIE,1,3)='NDC') THEN '02'
+	 WHEN(SUBSTRING(F2_SERIE,1,1) = 'B'
+	  AND SUBSTRING(F2_ESPECIE,1,2)='NF') THEN '06'
+	 WHEN(SUBSTRING(F2_SERIE,1,1) = 'B'
+	  AND SUBSTRING(F2_ESPECIE,1,3)='NDC') THEN '07'  END + SUBSTRING(F2_DOC,1,4) + F2_CAEE + F2_EMCAEE) as CODBARRAS
+FROM $P!{SF2}
+CROSS JOIN ( Select 'ORIGINAL' as copy, 1 as sequence
+            ) X
+LEFT JOIN $P!{SA1} on (A1_COD=F2_CLIENTE and A1_LOJA=F2_LOJA ) and $P!{SA1}.D_E_L_E_T_ <> '*'
+LEFT JOIN $P!{SD2} ON (D2_DOC = F2_DOC AND D2_ESPECIE = F2_ESPECIE AND D2_SERIE = F2_SERIE) AND $P!{SD2}.D_E_L_E_T_ <> '*'
+LEFT JOIN $P!{SC5} ON C5_NUM = D2_PEDIDO and C5_FILIAL =F2_FILIAL AND $P!{SC5}.D_E_L_E_T_ <> '*'
+LEFT JOIN $P!{SB1} ON (D2_COD = B1_COD) AND $P!{SB1}.D_E_L_E_T_ <> '*'
+LEFT JOIN $P!{SE4} on F2_COND=E4_CODIGO AND $P!{SE4}.D_E_L_E_T_ <> '*'
+LEFT JOIN $P!{SC6} ON C6_NUM = C5_NUM AND C6_ITEM = D2_ITEMPV AND $P!{SC6}.D_E_L_E_T_ <> '*'
+left join $P!{SA4} on A4_COD = F2_TRANSP AND $P!{SA4}.D_E_L_E_T_<> '*'
+WHERE F2_DOC between $P{MERFT01-01} and $P{MERFT01-02} AND
+         CASE WHEN $P{MERFT01-03} = '1' THEN 'NF '
+             WHEN $P{MERFT01-03} = '2' THEN 'NDC'
+             WHEN $P{MERFT01-03} = '3' THEN '   ' END = F2_ESPECIE AND
+        F2_SERIE = $P{MERFT01-04} AND
+        $P!{SF2}.D_E_L_E_T_<> '*'
+UNION
+SELECT
+--CABECERA NCC
+F1_DESCONT,ISNULL( CONVERT( VARCHAR(4096), CONVERT(VARBINARY(4096),F1_XOBS)),'') AS F2_XOBS,D1_VUNIT,'' ,'' AS REMITOS,C5_DESC1+C5_DESC2+C5_DESC3+C5_DESC4 AS DESCPV,F1_VALMERC as VALMERC, F1_ESPECIE as DOCESPECIE,SUBSTRING(F1_SERIE,1,1) as DOCSERIE, F1_SERIE AS SERIE, F1_CAEE as CAEE,F1_EMCAEE as EMCAEE,
+SUBSTRING(F1_DOC,1,4) + '-' + SUBSTRING(F1_DOC,5,8) as NUMDOC,F1_DOC as NUMERODOCORI,
+SUBSTRING(A1_CGC,1,2) + '-' + SUBSTRING(A1_CGC,3,8) + '-' + SUBSTRING(A1_CGC,11,1) as CUITCLI, A1_NIGB as IIBB,
+F1_VALIMP1 as Retencion_IVA_21,F1_VALIMP2+F1_VALIMP3 as Retencion_IVA_105,
+F1_DTDIGIT as FECHADIGIT,F1_VALBRUT as TOTALDOC,
+F1_VALIMP1+F1_VALIMP2+F1_VALIMP3+F1_VALMERC AS TOTIVA,
+A1_END as DIRECC,A1_MUN as LOCALIDAD,A1_NOME as NOMBRECLI,A1_CONTATO as CONTACTOCLI,
+F1_LOJA AS TIENDA,F1_FORNECE as CLIENTE,
+E4_DESCRI as DESCCONDPAGO, copy,sequence,
+'' AS TRANSPORTE,'' as DIRTRANS,'' as TELTRANS,
+  CASE A1_TIPO
+    WHEN 'I' THEN 'Resp. Inscripto'
+    WHEN 'M' THEN 'Monotribito'
+    WHEN 'F' THEN 'Cons.Final'
+    WHEN 'N' THEN 'Resp. No Inscripto'
+    WHEN 'E' THEN 'Deud. Exterior'
+    WHEN 'X' THEN 'Exento'
+    WHEN 'S' THEN 'No Sujeto'
+  END AS A1_TIPO,
+  CASE F1_ESPECIE
+    WHEN 'NF' THEN 'FACTURA'
+    WHEN 'NDC' THEN 'NOTA DE DEBITO'
+    WHEN 'NCC' THEN 'NOTA DE CREDITO'
+  END AS TIPODOC,
+CASE WHEN(SUBSTRING(F1_SERIE,1,1) = 'A'
+      AND SUBSTRING(F1_ESPECIE,1,3)='NCC') THEN '03'
+     WHEN(SUBSTRING(F1_SERIE,1,1) = 'B'
+      AND SUBSTRING(F1_ESPECIE,1,3)='NCC') THEN '08'
+     WHEN(SUBSTRING(F1_SERIE,1,1) = 'B'
+      AND SUBSTRING(F1_ESPECIE,1,2)='NF') THEN '06'
+     WHEN(SUBSTRING(F1_SERIE,1,1) = 'B'
+      AND SUBSTRING(F1_ESPECIE,1,3)='NDC') THEN '07'
+     WHEN(SUBSTRING(F1_SERIE,1,1) = 'E') THEN '19' END AS COD_TIPODOC,
+--ITEMS
+D1_ITEM, D1_COD, D1_QUANT, D1_DOC,
+CASE WHEN (SUBSTRING(F1_SERIE,1,1) = 'B' AND D1_ALQIMP1 = 0) THEN (D1_VUNIT * (1+(D1_ALQIMP2/100)))
+     WHEN (SUBSTRING(F1_SERIE,1,1) = 'B' AND D1_ALQIMP1 <> 0) THEN (D1_VUNIT * (1+(D1_ALQIMP1/100)))
+     ELSE D1_VUNIT END D2_PRCVEN,
+CASE WHEN (SUBSTRING(F1_SERIE,1,1) = 'B' AND D1_ALQIMP1 = 0) THEN (D1_TOTAL * (1+(D1_ALQIMP2/100)))
+     WHEN (SUBSTRING(F1_SERIE,1,1) = 'B' AND D1_ALQIMP1 <> 0) THEN (D1_TOTAL * (1+(D1_ALQIMP1/100)))
+     ELSE D1_TOTAL END D2_TOTAL ,
+D1_ALQIMP1 as IVA1, D1_ALQIMP2 as IVA2,
+--D1_PEDIDO as PV,
+D1_REMITO AS REMITO, D1_SERIE AS SERREM, B1_DESC, B1_SEGUM, B1_UM,
+[dbo].[FUN_GET_NUMLETRAS](F1_VALBRUT) as Letras_ESP,
+'30505687279' + CASE WHEN(SUBSTRING(F1_SERIE,1,1) = 'A'
+      AND SUBSTRING(F1_ESPECIE,1,2)='NF') THEN '01'
+	 WHEN(SUBSTRING(F1_SERIE,1,1) = 'A'
+	  AND SUBSTRING(F1_ESPECIE,1,3)='NCC') THEN '02'
+	 WHEN(SUBSTRING(F1_SERIE,1,1) = 'B'
+	  AND SUBSTRING(F1_ESPECIE,1,2)='NF') THEN '06'
+	 WHEN(SUBSTRING(F1_SERIE,1,1) = 'B'
+	  AND SUBSTRING(F1_ESPECIE,1,3)='NCC') THEN '07'  END + SUBSTRING(F1_DOC,1,4) + F1_CAEE + F1_EMCAEE + [dbo].[fn_ObtenerDig]('30505687279' + CASE WHEN(SUBSTRING(F1_SERIE,1,1) = 'A'
+      AND SUBSTRING(F1_ESPECIE,1,2)='NF') THEN '01'
+	 WHEN(SUBSTRING(F1_SERIE,1,1) = 'A'
+	  AND SUBSTRING(F1_ESPECIE,1,3)='NCC') THEN '02'
+	 WHEN(SUBSTRING(F1_SERIE,1,1) = 'B'
+	  AND SUBSTRING(F1_ESPECIE,1,2)='NF') THEN '06'
+	 WHEN(SUBSTRING(F1_SERIE,1,1) = 'B'
+	  AND SUBSTRING(F1_ESPECIE,1,3)='NCC') THEN '07'  END + SUBSTRING(F1_DOC,1,4) + F1_CAEE + F1_EMCAEE) as CODBARRAS
+FROM $P!{SF1}
+CROSS JOIN ( Select 'ORIGINAL' as copy, 1 as sequence
+            ) X
+LEFT JOIN $P!{SA1} on (A1_COD=F1_FORNECE and A1_LOJA=F1_LOJA ) and $P!{SA1}.D_E_L_E_T_ <> '*'
+LEFT JOIN $P!{SD1} ON (D1_DOC = F1_DOC AND D1_ESPECIE = F1_ESPECIE AND D1_SERIE = F1_SERIE) AND $P!{SD1}.D_E_L_E_T_ <> '*'
+LEFT JOIN $P!{SB1} ON (B1_COD = D1_COD) AND $P!{SB1}.D_E_L_E_T_ <> '*'
+LEFT JOIN $P!{SC5} ON C5_NUM = D1_PEDIDO AND C5_FILIAL =F1_FILIAL AND  $P!{SC5}.D_E_L_E_T_ <> '*'
+LEFT JOIN $P!{SE4} on F1_COND=E4_CODIGO AND $P!{SE4}.D_E_L_E_T_ <> '*'
+left join $P!{SA4} on A4_COD = F1_TRANSP AND $P!{SA4}.D_E_L_E_T_<> '*'
+WHERE F1_DOC between $P{MERFT01-01} and $P{MERFT01-02} AND
+         CASE WHEN $P{MERFT01-03} = '1' THEN '   '
+             WHEN $P{MERFT01-03} = '2' THEN '   '
+             WHEN $P{MERFT01-03} = '3' THEN 'NCC' END = F1_ESPECIE AND
+        F1_SERIE = $P{MERFT01-04} AND
+        $P!{SF1}.D_E_L_E_T_<> '*'
+ORDER BY NUMERODOCORI, sequence]]>
+	</queryString>
+	<field name="F2_DESCONT" class="java.lang.Double"/>
+	<field name="F2_XOBS" class="java.lang.String"/>
+	<field name="D2_PRUNIT" class="java.lang.Double"/>
+	<field name="C6_DESCONT" class="java.lang.Double"/>
+	<field name="REMITOS" class="java.lang.String"/>
+	<field name="DESCPV" class="java.lang.Double"/>
+	<field name="VALMERC" class="java.lang.Double"/>
+	<field name="DOCESPECIE" class="java.lang.String"/>
+	<field name="DOCSERIE" class="java.lang.String"/>
+	<field name="SERIE" class="java.lang.String"/>
+	<field name="CAEE" class="java.lang.String"/>
+	<field name="EMCAEE" class="java.lang.String"/>
+	<field name="NUMDOC" class="java.lang.String"/>
+	<field name="NUMERODOCORI" class="java.lang.String"/>
+	<field name="CUITCLI" class="java.lang.String"/>
+	<field name="IIBB" class="java.lang.String"/>
+	<field name="Retencion_IVA_21" class="java.lang.Double"/>
+	<field name="Retencion_IVA_105" class="java.lang.Double"/>
+	<field name="FECHADIGIT" class="java.lang.String"/>
+	<field name="TOTALDOC" class="java.lang.Double"/>
+	<field name="TOTIVA" class="java.lang.Double"/>
+	<field name="DIRECC" class="java.lang.String"/>
+	<field name="LOCALIDAD" class="java.lang.String"/>
+	<field name="NOMBRECLI" class="java.lang.String"/>
+	<field name="CONTACTOCLI" class="java.lang.String"/>
+	<field name="TIENDA" class="java.lang.String"/>
+	<field name="CLIENTE" class="java.lang.String"/>
+	<field name="DESCCONDPAGO" class="java.lang.String"/>
+	<field name="copy" class="java.lang.String"/>
+	<field name="sequence" class="java.lang.Integer"/>
+	<field name="TRANSPORTE" class="java.lang.String"/>
+	<field name="DIRTRANS" class="java.lang.String"/>
+	<field name="TELTRANS" class="java.lang.String"/>
+	<field name="A1_TIPO" class="java.lang.String"/>
+	<field name="TIPODOC" class="java.lang.String"/>
+	<field name="COD_TIPODOC" class="java.lang.String"/>
+	<field name="D2_ITEM" class="java.lang.String"/>
+	<field name="D2_COD" class="java.lang.String"/>
+	<field name="D2_QUANT" class="java.lang.Double"/>
+	<field name="D2_PRCVEN" class="java.lang.Double"/>
+	<field name="D2_TOTAL" class="java.lang.Double"/>
+	<field name="IVA21" class="java.lang.Double"/>
+	<field name="IVA105" class="java.lang.Double"/>
+	<field name="REMITO" class="java.lang.String"/>
+	<field name="SERREM" class="java.lang.String"/>
+	<field name="B1_DESC" class="java.lang.String"/>
+	<field name="B1_SEGUM" class="java.lang.String"/>
+	<field name="B1_UM" class="java.lang.String"/>
+	<field name="Letras_ESP" class="java.lang.String"/>
+	<field name="CODBARRAS" class="java.lang.String"/>
+	<group name="Cabecera" isStartNewPage="true" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{NUMDOC}+$F{DOCSERIE}+$F{copy}]]></groupExpression>
+		<groupHeader>
+			<band height="244">
+				<rectangle>
+					<reportElement x="274" y="19" width="29" height="24" uuid="d6497ad4-1e2e-4449-b4e7-38f71f0b2671"/>
+				</rectangle>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="385" y="67" width="78" height="21" uuid="fa3e9850-435f-4ed9-92ac-878e9c08e5e0"/>
+					<textElement textAlignment="Center">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new SimpleDateFormat("yyyyMMdd").parse($F{FECHADIGIT})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="463" y="67" width="78" height="21" uuid="3bfce053-dfa8-46ad-9c42-6b5e949f3c03"/>
+					<textElement textAlignment="Center">
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{copy}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="78" y="156" width="215" height="12" uuid="98cece49-2d3f-4b96-98e3-d42d23888e5a"/>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DIRECC}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="80" y="192" width="210" height="12" uuid="00973531-94fa-4ade-8aa6-f3c05888a298"/>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DESCCONDPAGO}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="293" y="156" width="98" height="12" uuid="78fe325e-e817-4bed-aa67-e04864b3606a"/>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{LOCALIDAD}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="78" y="142" width="54" height="12" uuid="544974c5-e8d4-4532-a881-183e1787c2b5"/>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CLIENTE}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="131" y="142" width="185" height="12" uuid="4c18e809-6723-4b87-b4cf-8a946e70b48a"/>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NOMBRECLI}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="78" y="171" width="215" height="12" uuid="9ddd841a-a83e-4c3d-8a4b-ddcab8055a24"/>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{A1_TIPO}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="438" y="156" width="100" height="12" uuid="ba960b66-8e8b-4693-b6d4-d77fa19e9a65"/>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{IIBB}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="438" y="142" width="100" height="12" uuid="cb10d5d6-3405-49d2-84ce-b837912133e4"/>
+					<textElement>
+						<font fontName="SansSerif" size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CUITCLI}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="4" y="228" width="58" height="12" uuid="e2d7fce2-0dc8-4b12-9f51-c0eacc92677a"/>
+					<textElement>
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Código]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="62" y="228" width="203" height="12" uuid="b5df8328-44d8-4b0f-a436-a80160677e03"/>
+					<textElement>
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Descripción]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="345" y="228" width="58" height="12" uuid="fe7d0ee3-2251-4329-9e8b-1ce54e3ea935"/>
+					<textElement>
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[P. Unitario]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="284" y="228" width="58" height="12" uuid="2f3dfb49-f211-43ea-a904-309a2d348b7e"/>
+					<textElement>
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cantidad]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="518" y="228" width="37" height="12" uuid="8d20ac95-2ace-40eb-a814-a4e725fde310"/>
+					<textElement>
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="270" y="18" width="38" height="28" uuid="4f10d9b0-f87a-420f-be07-c0acdb34b4a9"/>
+					<textElement textAlignment="Center">
+						<font size="22" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DOCSERIE}.trim()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="270" y="44" width="38" height="20" uuid="2d205632-c589-4b5f-8ebc-13d901ad6049"/>
+					<textElement textAlignment="Center">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA["COD: " + $F{COD_TIPODOC}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="337" y="18" width="100" height="20" uuid="4f170ba7-508f-4a22-9db2-7e57d75e8e28"/>
+					<textElement>
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Comprobante:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="437" y="19" width="118" height="19" uuid="263a8db0-1ce3-4207-bb6a-3930a7831760"/>
+					<textElement textAlignment="Left">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{DOCESPECIE}.trim() == "NF" ? "FACTURA" :
+($F{DOCESPECIE}.trim() == "NDC" ? "NOTA DE DEBITO" :
+($F{DOCESPECIE}.trim()== "NCC" ? "NOTA DE CREDITO" :"FACTURA")))]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="337" y="42" width="28" height="20" uuid="e396de39-5a8e-4ee0-877a-6287c624f15d"/>
+					<textElement>
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[N°:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="368" y="42" width="160" height="20" uuid="276eb1ad-11cf-4a97-b541-a55be732ddba"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{NUMDOC}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="337" y="67" width="48" height="21" uuid="5e3d7e4a-85a0-4318-8bdf-86a75fb66edd"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<text><![CDATA[Fecha:]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="133" width="555" height="1" uuid="f3539ba5-4ec3-4b50-af3b-8140f428c5c5"/>
+				</line>
+				<line>
+					<reportElement x="0" y="225" width="555" height="1" uuid="b5969e7f-62ac-4c67-8fff-75b990cff62d"/>
+				</line>
+				<line>
+					<reportElement x="0" y="240" width="555" height="1" uuid="0633aef8-a4e8-4ba9-9f88-63249ab59c22"/>
+				</line>
+				<line>
+					<reportElement x="0" y="188" width="555" height="1" uuid="3f4baa68-8f25-458a-b327-9a158a135554"/>
+				</line>
+				<staticText>
+					<reportElement x="403" y="228" width="30" height="12" uuid="bce043a0-cd0b-4288-806d-226ef797cabe"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[UM]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="337" y="108" width="159" height="10" uuid="91a1d85b-004e-4038-9f62-87574adb4eb2"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[ING. BRUTOS CONV. MULT. N° 921-748273-1]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="337" y="118" width="126" height="10" uuid="cc615775-2f81-4b7b-ae54-f8a0110173b0"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[INICIO DE ACTIVIDAD: 01/11/1980]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="337" y="98" width="126" height="10" uuid="5733c685-93b2-4438-80ca-f77a000233be"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[C.U.I.T.: 20-11790771-7]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="378" y="192" width="140" height="12" uuid="f23eff55-db2b-45eb-9168-fdb002a34793"/>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DESCPV}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="80" y="208" width="475" height="11" uuid="cdb4eb0c-4254-4ac5-910c-06a8fe4d0f07"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{REMITOS}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="438" y="228" width="58" height="12" uuid="59973466-9793-4ef4-8c1d-b73a8639404d"/>
+					<textElement>
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Desc. Item]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="6" y="99" width="140" height="10" uuid="a3740f92-9761-4074-a501-3e61bb9aa578"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[Alberdi 1529 - Tel/FAX. (03496) 425160]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="6" y="109" width="126" height="10" uuid="c4c430e8-b6b0-4b12-acd8-5a24e2cdac63"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[(3080) - Esperanza SANTA FE]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="6" y="119" width="194" height="10" uuid="8141f045-14be-489d-b919-2d8b3704a24c"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[I.V.A. RESPONSABLE INSCRIPTO]]></text>
+				</staticText>
+				<image onErrorType="Blank">
+					<reportElement x="7" y="5" width="213" height="103" uuid="d844ef30-ac67-4aac-963d-9eb7f5510191"/>
+					<imageExpression><![CDATA[$F{TIENDA}]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement x="10" y="156" width="68" height="12" uuid="d1d337a7-054e-4a23-985b-bfd802dc834d"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Domicilio:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="142" width="68" height="12" uuid="4416ece7-4db1-4a5a-b459-6ace2293be9e"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Sr./ es.:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="171" width="68" height="12" uuid="3ceca7ee-d3a0-4594-b725-ac74d8d08d7f"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cond. I.V.A:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="391" y="142" width="42" height="12" uuid="5b27cba0-29c0-41e4-8547-c6cf34a27c36"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cuit:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="391" y="156" width="42" height="12" uuid="1d4b8ca2-3cf8-4783-9b42-708e017978ca"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[IIBB:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="207" width="68" height="12" uuid="96e81807-62b4-489e-981b-a49bc40205a2"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Remitos:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="192" width="68" height="12" uuid="3ddb7d6f-0965-4d75-939a-b31a405b816d"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cond. Venta:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="297" y="192" width="74" height="12" uuid="b91a7248-6fbc-4a62-bfa0-09b9cc9964bc"/>
+					<textElement>
+						<font fontName="SansSerif" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[% De Descuento:]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band height="802">
+			<rectangle radius="10">
+				<reportElement x="0" y="0" width="555" height="802" uuid="5a5ec2ce-a9f8-461d-badc-7f843c1120df"/>
+			</rectangle>
+		</band>
+	</background>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="64" y="0" width="201" height="10" isRemoveLineWhenBlank="true" uuid="4e2bd981-445f-4a70-addf-997526d56d7c"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{B1_DESC}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="408" y="0" width="20" height="10" uuid="b67ac5f5-493a-4de7-b8b5-0452a0bc3cd8"/>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{B1_UM}]]></textFieldExpression>
+			</textField>
+			<textField pattern="{###0.##};-###0.##" isBlankWhenNull="true">
+				<reportElement x="290" y="0" width="39" height="10" uuid="4cc53bd0-dd74-4449-8c6b-cc01388e8124"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{D2_QUANT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
+				<reportElement x="345" y="0" width="46" height="10" uuid="09be021a-da1d-4972-a320-e741f876c769"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{D2_PRUNIT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="4" y="0" width="59" height="10" uuid="1565a3ef-92d7-4978-a9ac-a1d34d80ae1b"/>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{D2_COD}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="440" y="0" width="45" height="10" uuid="78e536d0-dca1-408f-81f5-347a1b01d2f6"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{C6_DESCONT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
+				<reportElement x="496" y="0" width="59" height="10" uuid="063e8c4e-05fe-423f-9bfb-b80585e211c5"/>
+				<textElement textAlignment="Right">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{D2_PRUNIT}*$F{D2_QUANT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="142" splitType="Stretch">
+			<staticText>
+				<reportElement x="5" y="97" width="25" height="13" uuid="3f7dfa3e-e012-4842-9b5a-4f56329b9fe0"/>
+				<text><![CDATA[CAE:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="38" y="97" width="93" height="13" uuid="5fe9b8f5-89c6-4ed9-8d0f-f2c9a652e658"/>
+				<textFieldExpression><![CDATA[$F{CAEE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="146" y="97" width="25" height="13" uuid="e54ed813-ff76-423e-85dd-c8a920bfedb6"/>
+				<text><![CDATA[VTO:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="177" y="97" width="74" height="13" uuid="38355763-5188-481b-bc22-56997c21f117"/>
+				<textFieldExpression><![CDATA[($F{EMCAEE}.contains( "1" ) ? new SimpleDateFormat("yyyyMMdd").parse($F{EMCAEE}) : null)]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="443" y="41" width="98" height="15" uuid="f92ea2bc-f230-44c4-b38e-e76fd27e6c8b"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{DOCSERIE}.trim() == "B" ? $F{TOTIVA}: $F{VALMERC})]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="443" y="58" width="98" height="15" uuid="b0ca03f8-34b3-4815-aa40-81432786556a">
+					<printWhenExpression><![CDATA[$F{SERIE}.substring(0,1) != "B"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{DOCSERIE}.trim() == "B" ? 0 : $F{Retencion_IVA_21})]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="443" y="100" width="98" height="15" uuid="27ba7d26-2d21-4a72-b8b0-1128082e05ae"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOTALDOC}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="5" y="64" width="247" height="25" uuid="6b576539-bd27-45ee-be78-85b90d3d832f"/>
+				<jr:Code39 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom" checksumMode="ignore">
+					<jr:codeExpression><![CDATA[$F{CODBARRAS}]]></jr:codeExpression>
+				</jr:Code39>
+			</componentElement>
+			<staticText>
+				<reportElement x="371" y="41" width="69" height="15" uuid="c6b994cf-9747-4dd0-a892-31f2961cd247"/>
+				<text><![CDATA[GRAVADO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="371" y="58" width="69" height="15" uuid="a27907ef-c5ad-4e33-9e22-e68e82d40f26"/>
+				<text><![CDATA[IVA 21%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="371" y="100" width="69" height="15" uuid="1e2b9500-908f-48b3-b5e1-931a446442d5"/>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="371" y="76" width="69" height="15" uuid="bc3c4fd2-ea70-4029-97fd-8b0d19544b3d"/>
+				<text><![CDATA[IVA 10,5%]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="6" y="122" width="535" height="15" uuid="bb0b38d4-da58-4e21-a56b-abce8953b515"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Son " +$F{Letras_ESP}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="443" y="76" width="98" height="13" uuid="6a33c2ab-f45b-4b30-8280-d56847f703e4">
+					<printWhenExpression><![CDATA[$F{SERIE}.substring(0,1) != "B"]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{DOCSERIE}.trim() == "B" ? 0 : $F{Retencion_IVA_105})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="6" width="555" height="1" uuid="971f4b61-662a-4b55-9733-bf1410178325"/>
+			</line>
+			<staticText>
+				<reportElement x="4" y="6" width="60" height="11" uuid="10324ae3-d1c2-45c9-bd93-9a1945b26103"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TRANSPORTE:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="64" y="7" width="215" height="11" uuid="929b8eda-6a89-4d71-b4a4-3c6b97dcfbc5"/>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TRANSPORTE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="17" width="59" height="11" uuid="6ebf6a52-a425-4aae-9dfa-e8affc65ec6b"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIRECCION:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="64" y="17" width="215" height="11" uuid="a4b2a9b2-409c-4184-88f8-bfe34e05c698"/>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DIRTRANS}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="3" y="29" width="342" height="35" uuid="f1e979da-624a-4f7e-be93-073a224d2aa0"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["OBSERVACIONES: "+($F{F2_XOBS}==null ? "" : $F{F2_XOBS})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="371" y="7" width="68" height="15" uuid="3fca74ca-00ca-4c63-8a44-a86d1e836a9b"/>
+				<text><![CDATA[SUBTOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="371" y="24" width="68" height="15" uuid="b53e5c23-344c-4add-9f23-5588455863f7"/>
+				<text><![CDATA[DESCUENTO]]></text>
+			</staticText>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="443" y="7" width="98" height="15" uuid="c889fa31-b69f-4c84-b1c7-5e61064722f8"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VALMERC}+$F{F2_DESCONT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="443" y="24" width="98" height="15" uuid="42235605-0cc0-4495-9b9b-ed7b44b527f5"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F2_DESCONT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

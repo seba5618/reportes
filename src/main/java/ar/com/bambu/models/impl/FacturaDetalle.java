@@ -162,12 +162,29 @@ public class FacturaDetalle implements Serializable {
 
     }
 
-    public void setPathLogo(Integer ev) {
+    public static final int TIPO_FACTURA_B = 17;
+    public static final int TIPO_FACTURA_A = 16;
+    public static final int COTIZACION= 92;
+    public static final int REMITOS1= 11;
+
+    public void setPathLogo(Integer ev,  int tipoEvento) {
         if (ev != null) {
-            this.TIENDA = System.getProperty("user.dir") + "\\LOGOS\\"+ "\\Suc"+ev.toString()+".JPG";
-            System.out.println("***** VIENDO PATH****");
-            System.out.println(this.TIENDA);
+            switch (tipoEvento) {
+                case COTIZACION:
+                    this.TIENDA = System.getProperty("user.dir") + "\\LOGOS\\" + "\\LogoCotizacion.JPG";
+                    break;
+                case REMITOS1:
+                    this.TIENDA = System.getProperty("user.dir") + "\\LOGOS\\" + "\\LogoRemito.JPG";
+                    break;
+                case TIPO_FACTURA_A:
+                case TIPO_FACTURA_B:
+                    this.TIENDA = System.getProperty("user.dir") + "\\LOGOS\\" + "\\LogoFElectronica.JPG";
+            }
+
         }
+        System.out.println("***** VIENDO PATH****");
+        System.out.println(this.TIENDA);
+
 
     }
 
