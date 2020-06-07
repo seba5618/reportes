@@ -159,7 +159,47 @@ public class Reportes {
         ResponseEntity<ByteArrayResource> response = ResponseEntity.ok().header("Content-Disposition", "attachment; filename=factura.pdf").body(new ByteArrayResource(bytes));
         return response;
     }
+/*
+    @RequestMapping(path = "/electronic_bill", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<ByteArrayResource> getFactura(@RequestBody Eventos ev) throws Exception {
+        Eventos evento;
 
+        try {
+            evento = repo.findById(new EventosId(ev.getIdEvento(), ev.getCajaZ())).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.noContent().eTag("Combinación evento: " + ev.getIdEvento() + " y cajaZ: " + ev.getCajaZ() + " no válida.").build();
+        }
+
+
+        Clientes clientes = clientesRepository.findByCodClienteConCondicionIva(evento.getCodCliente());
+        TpvConfig sucursal = tpvConfigRepository.findByCodSucusal();
+
+        //traemos el nro de punto de venta electronica (14)
+        FactuMem factuMem = factuMemRepository.findById(14);
+        LOGGER.info("Nro punto venta electronica " +factuMem.getValor() );
+        System.out.println("***** PUNTO DE VENTA ****");
+        System.out.println(factuMem.getValor());
+
+        InputStream inputStream = getClass()
+                .getClassLoader().getResourceAsStream(fileNameFactura);
+
+
+        FacturaElectronicaBuilder facturaElectronicaBuilder = new FacturaElectronicaBuilder();
+        List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(ev.getIdEvento());
+        EvMedios pie = medioRepository.findByIdEventoWithMedioName(ev.getIdEvento()).get(0);
+        facturaElectronicaBuilder.withEvento(evento).withDetalle(byIdEventoArtiName).withPie(pie).withCliente(clientes).withTpvconfig(sucursal).withFactuMem(factuMem);
+
+
+        FacturaElectronica facturaElectronica = facturaElectronicaBuilder.build();
+
+
+        JasperPrint print = JasperFillManager.fillReport(inputStream, new HashMap(), new JRBeanCollectionDataSource(facturaElectronica.getDetalle()));
+        byte[] bytes = JasperExportManager.exportReportToPdf(print);
+        ResponseEntity<ByteArrayResource> response = ResponseEntity.ok().header("Content-Disposition", "attachment; filename=factura.pdf").body(new ByteArrayResource(bytes));
+        return response;
+    }
+*/
     @RequestMapping(path = "/remito", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<ByteArrayResource> getRemito(@RequestBody Eventos ev) throws Exception {
         Eventos evento;

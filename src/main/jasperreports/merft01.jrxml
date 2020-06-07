@@ -483,20 +483,20 @@
 	<pageFooter>
 		<band height="142" splitType="Stretch">
 			<staticText>
-				<reportElement x="5" y="97" width="25" height="13" uuid="3f7dfa3e-e012-4842-9b5a-4f56329b9fe0"/>
+				<reportElement x="7" y="102" width="25" height="13" uuid="3f7dfa3e-e012-4842-9b5a-4f56329b9fe0"/>
 				<text><![CDATA[CAE:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="38" y="97" width="93" height="13" uuid="5fe9b8f5-89c6-4ed9-8d0f-f2c9a652e658"/>
+				<reportElement x="40" y="102" width="93" height="13" uuid="5fe9b8f5-89c6-4ed9-8d0f-f2c9a652e658"/>
 				<textFieldExpression><![CDATA[$F{CAEE}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="146" y="97" width="25" height="13" uuid="e54ed813-ff76-423e-85dd-c8a920bfedb6"/>
+				<reportElement x="148" y="102" width="25" height="13" uuid="e54ed813-ff76-423e-85dd-c8a920bfedb6"/>
 				<text><![CDATA[VTO:]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="177" y="97" width="74" height="13" uuid="38355763-5188-481b-bc22-56997c21f117"/>
-				<textFieldExpression><![CDATA[($F{EMCAEE}.contains( "1" ) ? new SimpleDateFormat("yyyyMMdd").parse($F{EMCAEE}) : null)]]></textFieldExpression>
+				<reportElement x="179" y="102" width="74" height="13" uuid="38355763-5188-481b-bc22-56997c21f117"/>
+				<textFieldExpression><![CDATA[($F{EMCAEE}.contains( "2" ) ? new SimpleDateFormat("yyyyMMdd").parse($F{EMCAEE}) : null)]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0.00" isBlankWhenNull="true">
 				<reportElement x="443" y="41" width="98" height="15" uuid="f92ea2bc-f230-44c4-b38e-e76fd27e6c8b"/>
@@ -522,8 +522,11 @@
 				<textFieldExpression><![CDATA[$F{TOTALDOC}]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement x="5" y="64" width="247" height="25" uuid="6b576539-bd27-45ee-be78-85b90d3d832f"/>
-				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code39" drawText="false" checksumRequired="false">
+				<reportElement x="5" y="50" width="245" height="50" forecolor="#050000" backcolor="#FFFFFF" uuid="6b576539-bd27-45ee-be78-85b90d3d832f">
+					<property name="com.jaspersoft.studio.unit.barWidth" value="px"/>
+					<property name="com.jaspersoft.studio.unit.barHeight" value="px"/>
+				</reportElement>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code39" drawText="true" checksumRequired="false">
 					<jr:codeExpression><![CDATA[$F{CODBARRAS}]]></jr:codeExpression>
 				</jr:barbecue>
 			</componentElement>
@@ -544,7 +547,7 @@
 				<text><![CDATA[IVA 10,5%]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="6" y="122" width="535" height="15" uuid="bb0b38d4-da58-4e21-a56b-abce8953b515"/>
+				<reportElement x="6" y="118" width="535" height="15" uuid="bb0b38d4-da58-4e21-a56b-abce8953b515"/>
 				<textElement>
 					<font size="10"/>
 				</textElement>
@@ -591,7 +594,7 @@
 				<textFieldExpression><![CDATA[$F{DIRTRANS}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="3" y="29" width="342" height="35" uuid="f1e979da-624a-4f7e-be93-073a224d2aa0"/>
+				<reportElement x="3" y="29" width="339" height="21" uuid="f1e979da-624a-4f7e-be93-073a224d2aa0"/>
 				<textElement>
 					<font size="8" isBold="true"/>
 				</textElement>

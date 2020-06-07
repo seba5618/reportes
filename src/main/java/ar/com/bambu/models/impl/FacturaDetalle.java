@@ -24,8 +24,8 @@ public class FacturaDetalle implements Serializable {
     private String DOCESPECIE;
     private String DOCSERIE = "X";
     private String SERIE;
-    private String CAEE;
-    private String EMCAEE;
+    private String CAEE="69260148620357";
+    private String EMCAEE="20200606";
     private String NUMDOC;
     private String VIGENCIA;
     private String NUMERODOCORI;
@@ -66,7 +66,8 @@ public class FacturaDetalle implements Serializable {
     private String b1_SEGUM;
     private String b1_UM;
     private String letras_ESP;
-    private String CODBARRAS;
+    private String CODBARRAS="2011790771701006269357354921463201909108";
+    //private String CODBARRAS="20117907717010062";
     private Integer NUMVENDDOR;
     private String NOMVENDEDOR;
 
