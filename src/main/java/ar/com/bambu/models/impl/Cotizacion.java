@@ -2,7 +2,7 @@ package ar.com.bambu.models.impl;
 import ar.com.bambu.entities.EvCont;
 import ar.com.bambu.entities.EvMedios;
 import ar.com.bambu.entities.Eventos;
-import ar.com.bambu.models.Model;
+import ar.com.bambu.models.ModelResponse;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Cotizacion implements Serializable, Model<Eventos, EvCont, EvMedios> {
+public class Cotizacion implements Serializable, ModelResponse<Eventos, EvCont, EvMedios> {
     private Eventos cabecera;
     private List<EvCont> detalle;
     private EvMedios pie;

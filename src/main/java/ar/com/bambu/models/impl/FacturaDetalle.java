@@ -4,6 +4,7 @@ import ar.com.bambu.entities.Clientes;
 import ar.com.bambu.entities.EvCont;
 import ar.com.bambu.entities.EvMedios;
 import ar.com.bambu.entities.Eventos;
+import ar.com.bambu.models.FacturaElectronicaRequest;
 import ar.com.bambu.utils.ConversorDatos;
 
 import java.io.*;
@@ -112,6 +113,15 @@ public class FacturaDetalle implements Serializable {
             this.d2_PRUNIT = detalle.getPrecioUnitarioConIva();
         }
         this.b1_UM = detalle.getUnidadDeMedida();
+    }
+
+    public void setCAEData(FacturaElectronicaRequest req){
+        if(req == null){
+            return;
+        }
+        this.CODBARRAS = req.getCodigoBarraFactura();
+        this.EMCAEE = req.getVencimientoCAE();
+        this.CAEE = req.getCAE();
     }
 
     public void setDataCliente(Clientes clientes) {

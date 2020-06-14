@@ -2,6 +2,7 @@ package ar.com.bambu.controlers;
 
 import ar.com.bambu.entities.*;
 import ar.com.bambu.models.FacturaElectronicaBuilder;
+import ar.com.bambu.models.FacturaElectronicaRequest;
 import ar.com.bambu.models.impl.Cotizacion;
 import ar.com.bambu.models.impl.FacturaElectronica;
 import ar.com.bambu.repos.*;
@@ -108,14 +109,14 @@ public class Reportes {
     }
 
     @RequestMapping(path = "/factura", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<ByteArrayResource> getFactura(@RequestBody Eventos ev) throws Exception {
+    public ResponseEntity<ByteArrayResource> getFactura(@RequestBody FacturaElectronicaRequest req) throws Exception {
         Eventos evento;
 
         try {
-            evento = repo.findById(new EventosId(ev.getIdEvento(), ev.getCajaZ())).get();
+            evento = repo.findById(new EventosId(req.getEvento().getIdEvento(), req.getEvento().getCajaZ())).get();
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.noContent().eTag("Combinación evento: " + ev.getIdEvento() + " y cajaZ: " + ev.getCajaZ() + " no válida.").build();
+            return ResponseEntity.noContent().eTag("Combinación evento: " + req.getEvento().getIdEvento() + " y cajaZ: " + req.getEvento().getCajaZ() + " no válida.").build();
         }
 
 
@@ -127,9 +128,9 @@ public class Reportes {
 
 
         FacturaElectronicaBuilder facturaElectronicaBuilder = new FacturaElectronicaBuilder();
-        List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(ev.getIdEvento());
-        EvMedios pie = medioRepository.findByIdEventoWithMedioName(ev.getIdEvento()).get(0);
-        facturaElectronicaBuilder.withEvento(evento).withDetalle(byIdEventoArtiName).withPie(pie).withCliente(clientes).withTpvconfig(sucursal);
+        List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(req.getEvento().getIdEvento());
+        EvMedios pie = medioRepository.findByIdEventoWithMedioName(req.getEvento().getIdEvento()).get(0);
+        facturaElectronicaBuilder.withRequest(req).withEvento(evento).withDetalle(byIdEventoArtiName).withPie(pie).withCliente(clientes).withTpvconfig(sucursal);
 
 
         FacturaElectronica facturaElectronica = facturaElectronicaBuilder.build();

@@ -18,6 +18,7 @@ import java.util.stream.Stream;
  * para obtener un objeto FacturaElectronica que es el datasource del jasper externo merft01
  */
 public class FacturaElectronicaBuilder {
+    FacturaElectronicaRequest request;
     Eventos cabecera;
     List<EvCont> detalle;
     EvMedios pie;
@@ -31,7 +32,12 @@ public class FacturaElectronicaBuilder {
     public static final int COTIZACION= 92;
     public static final int REMITOS1= 11;
 
-    public FacturaElectronicaBuilder withEvento(Eventos ev) {
+    public FacturaElectronicaBuilder withRequest(FacturaElectronicaRequest req) {
+        this.request = req;
+        return this;
+    }
+
+    public FacturaElectronicaBuilder withEvento(Eventos ev){
         this.cabecera = ev;
         return this;
     }
@@ -82,7 +88,7 @@ public class FacturaElectronicaBuilder {
             FacturaDetalle detalle = new FacturaDetalle();
             detalle.setTipoComprobante(this.cabecera.getTipoEvento());
 
-            if( this.cabecera.getTipoEvento() == TIPO_FACTURA_B || this.cabecera.getTipoEvento() == TIPO_FACTURA_B  )
+            if( this.cabecera.getTipoEvento() == TIPO_FACTURA_A || this.cabecera.getTipoEvento() == TIPO_FACTURA_B  )
                 detalle.setNumeroYTipoComprobante(this.cabecera.getSucComprobante(), this.cabecera.getNroComprobante(),this.cabecera.getTipoEvento());
             else
                 detalle.setNumeroYTipoComprobante(this.cabecera.getCaja(), this.cabecera.getNroTicket(),this.cabecera.getTipoEvento());
@@ -92,6 +98,7 @@ public class FacturaElectronicaBuilder {
             detalle.setCondicionVenta(pie);
             detalle.setDataPieMontoPromociones(this.detalle, this.cabecera.getTipoEvento());
             detalle.setFechaWithFechaInvel(cabecera);
+            detalle.setCAEData(this.request);
             detalle.setPathLogo(this.tpvConfig.getSucursal(), this.cabecera.getTipoEvento());
             detalle.setNUMVENDDOR(this.cabecera.getNroVendedor1());
             if(this.cajeros != null)
@@ -100,7 +107,9 @@ public class FacturaElectronicaBuilder {
                 detalle.setNOMVENDEDOR("-");
 
             detalle.setCODCLIENTE(this.cabecera.getCodCliente());
-            detalle.setTELTRANS(" " +  this.factuMem.getValor() );
+            if(this.factuMem!=null) {
+                detalle.setTELTRANS(" " + this.factuMem.getValor());
+            }
 
             //usaremos esto para las observaciones
             try {
