@@ -134,7 +134,7 @@ public class FacturaElectronicaBuilder {
 
 
                Optional<EvCont> articuloEnTicketOptional = source.stream().filter(evCont -> evCont.getCodArticulo() == newElem.getCodArticulo()
-                && evCont.getOrigen() == newElem.getOrigen()&& Math.abs(Math.abs(evCont.getPrecioUnitarioSinIva())- Math.abs(newElem.getPrecioUnitarioSinIva()) ) < 0.006 ).findAny();
+                && evCont.getOrigen() == newElem.getOrigen() && newElem.getCantidad() < 0 ).findAny();
 
         if (articuloEnTicketOptional.isPresent()) {
             EvCont articuloEnTicket = articuloEnTicketOptional.get();

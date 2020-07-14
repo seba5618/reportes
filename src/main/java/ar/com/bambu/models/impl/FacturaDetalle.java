@@ -79,10 +79,13 @@ public class FacturaDetalle implements Serializable {
         if (tipoEvento == TIPO_FACTURA_A) {
             this.DOCSERIE = "A";
             this.SERIE = "A";
+            this.setCOD_TIPODOC("01");
         } else if (tipoEvento == TIPO_FACTURA_B) {
             this.DOCSERIE = "B";
+            this.setCOD_TIPODOC("06");
         } else {
             this.DOCSERIE = "X";
+            this.setCOD_TIPODOC("04");
 
         }
     }

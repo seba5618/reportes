@@ -78,30 +78,30 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <jvmArguments>
-<!--                         -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005-->
-                    </jvmArguments>
-                </configuration>
-            </plugin>
-          <plugin>
-                <groupId>com.alexnederlof</groupId>
-                <artifactId>jasperreports-plugin</artifactId>
-                <version>2.6</version>
+                        -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
+                 </jvmArguments>
+             </configuration>
+         </plugin>
+       <plugin>
+             <groupId>com.alexnederlof</groupId>
+             <artifactId>jasperreports-plugin</artifactId>
+             <version>2.6</version>
 
 
 
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
+             <executions>
+                 <execution>
+                     <phase>compile</phase>
 
-                        <goals>
-                            <goal>jasper</goal>
+                     <goals>
+                         <goal>jasper</goal>
 
-                        </goals>
-                    </execution>
+                     </goals>
+                 </execution>
 
-                </executions>
-                <configuration>
-                    <!-- These are the default configurations: -->
+             </executions>
+             <configuration>
+                 <!-- These are the default configurations: -->
                     <compiler>net.sf.jasperreports.engine.design.JRJdtCompiler</compiler>
                     <sourceDirectory>src/main/jasperreports</sourceDirectory>
                     <outputDirectory>${project.build.directory}/classes</outputDirectory>
