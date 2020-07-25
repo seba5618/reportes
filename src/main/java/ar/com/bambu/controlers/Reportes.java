@@ -26,9 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 
 @RestController
@@ -138,7 +136,8 @@ public class Reportes {
 
         InputStream inputStream = getClass()
                 .getClassLoader().getResourceAsStream(fileNameFactura);
-
+        InputStream inputStream2 = getClass()
+                .getClassLoader().getResourceAsStream(fileNameFactura);
 
         FacturaElectronicaBuilder facturaElectronicaBuilder = new FacturaElectronicaBuilder();
         List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(req.getEvento().getIdEvento());
@@ -148,9 +147,21 @@ public class Reportes {
 
         FacturaElectronica facturaElectronica = facturaElectronicaBuilder.build();
 
+        //codigo mancuso para multiples copia
+        ArrayList<JasperPrint> jasperPrints = new ArrayList<>();
+        Map <String,Object> parameters = new HashMap<>();
+        parameters.put("COPIA","ORIGINAL");
+        JasperPrint print = JasperFillManager.fillReport(inputStream, parameters, new JRBeanCollectionDataSource(facturaElectronica.getDetalle()));
+        parameters.clear();
+        parameters.put("COPIA","DUPLICADO");
+        JasperPrint print2 = JasperFillManager.fillReport(inputStream2, parameters, new JRBeanCollectionDataSource(facturaElectronica.getDetalle()));
+        //codigo mancuso duplicamos el reporte
+        jasperPrints.add(print);
+        jasperPrints.add(print2);
 
-        JasperPrint print = JasperFillManager.fillReport(inputStream, new HashMap(), new JRBeanCollectionDataSource(facturaElectronica.getDetalle()));
-        byte[] bytes = JasperExportManager.exportReportToPdf(print);
+        byte[] bytes = this.exportToPdf(jasperPrints);
+
+        //byte[] bytes = JasperExportManager.exportReportToPdf(print);
         ResponseEntity<ByteArrayResource> response = ResponseEntity.ok().header("Content-Disposition", "attachment; filename=factura.pdf").body(new ByteArrayResource(bytes));
         return response;
     }
@@ -246,14 +257,14 @@ public class Reportes {
         //codigo mancuso duplicamos el reporte
         jasperPrints.add(print);
         jasperPrints.add(print2);
-        JRPdfExporter exporter = new JRPdfExporter();
+       // JRPdfExporter exporter = new JRPdfExporter();
 //Create new FileOutputStream or you can use Http Servlet Response.getOutputStream() to get Servlet output stream
 // Or if you want bytes create ByteArrayOutputStream
        //
-         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrints);
-        exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, out);
-        exporter.setParameter(JRPdfExporterParameter.IS_CREATING_BATCH_MODE_BOOKMARKS, Boolean.TRUE);
+        // ByteArrayOutputStream out = new ByteArrayOutputStream();
+       // exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, jasperPrints);
+       // exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, out);
+       // exporter.setParameter(JRPdfExporterParameter.IS_CREATING_BATCH_MODE_BOOKMARKS, Boolean.TRUE);
 
        // exporter.exportReport();
         //byte[] bytes = out.toByteArray();
