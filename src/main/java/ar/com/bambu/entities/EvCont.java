@@ -11,8 +11,9 @@ import java.util.Objects;
 @IdClass(EvContId.class)
 public class EvCont {
 
-    private static final int PROMOCION_PRE_PAGO = 4;
-    private static final int PROMOCION_POST_PAGO = 5;
+    public static final Integer PROMOCION_PRE_PAGO = 4;
+    public static final Integer PROMOCION_POST_PAGO = 5;
+    public static final Integer ORIGEN_TICKET = 1;
 
     @Id
     private int posicion;
@@ -143,7 +144,13 @@ public class EvCont {
     }
 
     public boolean isPromocion(){
-        return this.origen == PROMOCION_PRE_PAGO || this.origen == PROMOCION_POST_PAGO;
+        return PROMOCION_PRE_PAGO.equals(this.origen) || PROMOCION_POST_PAGO.equals(this.origen);
+    }
+
+    public boolean isAgrupable(){
+        return StringUtils.isNotBlank(this.nroVendedors)
+                && ((this.getTipo3() & 64) == 64 || (this.getTipo3() & 32) == 32)
+                && EvCont.ORIGEN_TICKET.equals(this.getOrigen());
     }
 
 
@@ -272,6 +279,8 @@ public class EvCont {
     public void setOrigen(Integer origen) {
         this.origen = origen;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

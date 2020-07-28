@@ -4,6 +4,8 @@ import ar.com.bambu.entities.*;
 import ar.com.bambu.models.impl.FacturaDetalle;
 import ar.com.bambu.models.impl.FacturaElectronica;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
@@ -22,6 +24,7 @@ public class FacturaElectronicaBuilder {
     private static final int COTIZACION= 92;
     private static final int REMITOS1= 11;
     private static final int ARTICULO_AGRUPADOR = 33;
+    private final static Logger LOG = LoggerFactory.getLogger(FacturaElectronicaBuilder.class);
 
     FacturaElectronicaRequest request;
     Eventos cabecera;
@@ -46,7 +49,7 @@ public class FacturaElectronicaBuilder {
     }
 
     public FacturaElectronicaBuilder withDetalle(List<EvCont> detalle) {
-        System.out.println("***** filtrar anulados 1 ****");
+        LOG.debug("***** filtrar anulados 1 ****");
         List<EvCont> evConts = this.agruparPorNroVendedorS(
                 this.agruparMismosArticulosNeteadoDeAnulados(detalle)
         );
@@ -166,19 +169,23 @@ public class FacturaElectronicaBuilder {
         List <EvCont> result = new ArrayList<>();
         Map<String, List<EvCont>> grouped = source.stream().collect(Collectors.groupingBy(EvCont::getCodArticuloConcatOrigen));
         grouped.forEach((codigoArt, evconts) -> {
-                    EvCont acumulador = null;
+                    List<EvCont> acumulados = new ArrayList<>();
                     for (EvCont evCont : evconts) {
-                        if ((evCont.getTipo3() & 64) == 64 || (evCont.getTipo3() & 32) == 32) {
-                            result.add(evCont);
-                        } else if (acumulador == null) {
-                            acumulador = evCont;
+                        Optional<EvCont> prev = acumulados.stream().max((o1, o2) -> (int)(o1.getCantidad()-o2.getCantidad()));
+                        if (evCont.getCantidad()<0
+                                || (!evCont.isAgrupable() && !evCont.isPromocion())
+                                || (prev.isPresent() && prev.get().getCantidad()<0)) {
+
+                            if(prev.isPresent()){
+                                prev.get().setCantidad(prev.get().getCantidad()+evCont.getCantidad());
+                            } else{
+                                acumulados.add(evCont);
+                            }
                         } else {
-                            acumulador.setCantidad(acumulador.getCantidad() + evCont.getCantidad());
+                            acumulados.add(evCont);
                         }
                     }
-                    if (acumulador != null && acumulador.getCantidad()>0) {
-                        result.add(acumulador);
-                    }
+                    result.addAll(acumulados.stream().filter(ev-> ev.getCantidad()>0).collect(Collectors.toList()));
                 });
         return result;
     }
