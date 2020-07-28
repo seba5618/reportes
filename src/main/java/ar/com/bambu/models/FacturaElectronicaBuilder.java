@@ -3,12 +3,10 @@ package ar.com.bambu.models;
 import ar.com.bambu.entities.*;
 import ar.com.bambu.models.impl.FacturaDetalle;
 import ar.com.bambu.models.impl.FacturaElectronica;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -18,6 +16,13 @@ import java.util.stream.Stream;
  * para obtener un objeto FacturaElectronica que es el datasource del jasper externo merft01
  */
 public class FacturaElectronicaBuilder {
+
+    private static final int TIPO_FACTURA_B = 17;
+    private static final int TIPO_FACTURA_A = 16;
+    private static final int COTIZACION= 92;
+    private static final int REMITOS1= 11;
+    private static final int ARTICULO_AGRUPADOR = 33;
+
     FacturaElectronicaRequest request;
     Eventos cabecera;
     List<EvCont> detalle;
@@ -27,10 +32,8 @@ public class FacturaElectronicaBuilder {
     Cajeros cajeros;
     FactuMem factuMem;
 
-    public static final int TIPO_FACTURA_B = 17;
-    public static final int TIPO_FACTURA_A = 16;
-    public static final int COTIZACION= 92;
-    public static final int REMITOS1= 11;
+
+
 
     public FacturaElectronicaBuilder withRequest(FacturaElectronicaRequest req) {
         this.request = req;
@@ -43,15 +46,11 @@ public class FacturaElectronicaBuilder {
     }
 
     public FacturaElectronicaBuilder withDetalle(List<EvCont> detalle) {
-        Stream<EvCont> sorted = detalle.stream().sorted((o1, o2) -> o2.getCantidad().compareTo(o1.getCantidad()));
-        List<EvCont> filteredDetalle = new ArrayList<>();
-
         System.out.println("***** filtrar anulados 1 ****");
-        sorted.forEach(evCont -> this.filtrarAnulados(filteredDetalle, evCont));
-
-        this.detalle = filteredDetalle.stream().filter( evCont -> evCont.getCantidad()>0).collect(Collectors.toList());
-        Stream<EvCont> sortedByPosicion = this.detalle.stream().sorted((o1, o2) -> Integer.compare(o1.getPosicion(),o2.getPosicion()));
-
+        List<EvCont> evConts = this.agruparPorNroVendedorS(
+                this.agruparMismosArticulosNeteadoDeAnulados(detalle)
+        );
+        Stream<EvCont> sortedByPosicion = evConts.stream().sorted(Comparator.comparingInt(EvCont::getPosicion));
         this.detalle =sortedByPosicion.collect(Collectors.toList());
         return this;
     }
@@ -84,6 +83,7 @@ public class FacturaElectronicaBuilder {
     public FacturaElectronica build() {
         FacturaElectronica result = new FacturaElectronica();
 
+
         detalle.forEach(c -> {
             FacturaDetalle detalle = new FacturaDetalle();
             detalle.setTipoComprobante(this.cabecera.getTipoEvento());
@@ -111,6 +111,8 @@ public class FacturaElectronicaBuilder {
                 detalle.setTELTRANS(" " + this.factuMem.getValor());
             }
 
+
+
             //usaremos esto para las observaciones
             try {
                 detalle.setF2_XOBS(this.cabecera.getTipoEvento());
@@ -123,32 +125,61 @@ public class FacturaElectronicaBuilder {
         return result;
     }
 
+
+
     /**
-     * Asume la lista esta ordenada de cantidad mayor a menor y devuelve otra lista sin los eventos de anulacion y con
-     * las ventas anuladas en cantidad zero.
+     * NroVendedorS se usa para agrupar articulos que deberian aparecer juntos en el ticket. Acumula montos en un unico
+     * articulo acumulador (tipo3 = 33) todos los que en un mismo grupo sean tipo3 & 64 = 64
+     * assumption: Hay solo un articulo acumulador en un mismo grupo.
      * @param source
-     * @param newElem
      * @return
      */
-    private List<EvCont> filtrarAnulados(List<EvCont> source, EvCont newElem) {
+    protected List<EvCont> agruparPorNroVendedorS(List<EvCont> source){
+        List <EvCont> result = new ArrayList<>();
+        Map<String, List<EvCont>> grouped = source.stream().collect(Collectors.groupingBy(EvCont::getNroVendedors));
+        grouped.forEach((nroVendedor, evconts) -> {
+            Optional<EvCont> acumulador = evconts.stream().filter(evCont -> ((evCont.getTipo3() & 32) == 32)).findFirst();
+            List<EvCont> losPesables = evconts.stream().filter(evCont -> ((evCont.getTipo3() & 64) == 64)).collect(Collectors.toList());
+            List<EvCont> losNoDeberiaAgrupar = evconts.stream().filter(evCont -> ((evCont.getTipo3() & 64) != 64 && (evCont.getTipo3() & 32) != 32)).collect(Collectors.toList());
+            if ( acumulador.isPresent() && StringUtils.isNotEmpty(nroVendedor)){
+                //todo ver si hay que acumular algo mas que no sea iva1 e importe sin iva.
+                acumulador.get().setImporteSinIva(
+                        losPesables.stream().reduce(acumulador.get().getImporteSinIva(), (prev, next) -> prev + next.getImporteSinIva(), Double::sum));
+                acumulador.get().setIVA1(
+                        losPesables.stream().reduce(acumulador.get().getIVA1(), (prev, next) -> prev + next.getIVA1(), Double::sum));
+                result.add(acumulador.get());
+                result.addAll(losNoDeberiaAgrupar);
+            } else {
+                result.addAll(evconts);
+            }
+        });
+        return result;
+    }
 
-
-               Optional<EvCont> articuloEnTicketOptional = source.stream().filter(evCont -> evCont.getCodArticulo() == newElem.getCodArticulo()
-                && evCont.getOrigen() == newElem.getOrigen() && newElem.getCantidad() < 0 ).findAny();
-
-        if (articuloEnTicketOptional.isPresent()) {
-            EvCont articuloEnTicket = articuloEnTicketOptional.get();
-
-            System.out.println("Antes " + articuloEnTicket.getCantidad() +  "  Art " + articuloEnTicket.getCodArticulo()+ "Sumo "+ newElem.getCantidad() + " Posi " + newElem.getPosicion());
-            articuloEnTicket.setCantidad(articuloEnTicket.getCantidad() + newElem.getCantidad());
-            System.out.println("Despues " + articuloEnTicket.getCantidad() +  "  Art " + articuloEnTicket.getCodArticulo());
-            System.out.println("Precios " + Math.abs(articuloEnTicket.getPrecioUnitarioSinIva()) +  "  nuevo " + Math.abs(newElem.getPrecioUnitarioSinIva()));
-
-        } else {
-      
-                source.add(newElem);
-            
-        }
-        return source;
+    /**
+     * Toma la lista original de la base y netea los anulados y suma los mismos articulos para que esten en un mismo
+     * regitro con mas de 1 en cantidad. Este ultimo agrupado no aplica para los pesables tipo 32 y 64.
+     * @param source
+     * @return
+     */
+    protected List<EvCont> agruparMismosArticulosNeteadoDeAnulados(List<EvCont> source){
+        List <EvCont> result = new ArrayList<>();
+        Map<String, List<EvCont>> grouped = source.stream().collect(Collectors.groupingBy(EvCont::getCodArticuloConcatOrigen));
+        grouped.forEach((codigoArt, evconts) -> {
+                    EvCont acumulador = null;
+                    for (EvCont evCont : evconts) {
+                        if ((evCont.getTipo3() & 64) == 64 || (evCont.getTipo3() & 32) == 32) {
+                            result.add(evCont);
+                        } else if (acumulador == null) {
+                            acumulador = evCont;
+                        } else {
+                            acumulador.setCantidad(acumulador.getCantidad() + evCont.getCantidad());
+                        }
+                    }
+                    if (acumulador != null && acumulador.getCantidad()>0) {
+                        result.add(acumulador);
+                    }
+                });
+        return result;
     }
 }
