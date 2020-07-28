@@ -89,7 +89,7 @@ class FacturaElectronicaBuilderTest {
         //when
         this.toTest.withDetalle(this.fromJsonFile(40));
         //then
-        assertEquals(2,toTest.detalle.size(), "Evento 110 deberian ser 4 articulos finales.");
+        assertEquals(3,toTest.detalle.size(), "Evento 40 deberian ser 3 articulos finales.");
 //        List<EvCont> the394 = toTest.detalle.stream().filter(ev -> ev.getCodArticulo() == 394).collect(Collectors.toList());
 //        assertEquals(2,the394.size(), "Evento 110 deberian ser 2 articulos 394.");
 //        Optional<EvCont> any = the394.stream().filter(ev -> ev.getImporteSinIva() - 20661.086d < 0.01).findAny();
