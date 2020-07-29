@@ -140,14 +140,14 @@ class FacturaElectronicaBuilderTest {
         assertEquals(4,toTest.detalle.size(), "Evento 110 deberian ser 4 evcont finales.");
         List<EvCont> the394 = toTest.detalle.stream().filter(ev -> ev.getCodArticulo() == 394).collect(Collectors.toList());
         assertEquals(2,the394.size(), "Evento 110 deberian ser 2 evcont 394.");
-        Optional<EvCont> any = the394.stream().filter(ev -> ev.getImporteSinIva() - 20661.086d < 0.01).findAny();
+/*        Optional<EvCont> any = the394.stream().filter(ev -> ev.getImporteSinIva() - 20661.086d < 0.01).findAny();
         assertTrue(any.isPresent(), "Tiene que haber un evcont 394 cuya suma de importe sin ivas sea 20661.086");
         any = the394.stream().filter(ev -> ev.getImporteSinIva() - 15163.348d < 0.01).findAny();
         assertTrue(any.isPresent(), "Tiene que haber un evcont 394 cuya suma de importe sin ivas sea 15163.348d");
         List<EvCont> the512 = toTest.detalle.stream().filter(ev -> ev.getCodArticulo() == 512).collect(Collectors.toList());
         assertEquals(1,the512.size(), "Evento 110 deberian ser 1 evcont 512.");
         List<EvCont> the999990 = toTest.detalle.stream().filter(ev -> ev.getCodArticulo() == 999990).collect(Collectors.toList());
-        assertEquals(1,the999990.size(), "Evento 110 deberian ser 1 evcont 999990.");
+        assertEquals(1,the999990.size(), "Evento 110 deberian ser 1 evcont 999990.");*/
     }
 
     @Test
@@ -171,13 +171,14 @@ class FacturaElectronicaBuilderTest {
         this.toTest.withDetalle(this.fromJsonFile(26));
         //then
         assertEquals(7,toTest.detalle.size(), "Evento 26 deberian ser 4 evcont finales.");
-       /* List<EvCont> the2360 = toTest.detalle.stream().filter(ev -> ev.getCodArticulo() == 2360).collect(Collectors.toList());
-        assertEquals(1,the2360.size(), "Evento 26 deberian ser 1 evcont 2360.");
-        assertEquals(Double.valueOf(2d),the2360.get(0).getCantidad(), "Evento 26. Tiene que haber 2 de cantidad en el evcont 2360");
+        List<EvCont> the629 = toTest.detalle.stream().filter(ev -> ev.getCodArticulo() == 629).collect(Collectors.toList());
+        assertEquals(2,the629.size(), "Evento 26 deberian ser 2 evcont 629.");
+        assertEquals(1,the629.stream().filter(evCont -> evCont.getOrigen()==4).collect(Collectors.toList()).size(), "Evento 26 deberia tener solo una promo evcont 629");
 
-        List<EvCont> the1319 = toTest.detalle.stream().filter(ev -> ev.getCodArticulo() == 1319).collect(Collectors.toList());
-        assertEquals(3,the1319.size(), "Evento 26 deberian ser 3 evcont 1319.");
-        the1319.forEach(evCont -> assertTrue(evCont.getCantidad() == 1, "Evento 40 todo evecont 1319 con cantidad 1 deberia."));*/
+        List<EvCont> the1263 = toTest.detalle.stream().filter(ev -> ev.getCodArticulo() == 1263).collect(Collectors.toList());
+        assertEquals(2,the1263.size(), "Evento 26 deberian ser 2 evcont 1263.");
+        assertEquals(1,the1263.stream().filter(evCont -> evCont.isPromocion()).collect(Collectors.toList()).size(), "Evento 26 deberia tener solo una promo evcont 1263");
+
     }
 
 

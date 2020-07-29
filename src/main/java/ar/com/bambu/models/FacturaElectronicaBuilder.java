@@ -147,9 +147,17 @@ public class FacturaElectronicaBuilder {
             if ( acumulador.isPresent() && StringUtils.isNotEmpty(nroVendedor)){
                 //todo ver si hay que acumular algo mas que no sea iva1 e importe sin iva.
                 acumulador.get().setImporteSinIva(
-                        losPesables.stream().reduce(acumulador.get().getImporteSinIva(), (prev, next) -> prev + next.getImporteSinIva(), Double::sum));
+                        losPesables.stream().reduce(
+                                acumulador.get().getImporteSinIva()*acumulador.get().getCantidad(),
+                                (prev, next) -> prev + next.getImporteSinIva()*next.getCantidad(), Double::sum));
                 acumulador.get().setIVA1(
-                        losPesables.stream().reduce(acumulador.get().getIVA1(), (prev, next) -> prev + next.getIVA1(), Double::sum));
+                        losPesables.stream().reduce(
+                                acumulador.get().getIVA1()*acumulador.get().getCantidad(),
+                                (prev, next) -> prev + next.getIVA1()*next.getCantidad(), Double::sum));
+               /* acumulador.get().setImpInt(
+                        losPesables.stream().reduce(acumulador.get().getImpInt(), (prev, next) -> prev + next.getImpInt(), Double::sum));
+                acumulador.get().setTotal(
+                        losPesables.stream().reduce(acumulador.get().getTotal(), (prev, next) -> prev + next.getTotal(), Double::sum));*/
                 result.add(acumulador.get());
                 result.addAll(losNoDeberiaAgrupar);
             } else {
