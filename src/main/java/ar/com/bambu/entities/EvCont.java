@@ -170,10 +170,6 @@ public class EvCont {
         this.articuloIVA = articuloIVA;
     }
 
-    public void setImporteSinIVA(Double importeSinIVA) {
-        this.importeSinIva = importeSinIVA;
-    }
-
     public Double getImpInt() {
         return impInt;
     }

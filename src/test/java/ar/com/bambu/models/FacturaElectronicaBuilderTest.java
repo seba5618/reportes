@@ -4,6 +4,7 @@ import ar.com.bambu.entities.EvCont;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
@@ -74,6 +75,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setNroVendedors("agrupar");
         evCont.setImporteSinIva(3d);
         evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setOrigen(4);
         result.add(evCont);
 
@@ -85,6 +88,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setImporteSinIva(3d);
         evCont.setIVA1(0d);
         evCont.setOrigen(4);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         result.add(evCont);
 
         evCont = new EvCont();
@@ -94,6 +99,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setNroVendedors("agrupar");
         evCont.setImporteSinIva(3d);
         evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setOrigen(4);
         result.add(evCont);
 
@@ -105,6 +112,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setImporteSinIva(3d);
         evCont.setIVA1(0d);
         evCont.setOrigen(4);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         result.add(evCont);
 
         evCont = new EvCont();
@@ -112,6 +121,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setCantidad(-1.0);
         evCont.setImporteSinIva(3d);
         evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setOrigen(1);
         result.add(evCont);
 
@@ -120,6 +131,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setCantidad(1.0);
         evCont.setImporteSinIva(3d);
         evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setOrigen(1);
         result.add(evCont);
 
@@ -138,16 +151,16 @@ class FacturaElectronicaBuilderTest {
         this.toTest.withDetalle(this.fromJsonFile(110));
         //then
         assertEquals(4,toTest.detalle.size(), "Evento 110 deberian ser 4 evcont finales.");
-        List<EvCont> the394 = toTest.detalle.stream().filter(ev -> ev.getCodArticulo() == 394).collect(Collectors.toList());
-        assertEquals(2,the394.size(), "Evento 110 deberian ser 2 evcont 394.");
-/*        Optional<EvCont> any = the394.stream().filter(ev -> ev.getImporteSinIva() - 20661.086d < 0.01).findAny();
-        assertTrue(any.isPresent(), "Tiene que haber un evcont 394 cuya suma de importe sin ivas sea 20661.086");
-        any = the394.stream().filter(ev -> ev.getImporteSinIva() - 15163.348d < 0.01).findAny();
-        assertTrue(any.isPresent(), "Tiene que haber un evcont 394 cuya suma de importe sin ivas sea 15163.348d");
+        List<EvCont> theAcumuladores = toTest.detalle.stream().filter(ev -> ev.getCodArticulo() == -1).collect(Collectors.toList());
+        assertEquals(2,theAcumuladores.size(), "Evento 110 deberian ser 2 evcont acumuladores.");
+        Optional<EvCont> any = theAcumuladores.stream().filter(ev -> ev.getImporteSinIva() - 9356.583d < 0.01).findAny();
+        assertTrue(any.isPresent(), "Tiene que haber un evcont 394 cuya suma de importe sin ivas sea 9356.583");
+        any = theAcumuladores.stream().filter(ev -> ev.getImporteSinIva() - 9506.49 < 0.01).findAny();
+        assertTrue(any.isPresent(), "Tiene que haber un evcont 394 cuya suma de importe sin ivas sea 9506.49");
         List<EvCont> the512 = toTest.detalle.stream().filter(ev -> ev.getCodArticulo() == 512).collect(Collectors.toList());
         assertEquals(1,the512.size(), "Evento 110 deberian ser 1 evcont 512.");
         List<EvCont> the999990 = toTest.detalle.stream().filter(ev -> ev.getCodArticulo() == 999990).collect(Collectors.toList());
-        assertEquals(1,the999990.size(), "Evento 110 deberian ser 1 evcont 999990.");*/
+        assertEquals(1,the999990.size(), "Evento 110 deberian ser 1 evcont 999990.");
     }
 
     @Test
@@ -178,7 +191,36 @@ class FacturaElectronicaBuilderTest {
         List<EvCont> the1263 = toTest.detalle.stream().filter(ev -> ev.getCodArticulo() == 1263).collect(Collectors.toList());
         assertEquals(2,the1263.size(), "Evento 26 deberian ser 2 evcont 1263.");
         assertEquals(1,the1263.stream().filter(evCont -> evCont.isPromocion()).collect(Collectors.toList()).size(), "Evento 26 deberia tener solo una promo evcont 1263");
+    }
 
+    @Test
+    public void withDetalleEvento30() throws Exception {
+        //when
+        this.toTest.withDetalle(this.fromJsonFile(30));
+        //then
+        assertEquals(5,toTest.detalle.size(), "Evento 30 deberian ser 5 evcont finales.");
+     /*   List<EvCont> the629 = toTest.detalle.stream().filter(ev -> ev.getCodArticulo() == 629).collect(Collectors.toList());
+        assertEquals(2,the629.size(), "Evento 26 deberian ser 2 evcont 629.");
+        assertEquals(1,the629.stream().filter(evCont -> evCont.getOrigen()==4).collect(Collectors.toList()).size(), "Evento 26 deberia tener solo una promo evcont 629");
+
+        List<EvCont> the1263 = toTest.detalle.stream().filter(ev -> ev.getCodArticulo() == 1263).collect(Collectors.toList());
+        assertEquals(2,the1263.size(), "Evento 26 deberian ser 2 evcont 1263.");
+        assertEquals(1,the1263.stream().filter(evCont -> evCont.isPromocion()).collect(Collectors.toList()).size(), "Evento 26 deberia tener solo una promo evcont 1263");*/
+    }
+
+    @Test
+    public void withDetalleEvento29() throws Exception {
+        //when
+        this.toTest.withDetalle(this.fromJsonFile(29));
+        //then
+        assertEquals(13,toTest.detalle.size(), "Evento 29 deberian ser 13 evcont finales.");
+     /*   List<EvCont> the629 = toTest.detalle.stream().filter(ev -> ev.getCodArticulo() == 629).collect(Collectors.toList());
+        assertEquals(2,the629.size(), "Evento 26 deberian ser 2 evcont 629.");
+        assertEquals(1,the629.stream().filter(evCont -> evCont.getOrigen()==4).collect(Collectors.toList()).size(), "Evento 26 deberia tener solo una promo evcont 629");
+
+        List<EvCont> the1263 = toTest.detalle.stream().filter(ev -> ev.getCodArticulo() == 1263).collect(Collectors.toList());
+        assertEquals(2,the1263.size(), "Evento 26 deberian ser 2 evcont 1263.");
+        assertEquals(1,the1263.stream().filter(evCont -> evCont.isPromocion()).collect(Collectors.toList()).size(), "Evento 26 deberia tener solo una promo evcont 1263");*/
     }
 
 
@@ -207,12 +249,16 @@ class FacturaElectronicaBuilderTest {
         evCont.setNroVendedors("agrupar");
         evCont.setImporteSinIva(3d);
         evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setOrigen(1);
         result.add(evCont);
 
         evCont = new EvCont();
         evCont.setCodArticulo(2);
         evCont.setCantidad(1.0);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setNroVendedors("agrupar");
         evCont.setTipo3(65);
         evCont.setImporteSinIva(1d);
@@ -228,6 +274,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setImporteSinIva(1.5d);
         evCont.setIVA1(0d);
         evCont.setOrigen(1);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         result.add(evCont);
 
         evCont = new EvCont();
@@ -237,6 +285,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setTipo3(33);
         evCont.setImporteSinIva(1.5d);
         evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setOrigen(1);
         result.add(evCont);
 
@@ -247,6 +297,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setTipo3(65);
         evCont.setImporteSinIva(1.5d);
         evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setOrigen(1);
         result.add(evCont);
 
@@ -256,6 +308,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setNroVendedors("otro");
         evCont.setImporteSinIva(1.5d);
         evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setOrigen(1);
         result.add(evCont);
 
@@ -264,6 +318,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setCantidad(1.0);
         evCont.setImporteSinIva(1.5d);
         evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setOrigen(1);
         result.add(evCont);
 
@@ -272,6 +328,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setCantidad(-1.0);
         evCont.setImporteSinIva(1.5d);
         evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setOrigen(1);
         result.add(evCont);
 
@@ -280,6 +338,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setCodArticulo(1);
         evCont.setCantidad(-1.0);
         evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setOrigen(1);
         result.add(evCont);
 
@@ -288,6 +348,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setCantidad(1.0);
         evCont.setImporteSinIva(1.5d);
         evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setOrigen(1);
         result.add(evCont);
 
@@ -303,6 +365,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setNroVendedors("agrupar");
         evCont.setImporteSinIva(3d);
         evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setOrigen(1);
         result.add(evCont);
 
@@ -312,6 +376,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setTipo3(40);
         evCont.setNroVendedors("agrupar");
         evCont.setImporteSinIva(3d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setIVA1(0d);
         evCont.setOrigen(1);
         result.add(evCont);
@@ -322,6 +388,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setNroVendedors("agrupar");
         evCont.setImporteSinIva(3d);
         evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setOrigen(1);
         result.add(evCont);
 
@@ -332,6 +400,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setImporteSinIva(3d);
         evCont.setIVA1(0d);
         evCont.setOrigen(1);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         result.add(evCont);
 
         evCont = new EvCont();
@@ -339,6 +409,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setCantidad(1.0);
         evCont.setNroVendedors("agrupar");
         evCont.setImporteSinIva(3d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setIVA1(0d);
         evCont.setOrigen(1);
         result.add(evCont);
@@ -349,6 +421,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setNroVendedors("agrupar");
         evCont.setImporteSinIva(3d);
         evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setOrigen(1);
         result.add(evCont);
 
@@ -359,6 +433,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setNroVendedors("agrupar");
         evCont.setImporteSinIva(3d);
         evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setOrigen(1);
         result.add(evCont);
 
@@ -368,6 +444,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setOrigen(1);
         evCont.setNroVendedors("agrupar");
         evCont.setImporteSinIva(3d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setIVA1(0d);
         evCont.setOrigen(1);
         result.add(evCont);
@@ -376,6 +454,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setCodArticulo(2);
         evCont.setCantidad(2.0);
         evCont.setOrigen(4);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setNroVendedors("agrupar");
         evCont.setImporteSinIva(3d);
         evCont.setIVA1(0d);
@@ -385,6 +465,8 @@ class FacturaElectronicaBuilderTest {
         evCont.setCodArticulo(20);
         evCont.setCantidad(2.0);
         evCont.setOrigen(4);
+        evCont.setImpInt(0d);
+        evCont.setTotal(3d);
         evCont.setTipo3(11);
         evCont.setNroVendedors("agrupar");
         evCont.setImporteSinIva(3d);

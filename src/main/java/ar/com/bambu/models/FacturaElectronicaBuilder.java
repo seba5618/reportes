@@ -154,10 +154,17 @@ public class FacturaElectronicaBuilder {
                         losPesables.stream().reduce(
                                 acumulador.get().getIVA1()*acumulador.get().getCantidad(),
                                 (prev, next) -> prev + next.getIVA1()*next.getCantidad(), Double::sum));
-               /* acumulador.get().setImpInt(
-                        losPesables.stream().reduce(acumulador.get().getImpInt(), (prev, next) -> prev + next.getImpInt(), Double::sum));
+                acumulador.get().setImpInt(
+                        losPesables.stream().reduce(
+                                acumulador.get().getImpInt()*acumulador.get().getCantidad(),
+                                (prev, next) -> prev + next.getImpInt()*next.getCantidad(), Double::sum));
                 acumulador.get().setTotal(
-                        losPesables.stream().reduce(acumulador.get().getTotal(), (prev, next) -> prev + next.getTotal(), Double::sum));*/
+                        losPesables.stream().reduce(
+                                acumulador.get().getTotal()*acumulador.get().getCantidad(),
+                                (prev, next) -> prev + next.getTotal()*next.getCantidad(), Double::sum));
+                acumulador.get().setArticuloName(acumulador.get().getNroVendedors());
+                acumulador.get().setCodArticulo(-1);
+                acumulador.get().setCantidad(1d);
                 result.add(acumulador.get());
                 result.addAll(losNoDeberiaAgrupar);
             } else {
