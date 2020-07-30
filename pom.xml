@@ -86,8 +86,6 @@
                 <configuration>
 
 
-                        <layout>NONE</layout>
-
                     <jvmArguments>
                         -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
                  </jvmArguments>
