@@ -92,11 +92,9 @@ public class FacturaDetalle implements Serializable {
 
     public void setNumeroYTipoComprobante(int caja, long ticket, int tipoEvento) {
         if (tipoEvento == COTIZACION || tipoEvento == REMITOS1 ){
-            String.format("%08d", ticket);
             this.NUMDOC = String.format("%08d", ticket);
 
         } else {
-            String.format("%04d%08d", caja, ticket);
             this.NUMDOC = String.format("%04d-%08d", caja, ticket);
         }
         this.DOCESPECIE = "NF";
@@ -107,7 +105,7 @@ public class FacturaDetalle implements Serializable {
     }
 
     public void setDetalleFactura(EvCont detalle, int tipoEvento) {
-        this.d2_COD = String.format("%08d", detalle.getCodArticulo());
+        this.d2_COD = detalle.getCodArticulo()>0 ? String.format("%08d", detalle.getCodArticulo()) : "--------";
         this.b1_DESC = detalle.getArticuloName();
         this.d2_QUANT = detalle.getCantidad();
         if (tipoEvento == TIPO_FACTURA_A) {

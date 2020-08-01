@@ -1,5 +1,9 @@
 package ar.com.bambu.entities;
 
+
+
+import org.apache.commons.lang3.StringUtils;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -7,8 +11,9 @@ import java.util.Objects;
 @IdClass(EvContId.class)
 public class EvCont {
 
-    private static final int PROMOCION_PRE_PAGO = 4;
-    private static final int PROMOCION_POST_PAGO = 5;
+    public static final Integer PROMOCION_PRE_PAGO = 4;
+    public static final Integer PROMOCION_POST_PAGO = 5;
+    public static final Integer ORIGEN_TICKET = 1;
 
     @Id
     private int posicion;
@@ -27,12 +32,25 @@ public class EvCont {
     private Double IVA1;
 
 
+    private String nroVendedors = StringUtils.EMPTY;
+    private int tipo3;
+
+
     @Transient
     private String articuloName;
     @Transient
     private String unidadDeMedida;
     @Transient
     private ArticuloIva articuloIVA;
+
+    public EvCont() {
+    }
+
+    public EvCont(int posicion, int cajaZ, long idEvento) {
+        this.posicion = posicion;
+        this.cajaZ = cajaZ;
+        this.idEvento = idEvento;
+    }
 
     public EvCont(EvCont ev, Articulo art, ArticuloIva articuloIVA) {
 
@@ -45,6 +63,8 @@ public class EvCont {
         this.cantidad = ev.cantidad;
         this.total = ev.total;
         this.codArticulo = ev.codArticulo;
+        this.nroVendedors = ev.nroVendedors;
+        this.tipo3 = ev.tipo3;
         this.articuloName = art.getNombre();
         this.unidadDeMedida = art.getUnidad();
         this.origen = ev.origen;
@@ -73,6 +93,22 @@ public class EvCont {
             result = this.getImporteSinIva() * this.getCantidad();
 
         return result;
+    }
+
+    public int getTipo3() {
+        return tipo3;
+    }
+
+    public void setTipo3(int tipo3) {
+        this.tipo3 = tipo3;
+    }
+
+    public String getNroVendedors() {
+        return nroVendedors;
+    }
+
+    public void setNroVendedors(String nroVendedors) {
+        this.nroVendedors = nroVendedors;
     }
 
     public Double getMontoConIVA(){
@@ -108,7 +144,13 @@ public class EvCont {
     }
 
     public boolean isPromocion(){
-        return this.origen == PROMOCION_PRE_PAGO || this.origen == PROMOCION_POST_PAGO;
+        return PROMOCION_PRE_PAGO.equals(this.origen) || PROMOCION_POST_PAGO.equals(this.origen);
+    }
+
+    public boolean isAgrupable(){
+        return StringUtils.isNotBlank(this.nroVendedors)
+                && ((this.getTipo3() & 64) == 64 || (this.getTipo3() & 32) == 32)
+                && EvCont.ORIGEN_TICKET.equals(this.getOrigen());
     }
 
 
@@ -126,10 +168,6 @@ public class EvCont {
 
     public void setArticuloIVA(ArticuloIva articuloIVA) {
         this.articuloIVA = articuloIVA;
-    }
-
-    public void setImporteSinIVA(Double importeSinIVA) {
-        this.importeSinIva = importeSinIVA;
     }
 
     public Double getImpInt() {
@@ -160,6 +198,10 @@ public class EvCont {
         return codArticulo;
     }
 
+    public String getCodArticuloConcatOrigen(){
+        return String.valueOf(this.getCodArticulo()).concat(String.valueOf(this.getOrigen()));
+    }
+
     public void setCodArticulo(int codArticulo) {
         this.codArticulo = codArticulo;
     }
@@ -172,14 +214,7 @@ public class EvCont {
         this.articuloName = articuloName;
     }
 
-    public EvCont() {
-    }
 
-    public EvCont(int posicion, int cajaZ, long idEvento) {
-        this.posicion = posicion;
-        this.cajaZ = cajaZ;
-        this.idEvento = idEvento;
-    }
 
     public int getPosicion() {
         return posicion;
@@ -240,6 +275,8 @@ public class EvCont {
     public void setOrigen(Integer origen) {
         this.origen = origen;
     }
+
+
 
     @Override
     public boolean equals(Object o) {
