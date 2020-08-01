@@ -83,10 +83,15 @@ public class FacturaDetalle implements Serializable {
         } else if (tipoEvento == TIPO_FACTURA_B) {
             this.DOCSERIE = "B";
             this.setCOD_TIPODOC("06");
-        } else {
+        } else if (tipoEvento == TIPO_NOTA_CREDITO_A) {
+            this.DOCSERIE = "A";
+            this.setCOD_TIPODOC("03");
+        } else if (tipoEvento == TIPO_NOTA_CREDITO_B) {
+            this.DOCSERIE = "B";
+            this.setCOD_TIPODOC("08");
+        }else {
             this.DOCSERIE = "X";
             this.setCOD_TIPODOC("04");
-
         }
     }
 
@@ -97,7 +102,10 @@ public class FacturaDetalle implements Serializable {
         } else {
             this.NUMDOC = String.format("%04d-%08d", caja, ticket);
         }
-        this.DOCESPECIE = "NF";
+        if (tipoEvento == TIPO_NOTA_CREDITO_A || tipoEvento == TIPO_NOTA_CREDITO_B)
+              this.DOCESPECIE = "NCC";
+            else
+                this.DOCESPECIE = "NF";
     }
 
     public void setFechaVigencia(String dosificacion) {
@@ -178,6 +186,8 @@ public class FacturaDetalle implements Serializable {
     public static final int TIPO_FACTURA_A = 16;
     public static final int COTIZACION= 92;
     public static final int REMITOS1= 11;
+    public static final int TIPO_NOTA_CREDITO_B = 20;
+    public static final int TIPO_NOTA_CREDITO_A = 19;
 
     public void setPathLogo(Integer ev,  int tipoEvento) {
         if (ev != null) {

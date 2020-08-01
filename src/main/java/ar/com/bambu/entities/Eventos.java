@@ -16,6 +16,8 @@ public class Eventos implements Serializable {
     public static final int TIPO_FACTURA_A = 16;
     public static final int COTIZACION= 92;
     public static final int REMITOS1= 11;
+    public static final int TIPO_NOTA_CREDITO_B = 20;
+    public static final int TIPO_NOTA_CREDITO_A = 19;
 
     @Id
     private long idEvento;
