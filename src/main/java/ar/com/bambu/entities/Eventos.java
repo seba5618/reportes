@@ -44,6 +44,9 @@ public class Eventos implements Serializable {
     private int sucComprobante;
     private int nroComprobante;
 
+    private int nroSucursalAnt;
+    private int nroBoletaAnterior;
+
     public String getDosificacionOrden() {
         return dosificacionOrden;
     }
@@ -182,19 +185,30 @@ public class Eventos implements Serializable {
     public int getNroComprobante() {
         return nroComprobante;
     }
-
     public void setNroComprobante(int nroComprobante) {
         this.nroComprobante = nroComprobante;
+    }
+
+    public int getNroComprobanteAnt() {
+        return nroBoletaAnterior;
+    }
+    public void setNroComprobanteAnt(int nroBoletaAnterior) {
+        this.nroBoletaAnterior = nroBoletaAnterior;
     }
 
     public int getSucComprobante() {
         return sucComprobante;
     }
+    public int getSucComprobanteAnt() {
+        return nroSucursalAnt;
+    }
 
     public void setSucComprobante(int sucComprobante) {
         this.sucComprobante = sucComprobante;
     }
-
+    public void setSucComprobanteAnt(int nroSucursalAnt) {
+        this.nroSucursalAnt = nroSucursalAnt;
+    }
 
 
     @Override
