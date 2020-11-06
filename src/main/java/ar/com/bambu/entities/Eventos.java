@@ -16,6 +16,8 @@ public class Eventos implements Serializable {
     public static final int TIPO_FACTURA_A = 16;
     public static final int COTIZACION= 92;
     public static final int REMITOS1= 11;
+    public static final int TIPO_NOTA_CREDITO_B = 20;
+    public static final int TIPO_NOTA_CREDITO_A = 19;
 
     @Id
     private long idEvento;
@@ -41,6 +43,9 @@ public class Eventos implements Serializable {
 
     private int sucComprobante;
     private int nroComprobante;
+
+    private int nroSucursalAnt;
+    private int nroBoletaAnterior;
 
     public String getDosificacionOrden() {
         return dosificacionOrden;
@@ -180,19 +185,30 @@ public class Eventos implements Serializable {
     public int getNroComprobante() {
         return nroComprobante;
     }
-
     public void setNroComprobante(int nroComprobante) {
         this.nroComprobante = nroComprobante;
+    }
+
+    public int getNroComprobanteAnt() {
+        return nroBoletaAnterior;
+    }
+    public void setNroComprobanteAnt(int nroBoletaAnterior) {
+        this.nroBoletaAnterior = nroBoletaAnterior;
     }
 
     public int getSucComprobante() {
         return sucComprobante;
     }
+    public int getSucComprobanteAnt() {
+        return nroSucursalAnt;
+    }
 
     public void setSucComprobante(int sucComprobante) {
         this.sucComprobante = sucComprobante;
     }
-
+    public void setSucComprobanteAnt(int nroSucursalAnt) {
+        this.nroSucursalAnt = nroSucursalAnt;
+    }
 
 
     @Override

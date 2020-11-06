@@ -111,6 +111,8 @@
 	<field name="b1_UM" class="java.lang.String"/>
 	<field name="letras_ESP" class="java.lang.String"/>
 	<field name="CODBARRAS" class="java.lang.String"/>
+	<field name="promocion" class="java.lang.Boolean"/>
+	<field name="NUMDOCANT" class="java.lang.String"/>
 	<group name="Cabecera" isStartNewPage="true" isReprintHeaderOnEachPage="true">
 		<groupExpression><![CDATA[$F{NUMDOC}+$F{DOCSERIE}+$F{copy}]]></groupExpression>
 		<groupHeader>
@@ -418,6 +420,27 @@
 					</textElement>
 					<text><![CDATA[% De Descuento:]]></text>
 				</staticText>
+				<textField>
+					<reportElement x="390" y="171" width="85" height="12" uuid="38261dec-0a76-4e4d-bf95-d596f7dc88f9">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{DOCESPECIE}.trim()== "NCC" ? "Factura Asociada" :"")	]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="476" y="171" width="75" height="12" uuid="3c15b6d0-8198-4643-9c46-49075f2ba029">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="9" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{DOCESPECIE}.trim()== "NCC" ? $F{NUMDOCANT} :"")	]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupHeader>
 	</group>
@@ -472,12 +495,13 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{c6_DESCONT}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00;-###0.00" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement x="496" y="0" width="59" height="10" uuid="063e8c4e-05fe-423f-9bfb-b80585e211c5"/>
 				<textElement textAlignment="Right">
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{d2_PRUNIT}*$F{d2_QUANT}]]></textFieldExpression>
+				<patternExpression><![CDATA[$F{promocion}?"-###0.00;-###0.00":"###0.00; ###0.00"]]></patternExpression>
 			</textField>
 		</band>
 	</detail>
@@ -499,15 +523,16 @@
 				<reportElement x="179" y="102" width="74" height="13" uuid="38355763-5188-481b-bc22-56997c21f117"/>
 				<textFieldExpression><![CDATA[($F{EMCAEE}.contains( "2" ) ? new SimpleDateFormat("yyyyMMdd").parse($F{EMCAEE}) : null)]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00" isBlankWhenNull="true">
+			<textField pattern="###0.00; ###0.00" isBlankWhenNull="true">
 				<reportElement x="443" y="41" width="98" height="15" uuid="f92ea2bc-f230-44c4-b38e-e76fd27e6c8b"/>
 				<textElement textAlignment="Right">
 					<font fontName="SansSerif" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[( $F{DOCSERIE}.trim() == "B" ? $F{TOTIVA}: $F{VALMERC})]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00" isBlankWhenNull="true">
+			<textField pattern="###0.00; ###0.00" isBlankWhenNull="true">
 				<reportElement x="443" y="58" width="98" height="15" uuid="b0ca03f8-34b3-4815-aa40-81432786556a">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<printWhenExpression><![CDATA[$F{SERIE}.substring(0,1) != "B"]]></printWhenExpression>
 				</reportElement>
 				<textElement textAlignment="Right">
@@ -515,7 +540,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[( $F{DOCSERIE}.trim() == "B" ? 0 : $F{retencion_IVA_21})]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00" isBlankWhenNull="true">
+			<textField pattern="###0.00; ###0.00" isBlankWhenNull="true">
 				<reportElement x="443" y="100" width="98" height="15" uuid="27ba7d26-2d21-4a72-b8b0-1128082e05ae"/>
 				<textElement textAlignment="Right">
 					<font fontName="SansSerif" size="10" isBold="false"/>
@@ -536,8 +561,10 @@
 				<text><![CDATA[GRAVADO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="371" y="58" width="69" height="15" uuid="a27907ef-c5ad-4e33-9e22-e68e82d40f26"/>
-				<text><![CDATA[IVA 21%]]></text>
+				<reportElement x="371" y="58" width="40" height="15" uuid="a27907ef-c5ad-4e33-9e22-e68e82d40f26">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[IVA 21]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="371" y="100" width="69" height="15" uuid="1e2b9500-908f-48b3-b5e1-931a446442d5"/>
@@ -554,7 +581,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA["Son " +$F{letras_ESP}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00" isBlankWhenNull="true">
+			<textField pattern="###0.00; ###0.00" isBlankWhenNull="true">
 				<reportElement x="443" y="76" width="98" height="13" uuid="6a33c2ab-f45b-4b30-8280-d56847f703e4">
 					<printWhenExpression><![CDATA[$F{SERIE}.substring(0,1) != "B"]]></printWhenExpression>
 				</reportElement>
@@ -609,14 +636,14 @@
 				<reportElement x="371" y="24" width="68" height="15" uuid="b53e5c23-344c-4add-9f23-5588455863f7"/>
 				<text><![CDATA[DESCUENTO]]></text>
 			</staticText>
-			<textField pattern="###0.00" isBlankWhenNull="true">
+			<textField pattern="###0.00; ###0.00" isBlankWhenNull="true">
 				<reportElement x="443" y="7" width="98" height="15" uuid="c889fa31-b69f-4c84-b1c7-5e61064722f8"/>
 				<textElement textAlignment="Right">
 					<font fontName="SansSerif" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{VALMERC}+$F{f2_DESCONT}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00" isBlankWhenNull="true">
+			<textField pattern="###0.00; ###0.00" isBlankWhenNull="true">
 				<reportElement x="443" y="24" width="98" height="15" uuid="42235605-0cc0-4495-9b9b-ed7b44b527f5"/>
 				<textElement textAlignment="Right">
 					<font fontName="SansSerif" size="10"/>

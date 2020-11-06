@@ -91,10 +91,14 @@ public class FacturaElectronicaBuilder {
             FacturaDetalle detalle = new FacturaDetalle();
             detalle.setTipoComprobante(this.cabecera.getTipoEvento());
 
-            if( this.cabecera.getTipoEvento() == TIPO_FACTURA_A || this.cabecera.getTipoEvento() == TIPO_FACTURA_B  )
+            if( this.cabecera.getTipoEvento() == TIPO_FACTURA_A || this.cabecera.getTipoEvento() == TIPO_FACTURA_B
+                    ||  this.cabecera.getTipoEvento() == Eventos.TIPO_NOTA_CREDITO_A || this.cabecera.getTipoEvento() == Eventos.TIPO_NOTA_CREDITO_B)
                 detalle.setNumeroYTipoComprobante(this.cabecera.getSucComprobante(), this.cabecera.getNroComprobante(),this.cabecera.getTipoEvento());
             else
                 detalle.setNumeroYTipoComprobante(this.cabecera.getCaja(), this.cabecera.getNroTicket(),this.cabecera.getTipoEvento());
+            if(  this.cabecera.getTipoEvento() == Eventos.TIPO_NOTA_CREDITO_A || this.cabecera.getTipoEvento() == Eventos.TIPO_NOTA_CREDITO_B)
+                detalle.setNumeroYTipoComprobanteAnt(this.cabecera.getSucComprobanteAnt(), this.cabecera.getNroComprobanteAnt(),this.cabecera.getTipoEvento());
+
             detalle.setFechaVigencia(this.cabecera.getDosificacionOrden());
             detalle.setDetalleFactura(c, this.cabecera.getTipoEvento());
             detalle.setDataCliente(this.clientes);

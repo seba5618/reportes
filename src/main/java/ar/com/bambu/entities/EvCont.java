@@ -11,6 +11,7 @@ import java.util.Objects;
 @IdClass(EvContId.class)
 public class EvCont {
 
+    public static final Integer DESCUENTO_PRE_PAGO = 2;
     public static final Integer PROMOCION_PRE_PAGO = 4;
     public static final Integer PROMOCION_POST_PAGO = 5;
     public static final Integer ORIGEN_TICKET = 1;
@@ -144,7 +145,8 @@ public class EvCont {
     }
 
     public boolean isPromocion(){
-        return PROMOCION_PRE_PAGO.equals(this.origen) || PROMOCION_POST_PAGO.equals(this.origen);
+        return PROMOCION_PRE_PAGO.equals(this.origen) || PROMOCION_POST_PAGO.equals(this.origen)
+                || DESCUENTO_PRE_PAGO.equals(this.origen);
     }
 
     public boolean isAgrupable(){

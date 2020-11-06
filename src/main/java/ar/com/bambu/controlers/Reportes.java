@@ -88,7 +88,7 @@ public class Reportes {
 
 
         FacturaElectronicaBuilder facturaElectronicaBuilder = new FacturaElectronicaBuilder();
-        List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(ev.getIdEvento());
+        List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(ev.getIdEvento(), ev.getCajaZ());
 
         //EvMedios pie = medioRepository.findByIdEventoWithMedioName(ev.getIdEvento()).get(0);
         facturaElectronicaBuilder.withEvento(evento).withDetalle(byIdEventoArtiName).withCliente(clientes).withTpvconfig(sucursal).withCajeros(cajeros).withFactuMem(factuMem);
@@ -140,7 +140,7 @@ public class Reportes {
                 .getClassLoader().getResourceAsStream(fileNameFactura);
 
         FacturaElectronicaBuilder facturaElectronicaBuilder = new FacturaElectronicaBuilder();
-        List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(req.getEvento().getIdEvento());
+        List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(req.getEvento().getIdEvento(), req.getEvento().getCajaZ());
         EvMedios pie = medioRepository.findByIdEventoWithMedioName(req.getEvento().getIdEvento()).get(0);
         facturaElectronicaBuilder.withRequest(req).withEvento(evento).withDetalle(byIdEventoArtiName).withPie(pie).withCliente(clientes).withTpvconfig(sucursal);
 
@@ -238,7 +238,7 @@ public class Reportes {
                 .getClassLoader().getResourceAsStream(fileNameRemito);
 
         FacturaElectronicaBuilder facturaElectronicaBuilder = new FacturaElectronicaBuilder();
-        List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(ev.getIdEvento());
+        List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(ev.getIdEvento(),ev.getCajaZ());
         //EvMedios pie = medioRepository.findByIdEventoWithMedioName(ev.getIdEvento()).get(0);
         facturaElectronicaBuilder.withEvento(evento).withDetalle(byIdEventoArtiName).withCliente(clientes).withTpvconfig(sucursal).withCajeros(cajeros).withFactuMem(factuMem);
         //facturaElectronicaBuilder.withEvento(evento).withDetalle(byIdEventoArtiName).withPie(pie).withCliente(clientes);

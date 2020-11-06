@@ -28,6 +28,7 @@ public class FacturaDetalle implements Serializable {
     private String CAEE="69260148620357";
     private String EMCAEE="20200606";
     private String NUMDOC;
+    private String NUMDOCANT;
     private String VIGENCIA;
     private String NUMERODOCORI;
     private String CUITCLI;
@@ -75,6 +76,12 @@ public class FacturaDetalle implements Serializable {
     private Integer CODCLIENTE;
 
 
+
+    private boolean promocion ;
+
+    public boolean isPromocion() {
+        return promocion;
+    }
     public void setTipoComprobante(int tipoEvento) {
         if (tipoEvento == TIPO_FACTURA_A) {
             this.DOCSERIE = "A";
@@ -83,10 +90,16 @@ public class FacturaDetalle implements Serializable {
         } else if (tipoEvento == TIPO_FACTURA_B) {
             this.DOCSERIE = "B";
             this.setCOD_TIPODOC("06");
-        } else {
+        } else if (tipoEvento == TIPO_NOTA_CREDITO_A) {
+            this.DOCSERIE = "A";
+            this.SERIE = "A";
+            this.setCOD_TIPODOC("03");
+        } else if (tipoEvento == TIPO_NOTA_CREDITO_B) {
+            this.DOCSERIE = "B";
+            this.setCOD_TIPODOC("08");
+        }else {
             this.DOCSERIE = "X";
             this.setCOD_TIPODOC("04");
-
         }
     }
 
@@ -97,7 +110,15 @@ public class FacturaDetalle implements Serializable {
         } else {
             this.NUMDOC = String.format("%04d-%08d", caja, ticket);
         }
-        this.DOCESPECIE = "NF";
+        if (tipoEvento == TIPO_NOTA_CREDITO_A || tipoEvento == TIPO_NOTA_CREDITO_B)
+              this.DOCESPECIE = "NCC";
+            else
+                this.DOCESPECIE = "NF";
+    }
+
+    public void setNumeroYTipoComprobanteAnt(int caja, long ticket, int tipoEvento) {
+         if (tipoEvento == TIPO_NOTA_CREDITO_A || tipoEvento == TIPO_NOTA_CREDITO_B)
+            this.NUMDOCANT = String.format("%04d-%08d", caja, ticket);;
     }
 
     public void setFechaVigencia(String dosificacion) {
@@ -108,7 +129,8 @@ public class FacturaDetalle implements Serializable {
         this.d2_COD = detalle.getCodArticulo()>0 ? String.format("%08d", detalle.getCodArticulo()) : "--------";
         this.b1_DESC = detalle.getArticuloName();
         this.d2_QUANT = detalle.getCantidad();
-        if (tipoEvento == TIPO_FACTURA_A) {
+        this.promocion = detalle.isPromocion();
+        if (tipoEvento == TIPO_FACTURA_A || tipoEvento == TIPO_NOTA_CREDITO_A) {
             this.d2_PRUNIT = detalle.getPrecioUnitarioSinIva();
         } else {
             this.d2_PRUNIT = detalle.getPrecioUnitarioConIva();
@@ -142,7 +164,7 @@ public class FacturaDetalle implements Serializable {
     public void setDataPieMontoPromociones(List<EvCont> detalle, int tipoEvento) {
         detalle.forEach(c -> {
 
-                    if (tipoEvento == TIPO_FACTURA_A) {
+                    if (tipoEvento == TIPO_FACTURA_A ||tipoEvento == TIPO_NOTA_CREDITO_A ) {
                         this.VALMERC += c.getMontoSinIVA();
                         this.retencion_IVA_21 += c.getMontoIVAComun();
                         this.retencion_IVA_105 += c.getMontoIVAReducido();
@@ -157,7 +179,7 @@ public class FacturaDetalle implements Serializable {
                 }
 
         );
-        f2_DESCONT *= -1;
+          f2_DESCONT *= -1;
     }
 
     public void setCondicionVenta(EvMedios ev) {
@@ -178,6 +200,8 @@ public class FacturaDetalle implements Serializable {
     public static final int TIPO_FACTURA_A = 16;
     public static final int COTIZACION= 92;
     public static final int REMITOS1= 11;
+    public static final int TIPO_NOTA_CREDITO_B = 20;
+    public static final int TIPO_NOTA_CREDITO_A = 19;
 
     public void setPathLogo(Integer ev,  int tipoEvento) {
         if (ev != null) {
@@ -190,6 +214,8 @@ public class FacturaDetalle implements Serializable {
                     break;
                 case TIPO_FACTURA_A:
                 case TIPO_FACTURA_B:
+                case TIPO_NOTA_CREDITO_A:
+                case TIPO_NOTA_CREDITO_B:
                     this.TIENDA = System.getProperty("user.dir") + "\\LOGOS\\" + "\\LogoFElectronica.JPG";
             }
 
@@ -319,8 +345,16 @@ public class FacturaDetalle implements Serializable {
         return NUMDOC;
     }
 
+    public String getNUMDOCANT() {
+        return NUMDOCANT;
+    }
+
     public void setNUMDOC(String NUMDOC) {
         this.NUMDOC = NUMDOC;
+    }
+
+    public void setNUMDOCANT(String NUMDOCANT) {
+        this.NUMDOCANT = NUMDOCANT;
     }
 
     public String getVIGENCIA() {
