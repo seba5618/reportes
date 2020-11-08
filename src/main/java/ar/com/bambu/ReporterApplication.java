@@ -15,7 +15,7 @@ public class ReporterApplication {
 	public static void main(String[] args) {
 
 		SpringApplication.run(ReporterApplication.class, args);
-		LOGGER.info("Socotrecu version 1.0.12.");
+		LOGGER.info("Socotrecu version 1.0.13.");
 	}
 
 }
