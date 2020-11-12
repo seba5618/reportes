@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DataSourceReport" pageWidth="595" pageHeight="842" whenNoDataType="NoPages" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="50" bottomMargin="50" uuid="7a9c5d04-e343-4d6d-9966-286ed9e1eb67">
+	<field name="codigo" class="java.lang.Long"/>
+	<field name="variable" class="java.lang.String"/>
+	<field name="cajero" class="ar.com.bambu.entities.Cajeros">
+		<fieldDescription><![CDATA[cajero]]></fieldDescription>
+	</field>
+	<title>
+		<band height="70" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="515" height="1" uuid="1397b7d4-d0b1-44f8-80a1-bdaa50048c8a"/>
+			</line>
+			<staticText>
+				<reportElement x="60" y="1" width="400" height="49" uuid="06ae14bd-0cd1-4b8a-8411-0165cd83699d"/>
+				<textElement textAlignment="Center">
+					<font size="26"/>
+				</textElement>
+				<text><![CDATA[Reporte 00]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="5" width="515" height="15" forecolor="#333333" backcolor="#333333" uuid="a696cab1-14c0-4187-980d-3b98d9e39ecc"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="5" width="55" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="0fd3e676-5ed5-42f9-abc8-de485597084d"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Codigo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="55" y="5" width="205" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="84bee692-d84d-455d-88cf-e5b580fa17cb"/>
+				<text><![CDATA[Variable]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="260" y="5" width="255" height="15" forecolor="#FFFFFF" backcolor="#333333" uuid="46ec05bd-a358-4d5b-b553-5cb42c909492"/>
+				<text><![CDATA[Cajero]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField bookmarkLevel="2">
+				<reportElement x="0" y="0" width="50" height="15" uuid="6126b0e2-bcfe-4bc9-a0d6-075c8e60604f"/>
+				<box leftPadding="10" rightPadding="10">
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="50" y="0" width="200" height="15" uuid="b0bf52f0-41fc-4981-b2c4-34dcd98eb27e"/>
+				<box leftPadding="10" rightPadding="10">
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{variable}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="250" y="0" width="265" height="15" uuid="f4d2d38d-469d-4c6a-acf4-eeb1e1803efa"/>
+				<box leftPadding="10" rightPadding="10">
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{cajero}.getNombreCajero()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="40" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="10" width="515" height="1" uuid="e69bfc1c-0738-4cac-9236-5589bd8539f0"/>
+			</line>
+			<textField>
+				<reportElement x="200" y="20" width="80" height="15" uuid="76969b29-f07f-45c6-8e7c-5b79fc7778a3"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="280" y="20" width="75" height="15" uuid="b391c40d-39e9-4227-806a-7784663779ee"/>
+				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="60" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="30" width="515" height="1" uuid="c1637deb-7d7d-43ca-8d5f-bff6666f6216"/>
+			</line>
+			<textField>
+				<reportElement x="200" y="40" width="80" height="15" uuid="7b2bc753-0267-41fb-bfa4-f4b2250959be"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page " + String.valueOf($V{PAGE_NUMBER}) + " of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="280" y="40" width="75" height="15" uuid="3046ce4d-cdfe-472a-9fce-cb1789b264e9"/>
+				<textFieldExpression><![CDATA[" " + String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+</jasperReport>

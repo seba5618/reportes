@@ -3,11 +3,12 @@ package ar.com.bambu.entities;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.Null;
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 
 @Entity
-public class Cajeros {
+public class Cajeros implements Serializable {
     private Short status;
     @Id
     private Integer codCajero;

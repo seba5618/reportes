@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +41,8 @@ public class Reportes {
     String fileNameFactura;
     @Value("${jasper.file.remito}")
     String fileNameRemito;
+    @Value("${jasper.file.reporte00}")
+    String fileNameReporte00;
     @Autowired
     EventosRepository repo;
     @Autowired
@@ -54,6 +57,8 @@ public class Reportes {
     CajerosRepository cajerosRepository;
     @Autowired
     FactuMemRepository factuMemRepository;
+    @Autowired
+    Informe00Repository informe00Repository;
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ReporterApplication.class);
 
@@ -117,6 +122,17 @@ public class Reportes {
         return response;
 
        */
+    }
+
+    @RequestMapping(path =  "/reporte00", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<ByteArrayResource> getReporte00() throws Exception{
+        List<Informe00> informe00s = this.informe00Repository.findAll();
+        InputStream inputStream = getClass()
+                .getClassLoader().getResourceAsStream(this.fileNameReporte00);
+        JasperPrint print = JasperFillManager.fillReport(inputStream, new HashMap<>(), new JRBeanCollectionDataSource(informe00s));
+        byte[] bytes = this.exportToPdf(Arrays.asList(print));
+        ResponseEntity<ByteArrayResource> response = ResponseEntity.ok().header("Content-Disposition", "attachment; filename=Reporte00.pdf").body(new ByteArrayResource(bytes));
+        return response;
     }
 
     @RequestMapping(path = "/factura", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
