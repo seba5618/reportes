@@ -236,6 +236,9 @@ public class EvCont {
     public String getCodArticuloConcatOrigen(){
         return String.valueOf(this.getCodArticulo()).concat(String.valueOf(this.getOrigen()));
     }
+    public String getCodArticuloConcatOrigenTipo3(){
+        return String.valueOf(this.getCodArticulo()).concat(String.valueOf(this.getOrigen())).concat(String.valueOf(this.getTipo3()));
+    }
 
     public void setCodArticulo(int codArticulo) {
         this.codArticulo = codArticulo;
