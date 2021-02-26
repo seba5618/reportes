@@ -60,6 +60,13 @@ class FacturaElectronicaBuilderTest {
     }
 
     @Test
+    void agruparAlgunosYOtrosNo() {
+        List<EvCont> result = toTest.agruparMismosArticulosNeteadoDeAnulados(this.agruparCompuestosyNoOtros());
+        Map<String, List<EvCont>> grouped = result.stream().collect(Collectors.groupingBy(EvCont::getCodArticuloConcatOrigenTipo3));
+        Assert.assertTrue("Agrupar unos y otros no El tamaño de la lista deberia ser de 4, es: "+ grouped.size(), grouped.size() == 4);
+    }
+
+    @Test
     void agruparPorVendedorSListaVacia() {
         List<EvCont> result = toTest.agruparPorNroVendedorS(Collections.EMPTY_LIST);
         Assert.assertTrue("El tamaño de la lista deberia ser de 0, es: "+ result.size(), result.size() == 0);
@@ -142,7 +149,82 @@ class FacturaElectronicaBuilderTest {
     }
 
 
+    @Test
+    List<EvCont> agruparCompuestosyNoOtros() {
+        List<EvCont> result = new ArrayList<>();
+        EvCont evCont = new EvCont();
+        evCont.setCodArticulo(4071);
+        evCont.setCantidad(1.0);
+        evCont.setTipo3(0);
+        evCont.setNroVendedors("");
+        evCont.setImporteSinIva(2424.268);
+        evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(2933.36);
+        evCont.setOrigen(1);
+        result.add(evCont);
 
+        evCont = new EvCont();
+        evCont.setCodArticulo(1244);
+        evCont.setCantidad(0.999994);
+        evCont.setTipo3(33);
+        evCont.setNroVendedors("primero");
+        evCont.setImporteSinIva(644.8635);
+        evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(780.28);
+        evCont.setOrigen(1);
+        result.add(evCont);
+
+        evCont = new EvCont();
+        evCont.setCodArticulo(1310);
+        evCont.setCantidad(0.197999);
+        evCont.setTipo3(65);
+        evCont.setNroVendedors("primero");
+        evCont.setImporteSinIva(6184.464);
+        evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(1481.67);
+        evCont.setOrigen(1);
+        result.add(evCont);
+
+        evCont = new EvCont();
+        evCont.setCodArticulo(1244);
+        evCont.setCantidad(0.999994);
+        evCont.setTipo3(33);
+        evCont.setNroVendedors("segundo");
+        evCont.setImporteSinIva(644.8635);
+        evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(780.28);
+        evCont.setOrigen(1);
+        result.add(evCont);
+
+        evCont = new EvCont();
+        evCont.setCodArticulo(1310);
+        evCont.setCantidad(0.0319997);
+        evCont.setTipo3(65);
+        evCont.setNroVendedors("segundo");
+        evCont.setImporteSinIva(6184.464);
+        evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(239.46);
+        evCont.setOrigen(1);
+        result.add(evCont);
+
+        evCont = new EvCont();
+        evCont.setCodArticulo(1244);
+        evCont.setCantidad(0.999994);
+        evCont.setTipo3(0);
+        evCont.setNroVendedors("");
+        evCont.setImporteSinIva(644.8635);
+        evCont.setIVA1(0d);
+        evCont.setImpInt(0d);
+        evCont.setTotal(780.28);
+        evCont.setOrigen(1);
+        result.add(evCont);
+        return result;
+    }
 
 
     @Test

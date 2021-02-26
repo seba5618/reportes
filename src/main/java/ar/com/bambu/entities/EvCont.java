@@ -136,6 +136,39 @@ public class EvCont {
         return result;
     }
 
+    public Double getMontoIVAComunSinPromo(){
+        Double result = 0d;
+        if (this.articuloIVA.getCodIva() == 0 && !this.isPromocion()){
+            result += this.getIVA1() * this.getCantidad();
+        }
+        return result;
+    }
+
+    public Double getMontoIVAReducidoSinPromo(){
+        Double result = 0d;
+        if (this.articuloIVA.getCodIva() == 1 && !this.isPromocion()){
+            result += this.getIVA1() * this.getCantidad();
+        }
+        return result;
+    }
+
+    public Double getMontoIVAComunPromocion(){
+        Double result = 0d;
+        if (this.articuloIVA.getCodIva() == 0 && this.isPromocion()){
+            result += this.getIVA1() * this.getCantidad();
+        }
+        return result;
+    }
+
+    public Double getMontoIVAReducidoPromocion(){
+        Double result = 0d;
+        if (this.articuloIVA.getCodIva() == 1 && this.isPromocion()){
+            result += this.getIVA1() * this.getCantidad();
+        }
+        return result;
+    }
+
+
     public Double getMontoExento(){
         Double result = 0d;
         if (this.articuloIVA.getCodIva() == 2){
@@ -202,6 +235,9 @@ public class EvCont {
 
     public String getCodArticuloConcatOrigen(){
         return String.valueOf(this.getCodArticulo()).concat(String.valueOf(this.getOrigen()));
+    }
+    public String getCodArticuloConcatOrigenTipo3(){
+        return String.valueOf(this.getCodArticulo()).concat(String.valueOf(this.getOrigen())).concat(String.valueOf(this.getTipo3()));
     }
 
     public void setCodArticulo(int codArticulo) {
