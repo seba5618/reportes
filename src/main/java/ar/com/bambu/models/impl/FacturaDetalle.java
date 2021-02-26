@@ -8,7 +8,9 @@ import ar.com.bambu.models.FacturaElectronicaRequest;
 import ar.com.bambu.utils.ConversorDatos;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.List;
 import java.util.Properties;
 
@@ -75,6 +77,8 @@ public class FacturaDetalle implements Serializable {
 
     private Integer CODCLIENTE;
 
+    private String qr;
+
 
 
     private boolean promocion ;
@@ -119,6 +123,16 @@ public class FacturaDetalle implements Serializable {
     public void setNumeroYTipoComprobanteAnt(int caja, long ticket, int tipoEvento) {
          if (tipoEvento == TIPO_NOTA_CREDITO_A || tipoEvento == TIPO_NOTA_CREDITO_B)
             this.NUMDOCANT = String.format("%04d-%08d", caja, ticket);;
+    }
+
+    public String getQr() {
+        String mock = "{\"ver\":1,\"fecha\":\"2020-10-13\",\"cuit\":30000000007,\"ptoVta\":10,\"tipoCmp\":1,\"nroCmp\":94,\"importe\":12100,\"moneda\":\"DOL\",\"ctz\":65,\"tipoDocRec\":80,\"nroDocRec\":20000000001,\"tipoCodAut\":\"E\",\"codAut\":70417054367476}" ;
+        String base64 = Base64.getEncoder().encodeToString(mock.getBytes(StandardCharsets.UTF_8));
+        return "https://www.afip.gob.ar/fe/qr/?p="+base64;
+    }
+
+    public void setQr(String qr) {
+        this.qr = qr;
     }
 
     public void setFechaVigencia(String dosificacion) {
