@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="merft01" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d69e54c2-3d6e-4732-be5a-76a1832a6f14">
 	<property name="ireport.zoom" value="1.3310000000000008"/>
 	<property name="ireport.x" value="0"/>
@@ -429,7 +429,7 @@
 					<textElement textAlignment="Left">
 						<font size="9" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[($F{DOCESPECIE}.trim()== "NCC" ? "Factura Asociada" :"")	]]></textFieldExpression>
+					<textFieldExpression><![CDATA[($F{DOCESPECIE}.trim()== "NCC" ? "Factura Asociada" :"")]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement x="476" y="171" width="75" height="12" uuid="3c15b6d0-8198-4643-9c46-49075f2ba029">
@@ -439,7 +439,7 @@
 					<textElement>
 						<font size="9" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[($F{DOCESPECIE}.trim()== "NCC" ? $F{NUMDOCANT} :"")	]]></textFieldExpression>
+					<textFieldExpression><![CDATA[($F{DOCESPECIE}.trim()== "NCC" ? $F{NUMDOCANT} :"")]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
@@ -447,7 +447,7 @@
 	<background>
 		<band height="802">
 			<rectangle radius="10">
-				<reportElement x="0" y="0" width="555" height="802" uuid="5a5ec2ce-a9f8-461d-badc-7f843c1120df"/>
+				<reportElement x="2" y="20" width="551" height="300" uuid="5a5ec2ce-a9f8-461d-badc-7f843c1120df"/>
 			</rectangle>
 		</band>
 	</background>
@@ -506,7 +506,7 @@
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="142" splitType="Stretch">
+		<band height="465" splitType="Stretch">
 			<staticText>
 				<reportElement x="7" y="102" width="25" height="13" uuid="3f7dfa3e-e012-4842-9b5a-4f56329b9fe0"/>
 				<text><![CDATA[CAE:]]></text>
@@ -643,6 +643,15 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{VALMERC}+$F{f2_DESCONT}]]></textFieldExpression>
 			</textField>
+			<componentElement>
+				<reportElement x="4" y="150" width="150" height="150" uuid="e3635647-3395-4473-969d-48e5ca32f560">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA["https://www.afip.gob.ar/fe/qr/?p=eyJ2ZXIiOjEsImZlY2hhIjoiMjAyMC0xMC0xMyIsImN1aXQiOjMwMDAwMDAwMDA3LCJwdG9WdGEiOjEwLCJ0aXBvQ21wIjoxLCJucm9DbXAiOjk0LCJpbXBvcnRlIjoxMjEwMCwibW9uZWRhIjoiRE9MIiwiY3R6Ijo2NSwidGlwb0RvY1JlYyI6ODAsIm5yb0RvY1JlYyI6MjAwMDAwMDAwMDEsInRpcG9Db2RBdXQiOiJFIiwiY29kQXV0Ijo3MDQxNzA1NDM2NzQ3Nn0="]]></jr:codeExpression>
+				</jr:QRCode>
+			</componentElement>
 			<textField pattern="###0.00; ###0.00" isBlankWhenNull="true">
 				<reportElement x="443" y="24" width="98" height="15" uuid="42235605-0cc0-4495-9b9b-ed7b44b527f5"/>
 				<textElement textAlignment="Right">
