@@ -186,7 +186,8 @@ public class FacturaElectronicaBuilder {
      */
     protected List<EvCont> agruparMismosArticulosNeteadoDeAnulados(List<EvCont> source){
         List <EvCont> result = new ArrayList<>();
-        Map<String, List<EvCont>> grouped = source.stream().collect(Collectors.groupingBy(EvCont::getCodArticuloConcatOrigen));
+//        Map<String, List<EvCont>> grouped = source.stream().collect(Collectors.groupingBy(EvCont::getCodArticuloConcatOrigen));
+        Map<String, List<EvCont>> grouped = source.stream().collect(Collectors.groupingBy(EvCont::getCodArticuloConcatOrigenTipo3));
         grouped.forEach((codigoArt, evconts) -> {
                     List<EvCont> acumulados = new ArrayList<>();
                     for (EvCont evCont : evconts) {

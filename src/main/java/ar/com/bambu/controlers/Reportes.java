@@ -142,6 +142,16 @@ public class Reportes {
         FacturaElectronicaBuilder facturaElectronicaBuilder = new FacturaElectronicaBuilder();
         List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(req.getEvento().getIdEvento(), req.getEvento().getCajaZ());
         EvMedios pie = medioRepository.findByIdEventoWithMedioName(req.getEvento().getIdEvento()).get(0);
+        //aca deberia reocrrer toda la lista de evmedios , concatener los nombre de medios y mandarlo al pie
+        Integer size =  medioRepository.findByIdEventoWithMedioName(req.getEvento().getIdEvento()).size();
+        String mediosconatenados= "" ;
+        String auxmedios= "";
+        for (int i = 0; i < size; i++) {
+            auxmedios= medioRepository.findByIdEventoWithMedioName(req.getEvento().getIdEvento()).get(i).getNombreMedio() + " /";
+            mediosconatenados= mediosconatenados.concat(auxmedios);
+        }
+        pie.setNombreMedio( mediosconatenados);
+
         facturaElectronicaBuilder.withRequest(req).withEvento(evento).withDetalle(byIdEventoArtiName).withPie(pie).withCliente(clientes).withTpvconfig(sucursal);
 
 

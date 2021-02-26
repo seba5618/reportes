@@ -35,6 +35,10 @@ public class FacturaDetalle implements Serializable {
     private String IIBB;
     private Double retencion_IVA_21 = 0d;
     private Double retencion_IVA_105 = 0d;
+    private Double retencion_IVA_21_Promo = 0d;
+    private Double retencion_IVA_105_Promo = 0d;
+    private Double retencion_IVA_21_SinPromo = 0d;
+    private Double retencion_IVA_105_SinPromo = 0d;
     private String FECHADIGIT;
     private Double TOTALDOC = 0d;
     private Double TOTIVA;
@@ -162,12 +166,19 @@ public class FacturaDetalle implements Serializable {
     }
 
     public void setDataPieMontoPromociones(List<EvCont> detalle, int tipoEvento) {
+        Double totalIvaPromos =0.00;
+        this.retencion_IVA_21 = 0.00;
+        this.retencion_IVA_105 = 0.00;
         detalle.forEach(c -> {
 
                     if (tipoEvento == TIPO_FACTURA_A ||tipoEvento == TIPO_NOTA_CREDITO_A ) {
                         this.VALMERC += c.getMontoSinIVA();
                         this.retencion_IVA_21 += c.getMontoIVAComun();
                         this.retencion_IVA_105 += c.getMontoIVAReducido();
+                        this.retencion_IVA_21_Promo +=c.getMontoIVAComunPromocion();
+                        this.retencion_IVA_105_Promo +=c.getMontoIVAReducidoPromocion();
+                        this.retencion_IVA_21_SinPromo +=c.getMontoIVAComunSinPromo();
+                        this.retencion_IVA_105_SinPromo +=c.getMontoIVAReducidoSinPromo();
                         f2_DESCONT += c.getMontoPromocionSinIva();
                         this.TOTALDOC = this.VALMERC + retencion_IVA_21 + retencion_IVA_105;
                     } else {
@@ -180,6 +191,15 @@ public class FacturaDetalle implements Serializable {
 
         );
           f2_DESCONT *= -1;
+        totalIvaPromos = this.retencion_IVA_105_Promo + this.retencion_IVA_21_Promo; //-673
+        Double totalIvaSinPromo = this.retencion_IVA_105_SinPromo + this.retencion_IVA_21_SinPromo; //2175.4533
+        Double factorIvaReducido = this.retencion_IVA_105_SinPromo / totalIvaSinPromo; //0.1253
+        Double factorIvaComun  = this.retencion_IVA_21_SinPromo / totalIvaSinPromo;//0.8746
+        Double newIvaReducido =  totalIvaPromos * factorIvaReducido;//77.19
+        Double newIvaComun =  totalIvaPromos * factorIvaComun;//538.40
+        this.retencion_IVA_21 =  this.retencion_IVA_21_SinPromo + newIvaComun;
+        this.retencion_IVA_105 = this.retencion_IVA_105_SinPromo + newIvaReducido;
+        newIvaComun = newIvaComun;
     }
 
     public void setCondicionVenta(EvMedios ev) {
