@@ -73,6 +73,16 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-bridge</artifactId>
+            <version>1.11</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/net.sf.barcode4j/barcode4j -->
 	</dependencies>
 	
@@ -86,9 +96,9 @@
                 <configuration>
 
 
-                    <jvmArguments>
+        <!--            <jvmArguments>
                         -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
-                 </jvmArguments>
+                 </jvmArguments>-->
              </configuration>
          </plugin>
        <plugin>
