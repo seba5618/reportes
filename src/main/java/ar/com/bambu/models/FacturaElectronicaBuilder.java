@@ -4,6 +4,7 @@ import ar.com.bambu.entities.*;
 import ar.com.bambu.models.impl.FacturaDetalle;
 import ar.com.bambu.models.impl.FacturaElectronica;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -118,7 +119,11 @@ public class FacturaElectronicaBuilder {
                 detalle.setTELTRANS(" " + this.factuMem.getValor());
             }
 
-
+            try {
+                detalle.armarQr( this.cabecera,this.tpvConfig, this.clientes);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             //usaremos esto para las observaciones
             try {

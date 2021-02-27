@@ -21,6 +21,7 @@ public class ConversorDatos {
   public static final int AAAAMMDD = 0x03;
   public static final int DDMMAAAA_SIN_SEP = 0x04;
   public static final int YYYYMMDD_SIN_SEP = 0x05;
+  public static final int AAAMMDD_CON_GUIONES_MEDIOS = 0x06;
 
   /**
    * Verifica que la fecha btrieve tenga un formato v&aacute;lido.
@@ -71,6 +72,9 @@ public class ConversorDatos {
         case ConversorDatos.DDMMAAAA_SIN_SEP:
           result = new String("01011980");
           break;
+        case ConversorDatos.AAAMMDD_CON_GUIONES_MEDIOS:
+          result = new String("1980-01-01");
+          break;
         case ConversorDatos.DDMMAAAA:
         case ConversorDatos.MMDDAAAA:
         default:
@@ -97,6 +101,11 @@ public class ConversorDatos {
           result = (dia < 10 ? "0" : "") + String.valueOf(dia).trim() +
               (mes < 10 ? "0" : "") + String.valueOf(mes).trim() +
               String.valueOf(anio).trim();
+          break;
+        case ConversorDatos.AAAMMDD_CON_GUIONES_MEDIOS:
+          result =String.valueOf(anio).trim() + (mes < 10 ? "0" : "") +
+                  "-" +String.valueOf(mes).trim() + (dia < 10 ? "0" : "") +
+                  "-" +String.valueOf(dia).trim();
           break;
         case ConversorDatos.DDMMAAAA:
         default:

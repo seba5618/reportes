@@ -152,6 +152,7 @@ public class Reportes {
         }
         pie.setNombreMedio( mediosconatenados);
 
+
         facturaElectronicaBuilder.withRequest(req).withEvento(evento).withDetalle(byIdEventoArtiName).withPie(pie).withCliente(clientes).withTpvconfig(sucursal);
 
 

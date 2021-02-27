@@ -12,9 +12,21 @@ public class TpvConfig {
     @Id
     private Integer sucursal;
 
+    private String cuit;
+
     public TpvConfig(Integer sucursal) {
+
         this.sucursal = sucursal;
     }
+
+    public TpvConfig(TpvConfig cl) {
+        this.status = cl.status;
+        this.sucursal= cl.sucursal;
+        this.cuit = cl.cuit;
+
+    }
+
+
 
     public Short getStatus() {
         return status;
@@ -24,6 +36,13 @@ public class TpvConfig {
     }
     public void setSucursal(int suc) {
         this.sucursal = suc;
+    }
+
+    public String getCuit() {
+        return cuit;
+    }
+    public void setCuit(String cuit ) {
+        this.cuit = cuit;
     }
 
     @Override

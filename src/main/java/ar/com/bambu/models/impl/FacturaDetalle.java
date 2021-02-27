@@ -4,14 +4,19 @@ import ar.com.bambu.entities.Clientes;
 import ar.com.bambu.entities.EvCont;
 import ar.com.bambu.entities.EvMedios;
 import ar.com.bambu.entities.Eventos;
+import ar.com.bambu.entities.TpvConfig;
 import ar.com.bambu.models.FacturaElectronicaRequest;
 import ar.com.bambu.utils.ConversorDatos;
+import jdk.management.resource.internal.inst.StaticInstrumentation;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 import java.util.Properties;
 
 import static ar.com.bambu.entities.Eventos.*;
@@ -131,6 +136,7 @@ public class FacturaDetalle implements Serializable {
 
     public String getQr() {
         String mock = "{\"ver\":1,\"fecha\":\"2020-10-13\",\"cuit\":30000000007,\"ptoVta\":10,\"tipoCmp\":1,\"nroCmp\":94,\"importe\":12100,\"moneda\":\"DOL\",\"ctz\":65,\"tipoDocRec\":80,\"nroDocRec\":20000000001,\"tipoCodAut\":\"E\",\"codAut\":70417054367476}" ;
+
         String base64 = Base64.getEncoder().encodeToString(mock.getBytes(StandardCharsets.UTF_8));
         return "https://www.afip.gob.ar/fe/qr/?p="+base64;
     }
@@ -138,6 +144,55 @@ public class FacturaDetalle implements Serializable {
     public void setQr(String qr) {
         this.qr = qr;
     }
+
+    public String armarQr(Eventos ev, TpvConfig tp, Clientes cli) throws JSONException {
+        String fecha =  ConversorDatos.fechaInvelATexto((short)ev.getFecha(),ConversorDatos.AAAMMDD_CON_GUIONES_MEDIOS);
+        String cuit = "30000000007";// tp.getCuit();
+        int ptovta = ev.getSucComprobante();
+        int tipoCmp = Integer.parseInt(getCOD_TIPODOC());
+        int nroCmp = ev.getNroComprobante();
+        double importe = 12100; //hardcodeado sacar de la sumatoria de evmedios;
+        String moneda = "DOL"; // en produccion debe ser PES
+        double ctz =1;
+        int tipoDocRec= (( this.getCUITCLI().length() <8 )? 90 : 80 );
+        long probando = Long.parseLong("99999999999");
+        Long nroDocRec = Long.parseLong(cli.getCUIT()) ;// "20000000001";
+        String tipoCodAut = "E";
+        long codAut=  Long.parseLong( this.CAEE);
+        // afip {"ver":1,"fecha":"2020-10-13","cuit":30000000007,"ptoVta":10,"tipoCmp":1,"nroCmp":94,"importe":12100,"moneda":"DOL","ctz":65,"tipoDocRec":80,"nroDocRec":20000000001,"tipoCodAut":"E","codAut":70417054367476}
+        //mio q {"ver":1,"ctz":1,"tipoDocRec":"80","ptoVta":62,"importe":12100,"tipoCmp":"01","fecha":"20200-6-28","codAut":"69260148620357","cuit":"30000000007","tipoCodAut":"E","nroCmp":10,"nroDocRec":"20000000001","moneda":"DOL"}
+
+        // mi prueba de json
+        String message;
+        //JSONObject json = new JSONObject();
+        String mock = "{\"ver\":1,\"fecha\":\"2020-10-13\",\"cuit\":30000000007,\"ptoVta\":10,\"tipoCmp\":1,\"nroCmp\":94,\"importe\":12100,\"moneda\":\"DOL\",\"ctz\":65,\"tipoDocRec\":80,\"nroDocRec\":20000000001,\"tipoCodAut\":\"E\",\"codAut\":70417054367476}" ;
+        JSONObject json = new JSONObject(mock);
+        json.put("ver", 1);
+        json.put("fecha",fecha);
+        json.put("cuit",Long.parseLong(cuit));
+        json.put("ptoVta",ptovta);
+        json.put("tipoCmp",tipoCmp);
+        json.put("nroCmp",nroCmp);
+        json.put("importe",importe);
+        json.put("moneda",moneda);
+        json.put("ctz",ctz);
+        json.put("tipoDocRec",tipoDocRec);
+        json.put("nroDocRec",nroDocRec);
+        json.put("tipoCodAut",tipoCodAut);
+        json.put("codAut",codAut);
+// lo de arriba sale desordenado
+        message = json.toString() ;
+//        {"name":"student","course":[{"name":"course1","information":"test","id":3}]}
+        //probemos armar un string
+        String cadena =  String.format("{\"ver\":%d,\"fecha\":\"%s\",\"cuit\":%d,\"ptoVta\":%d,\"tipoCmp\":%d,\"nroCmp\":%d,\"importe\":%.2f,\"moneda\":\"%s\",\"ctz\":%d,\"tipoDocRec\":%d,\"nroDocRec\":%d,\"tipoCodAut\":\"%s\",\"codAut\":%.0f}" , +
+                json.getLong("ver") , json.getString("fecha") , json.getLong("cuit"),json.getLong("ptoVta"),json.getLong("tipoCmp") +
+                json.getLong("nroCmp"),125/*json.getDouble("importe")*/, json.getString("moneda"), json.getLong("ctz"), json.get("tipoDocRec"), +
+                json.getLong("nroDocRec"),json.getString("tipoCodAut"),704170/*json.getLong("codAut")*/);
+
+
+
+        return "cualquiera";
+        }
 
     public void setFechaVigencia(String dosificacion) {
         this.VIGENCIA = dosificacion;
