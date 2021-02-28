@@ -135,9 +135,10 @@ public class FacturaDetalle implements Serializable {
     }
 
     public String getQr() {
-        String mock = "{\"ver\":1,\"fecha\":\"2020-10-13\",\"cuit\":30000000007,\"ptoVta\":10,\"tipoCmp\":1,\"nroCmp\":94,\"importe\":12100,\"moneda\":\"DOL\",\"ctz\":65,\"tipoDocRec\":80,\"nroDocRec\":20000000001,\"tipoCodAut\":\"E\",\"codAut\":70417054367476}" ;
-
-        String base64 = Base64.getEncoder().encodeToString(mock.getBytes(StandardCharsets.UTF_8));
+        //String mock = "{\"ver\":1,\"fecha\":\"2020-10-13\",\"cuit\":30000000007,\"ptoVta\":10,\"tipoCmp\":1,\"nroCmp\":94,\"importe\":12100,\"moneda\":\"DOL\",\"ctz\":65,\"tipoDocRec\":80,\"nroDocRec\":20000000001,\"tipoCodAut\":\"E\",\"codAut\":70417054367476}" ;
+        //String base64 = Base64.getEncoder().encodeToString(mock.getBytes(StandardCharsets.UTF_8));
+        String cadena = this.qr;
+        String base64 = Base64.getEncoder().encodeToString(cadena.getBytes(StandardCharsets.UTF_8));
         return "https://www.afip.gob.ar/fe/qr/?p="+base64;
     }
 
@@ -145,17 +146,17 @@ public class FacturaDetalle implements Serializable {
         this.qr = qr;
     }
 
-    public String armarQr(Eventos ev, TpvConfig tp, Clientes cli) throws JSONException {
+    public void armarQr(Eventos ev, TpvConfig tp, Clientes cli) throws JSONException {
         String fecha =  ConversorDatos.fechaInvelATexto((short)ev.getFecha(),ConversorDatos.AAAMMDD_CON_GUIONES_MEDIOS);
         String cuit = "30000000007";// tp.getCuit();
         int ptovta = ev.getSucComprobante();
         int tipoCmp = Integer.parseInt(getCOD_TIPODOC());
         int nroCmp = ev.getNroComprobante();
         double importe = 12100; //hardcodeado sacar de la sumatoria de evmedios;
-        String moneda = "DOL"; // en produccion debe ser PES
-        double ctz =1;
+        String moneda = "PES"; // "DOL"; // en produccion debe ser PES no tenemos la moneda
+        double ctz =1; //65; //en producion debe ser 1
         int tipoDocRec= (( this.getCUITCLI().length() <8 )? 90 : 80 );
-        long probando = Long.parseLong("99999999999");
+
         Long nroDocRec = Long.parseLong(cli.getCUIT()) ;// "20000000001";
         String tipoCodAut = "E";
         long codAut=  Long.parseLong( this.CAEE);
@@ -184,14 +185,11 @@ public class FacturaDetalle implements Serializable {
         message = json.toString() ;
 //        {"name":"student","course":[{"name":"course1","information":"test","id":3}]}
         //probemos armar un string
-        String cadena =  String.format("{\"ver\":%d,\"fecha\":\"%s\",\"cuit\":%d,\"ptoVta\":%d,\"tipoCmp\":%d,\"nroCmp\":%d,\"importe\":%.2f,\"moneda\":\"%s\",\"ctz\":%d,\"tipoDocRec\":%d,\"nroDocRec\":%d,\"tipoCodAut\":\"%s\",\"codAut\":%.0f}" , +
-                json.getLong("ver") , json.getString("fecha") , json.getLong("cuit"),json.getLong("ptoVta"),json.getLong("tipoCmp") +
-                json.getLong("nroCmp"),125/*json.getDouble("importe")*/, json.getString("moneda"), json.getLong("ctz"), json.get("tipoDocRec"), +
-                json.getLong("nroDocRec"),json.getString("tipoCodAut"),704170/*json.getLong("codAut")*/);
+        String cadena2 = String.format("{\"ver\":%d,\"fecha\":\"%s\",\"cuit\":%d,\"ptoVta\":%d,\"tipoCmp\":%d,\"nroCmp\":%d,\"importe\":%.0f,\"moneda\":\"%s\",\"ctz\":%d,\"tipoDocRec\":%d,\"nroDocRec\":%d,\"tipoCodAut\":\"%s\",\"codAut\":%d}" , +
+                        json.getLong("ver") , json.getString("fecha") , json.getLong("cuit") ,json.getLong("ptoVta"),json.getLong("tipoCmp") ,+
+                        json.getLong("nroCmp"),json.getDouble("importe") ,json.getString("moneda"), json.getLong("ctz"), json.getLong("tipoDocRec"),json.getLong("nroDocRec"),json.getString("tipoCodAut"),json.getLong("codAut"));
+        setQr(cadena2);
 
-
-
-        return "cualquiera";
         }
 
     public void setFechaVigencia(String dosificacion) {

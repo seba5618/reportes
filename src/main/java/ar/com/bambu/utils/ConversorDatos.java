@@ -103,9 +103,9 @@ public class ConversorDatos {
               String.valueOf(anio).trim();
           break;
         case ConversorDatos.AAAMMDD_CON_GUIONES_MEDIOS:
-          result =String.valueOf(anio).trim() + (mes < 10 ? "0" : "") +
-                  "-" +String.valueOf(mes).trim() + (dia < 10 ? "0" : "") +
-                  "-" +String.valueOf(dia).trim();
+          result =String.valueOf(anio).trim() +
+            "-" +   (mes < 10 ? "0" : "") + String.valueOf(mes).trim() +
+            "-" + (dia < 10 ? "0" : "") +String.valueOf(dia).trim();
           break;
         case ConversorDatos.DDMMAAAA:
         default:
