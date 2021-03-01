@@ -140,8 +140,10 @@ public class FacturaDetalle implements Serializable {
 
     public String getQr() {
 
-        String cadena = this.qr;
+        String cadena = Base64.getEncoder().encodeToString(qr.getBytes(StandardCharsets.UTF_8));
+
         LOG.info("QR AFIP: "+cadena);
+
         return "https://www.afip.gob.ar/fe/qr/?p="+cadena;
     }
 
@@ -195,7 +197,8 @@ public class FacturaDetalle implements Serializable {
         }
 
     private double sumarMedios(List<EvMedios> medios) {
-        return medios.stream().reduce(0d,(partial, current) -> partial + current.getImporte() - current.getVueltoEfectivo(), Double::sum);
+        Double reduce = medios.stream().reduce(0d, (partial, current) -> partial + current.getImporte() - current.getVueltoEfectivo(), Double::sum);
+        return Math.abs(reduce);
     }
 
     public void setFechaVigencia(String dosificacion) {
