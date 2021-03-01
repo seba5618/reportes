@@ -8,29 +8,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tpvconfig")
 public class TpvConfig {
-    private Short status;
+
+
     @Id
     private Integer sucursal;
 
     private String cuit;
 
-    public TpvConfig(Integer sucursal) {
 
-        this.sucursal = sucursal;
-    }
-
-    public TpvConfig(TpvConfig cl) {
-        this.status = cl.status;
-        this.sucursal= cl.sucursal;
-        this.cuit = cl.cuit;
-
-    }
-
-
-
-    public Short getStatus() {
-        return status;
-    }
     public int getSucursal() {
         return sucursal;
     }

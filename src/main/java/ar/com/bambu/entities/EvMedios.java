@@ -19,6 +19,9 @@ public class EvMedios implements Serializable {
     private int modoPago;
     private int codSubMedio;
     private double importe;
+
+    private Double vueltoEfectivo;
+
     @Transient
     private String nombreMedio;
 
@@ -34,7 +37,17 @@ public class EvMedios implements Serializable {
         this.modoPago = medios.modoPago;
         this.codSubMedio = medios.codSubMedio;
         this.importe = medios.importe;
+        this.vueltoEfectivo = medios.getVueltoEfectivo();
         this.nombreMedio = nombreMedio;
+    }
+
+
+    public Double getVueltoEfectivo() {
+        return vueltoEfectivo;
+    }
+
+    public void setVueltoEfectivo(Double vueltoEfectivo) {
+        this.vueltoEfectivo = vueltoEfectivo;
     }
 
     public String getNombreMedio() {

@@ -10,6 +10,4 @@ import org.springframework.stereotype.Repository;
 public interface TpvConfigRepository extends JpaRepository<TpvConfig, Integer> {
 
 
-    @Query(value = "select new ar.com.bambu.entities.TpvConfig (tp.sucursal) from TpvConfig tp ")
-    TpvConfig findByCodSucusal( );
 }

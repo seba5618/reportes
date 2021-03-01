@@ -74,7 +74,7 @@ public class Reportes {
         }
 
         Clientes clientes = clientesRepository.findByCodClienteConCondicionIva(evento.getCodCliente());
-        TpvConfig sucursal = tpvConfigRepository.findByCodSucusal();
+        TpvConfig sucursal = tpvConfigRepository.findAll().stream().findFirst().get();
         Cajeros cajeros = cajerosRepository. findByCodCajero(evento.getNroVendedor1());
         //id =18 es el mail id=20 el telefono
         FactuMem factuMem = factuMemRepository.findById(18);
@@ -132,7 +132,7 @@ public class Reportes {
 
 
         Clientes clientes = clientesRepository.findByCodClienteConCondicionIva(evento.getCodCliente());
-        TpvConfig sucursal = tpvConfigRepository.findByCodSucusal();
+        TpvConfig sucursal = tpvConfigRepository.findAll().stream().findFirst().get();
 
         InputStream inputStream = getClass()
                 .getClassLoader().getResourceAsStream(fileNameFactura);
@@ -141,20 +141,29 @@ public class Reportes {
 
         FacturaElectronicaBuilder facturaElectronicaBuilder = new FacturaElectronicaBuilder();
         List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(req.getEvento().getIdEvento(), req.getEvento().getCajaZ());
-        EvMedios pie = medioRepository.findByIdEventoWithMedioName(req.getEvento().getIdEvento()).get(0);
+
+        List<EvMedios> evMedios = medioRepository.findByIdEventoWithMedioName(req.getEvento().getIdEvento());
+
+        EvMedios pie = evMedios.get(0);
         //aca deberia reocrrer toda la lista de evmedios , concatener los nombre de medios y mandarlo al pie
-        Integer size =  medioRepository.findByIdEventoWithMedioName(req.getEvento().getIdEvento()).size();
+        Integer size =  evMedios.size();
         String mediosconatenados= "" ;
         String auxmedios= "";
         for (int i = 0; i < size; i++) {
-            auxmedios= medioRepository.findByIdEventoWithMedioName(req.getEvento().getIdEvento()).get(i).getNombreMedio() + " /";
+            auxmedios= evMedios.get(i).getNombreMedio() + " /";
             mediosconatenados= mediosconatenados.concat(auxmedios);
         }
         pie.setNombreMedio( mediosconatenados);
 
 
-        facturaElectronicaBuilder.withRequest(req).withEvento(evento).withDetalle(byIdEventoArtiName).withPie(pie).withCliente(clientes).withTpvconfig(sucursal);
-
+        facturaElectronicaBuilder
+                .withRequest(req)
+                .withEvento(evento)
+                .withDetalle(byIdEventoArtiName)
+                .withPie(pie)
+                .withCliente(clientes)
+                .withTpvconfig(sucursal)
+                .withEvMedios(evMedios);
 
         FacturaElectronica facturaElectronica = facturaElectronicaBuilder.build();
 
@@ -234,7 +243,7 @@ public class Reportes {
         if(cajeros == null ) {
             System.out.println("***** SONAMOS NO HAY CAJERO EN ESE VENDEDOR****");
         }
-        TpvConfig sucursal = tpvConfigRepository.findByCodSucusal();
+        TpvConfig sucursal = tpvConfigRepository.findAll().stream().findFirst().get();
         FactuMem factuMem = factuMemRepository.findById(20);
 
         System.out.println("***** VIENDO EL CODIGO DE SUCURSAL****");

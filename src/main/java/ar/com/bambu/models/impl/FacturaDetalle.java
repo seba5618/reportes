@@ -5,17 +5,19 @@ import ar.com.bambu.entities.EvCont;
 import ar.com.bambu.entities.EvMedios;
 import ar.com.bambu.entities.Eventos;
 import ar.com.bambu.entities.TpvConfig;
+import ar.com.bambu.models.FacturaElectronicaBuilder;
 import ar.com.bambu.models.FacturaElectronicaRequest;
 import ar.com.bambu.utils.ConversorDatos;
-import jdk.management.resource.internal.inst.StaticInstrumentation;
-import org.json.JSONArray;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.lang.reflect.Field;
+
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
+
 import java.util.*;
 import java.util.Properties;
 
@@ -92,6 +94,8 @@ public class FacturaDetalle implements Serializable {
 
     private boolean promocion ;
 
+    private final static Logger LOG = LoggerFactory.getLogger(FacturaDetalle.class);
+
     public boolean isPromocion() {
         return promocion;
     }
@@ -135,62 +139,64 @@ public class FacturaDetalle implements Serializable {
     }
 
     public String getQr() {
-        //String mock = "{\"ver\":1,\"fecha\":\"2020-10-13\",\"cuit\":30000000007,\"ptoVta\":10,\"tipoCmp\":1,\"nroCmp\":94,\"importe\":12100,\"moneda\":\"DOL\",\"ctz\":65,\"tipoDocRec\":80,\"nroDocRec\":20000000001,\"tipoCodAut\":\"E\",\"codAut\":70417054367476}" ;
-        //String base64 = Base64.getEncoder().encodeToString(mock.getBytes(StandardCharsets.UTF_8));
+
         String cadena = this.qr;
-        String base64 = Base64.getEncoder().encodeToString(cadena.getBytes(StandardCharsets.UTF_8));
-        return "https://www.afip.gob.ar/fe/qr/?p="+base64;
+        LOG.info("QR AFIP: "+cadena);
+        return "https://www.afip.gob.ar/fe/qr/?p="+cadena;
     }
 
     public void setQr(String qr) {
         this.qr = qr;
     }
 
-    public void armarQr(Eventos ev, TpvConfig tp, Clientes cli) throws JSONException {
-        String fecha =  ConversorDatos.fechaInvelATexto((short)ev.getFecha(),ConversorDatos.AAAMMDD_CON_GUIONES_MEDIOS);
-        String cuit = "30000000007";// tp.getCuit();
-        int ptovta = ev.getSucComprobante();
-        int tipoCmp = Integer.parseInt(getCOD_TIPODOC());
-        int nroCmp = ev.getNroComprobante();
-        double importe = 12100; //hardcodeado sacar de la sumatoria de evmedios;
-        String moneda = "PES"; // "DOL"; // en produccion debe ser PES no tenemos la moneda
-        double ctz =1; //65; //en producion debe ser 1
-        int tipoDocRec= (( this.getCUITCLI().length() <8 )? 90 : 80 );
+    public void armarQr(Eventos ev, TpvConfig tp, Clientes cli, List<EvMedios> medios) throws JSONException {
 
-        Long nroDocRec = Long.parseLong(cli.getCUIT()) ;// "20000000001";
-        String tipoCodAut = "E";
-        long codAut=  Long.parseLong( this.CAEE);
         // afip {"ver":1,"fecha":"2020-10-13","cuit":30000000007,"ptoVta":10,"tipoCmp":1,"nroCmp":94,"importe":12100,"moneda":"DOL","ctz":65,"tipoDocRec":80,"nroDocRec":20000000001,"tipoCodAut":"E","codAut":70417054367476}
         //mio q {"ver":1,"ctz":1,"tipoDocRec":"80","ptoVta":62,"importe":12100,"tipoCmp":"01","fecha":"20200-6-28","codAut":"69260148620357","cuit":"30000000007","tipoCodAut":"E","nroCmp":10,"nroDocRec":"20000000001","moneda":"DOL"}
 
-        // mi prueba de json
-        String message;
-        //JSONObject json = new JSONObject();
+
         String mock = "{\"ver\":1,\"fecha\":\"2020-10-13\",\"cuit\":30000000007,\"ptoVta\":10,\"tipoCmp\":1,\"nroCmp\":94,\"importe\":12100,\"moneda\":\"DOL\",\"ctz\":65,\"tipoDocRec\":80,\"nroDocRec\":20000000001,\"tipoCodAut\":\"E\",\"codAut\":70417054367476}" ;
-        JSONObject json = new JSONObject(mock);
+        JSONObject json = new JSONObject();
+
+
         json.put("ver", 1);
+
+        String fecha =  ConversorDatos.fechaInvelATexto((short)ev.getFecha(),ConversorDatos.AAAMMDD_CON_GUIONES_MEDIOS);
         json.put("fecha",fecha);
-        json.put("cuit",Long.parseLong(cuit));
-        json.put("ptoVta",ptovta);
-        json.put("tipoCmp",tipoCmp);
-        json.put("nroCmp",nroCmp);
-        json.put("importe",importe);
-        json.put("moneda",moneda);
-        json.put("ctz",ctz);
+
+        json.put("cuit",Long.parseLong(tp.getCuit())); // el cuit del cliente o nuestro?, el nuestro esta en duraso en la factura.
+        json.put("ptoVta",ev.getSucComprobante());
+        json.put("tipoCmp",Integer.parseInt(getCOD_TIPODOC()));
+        json.put("nroCmp",ev.getNroComprobante());
+
+        json.put("importe",this.sumarMedios(medios)); //redondeo?
+
+        json.put("moneda","PES");
+        json.put("ctz",1);
+
+        int tipoDocRec= (( cli.getCUIT().length() >10 )? 80 : 90 );
         json.put("tipoDocRec",tipoDocRec);
-        json.put("nroDocRec",nroDocRec);
-        json.put("tipoCodAut",tipoCodAut);
-        json.put("codAut",codAut);
-// lo de arriba sale desordenado
-        message = json.toString() ;
+
+
+        json.put("nroDocRec",Long.parseLong(cli.getCUIT()));
+        json.put("tipoCodAut","E");
+        json.put("codAut",Long.parseLong(this.CAEE));
+
+
 //        {"name":"student","course":[{"name":"course1","information":"test","id":3}]}
         //probemos armar un string
-        String cadena2 = String.format("{\"ver\":%d,\"fecha\":\"%s\",\"cuit\":%d,\"ptoVta\":%d,\"tipoCmp\":%d,\"nroCmp\":%d,\"importe\":%.0f,\"moneda\":\"%s\",\"ctz\":%d,\"tipoDocRec\":%d,\"nroDocRec\":%d,\"tipoCodAut\":\"%s\",\"codAut\":%d}" , +
-                        json.getLong("ver") , json.getString("fecha") , json.getLong("cuit") ,json.getLong("ptoVta"),json.getLong("tipoCmp") ,+
-                        json.getLong("nroCmp"),json.getDouble("importe") ,json.getString("moneda"), json.getLong("ctz"), json.getLong("tipoDocRec"),json.getLong("nroDocRec"),json.getString("tipoCodAut"),json.getLong("codAut"));
-        setQr(cadena2);
+       /* String cadena =  String.format("{\"ver\":%d,\"fecha\":\"%s\",\"cuit\":%d,\"ptoVta\":%d,\"tipoCmp\":%d,\"nroCmp\":%d,\"importe\":%.2f,\"moneda\":\"%s\",\"ctz\":%d,\"tipoDocRec\":%d,\"nroDocRec\":%d,\"tipoCodAut\":\"%s\",\"codAut\":%.0f}" , +
+                json.getLong("ver") , json.getString("fecha") , json.getLong("cuit"),json.getLong("ptoVta"),json.getLong("tipoCmp") +
+                json.getLong("nroCmp"),125*//*json.getDouble("importe")*//*, json.getString("moneda"), json.getLong("ctz"), json.get("tipoDocRec"), +
+                json.getLong("nroDocRec"),json.getString("tipoCodAut"),704170*//*json.getLong("codAut")*//*);*/
+
+        this.qr= json.toString();
 
         }
+
+    private double sumarMedios(List<EvMedios> medios) {
+        return medios.stream().reduce(0d,(partial, current) -> partial + current.getImporte() - current.getVueltoEfectivo(), Double::sum);
+    }
 
     public void setFechaVigencia(String dosificacion) {
         this.VIGENCIA = dosificacion;

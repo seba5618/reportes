@@ -645,7 +645,7 @@
 				<textFieldExpression><![CDATA[$F{VALMERC}+$F{f2_DESCONT}]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement x="4" y="150" width="125" height="125" uuid="e3635647-3395-4473-969d-48e5ca32f560">
+				<reportElement x="4" y="150" width="80" height="80" uuid="e3635647-3395-4473-969d-48e5ca32f560">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -661,18 +661,18 @@
 				<textFieldExpression><![CDATA[$F{f2_DESCONT}]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="134" y="155" width="156" height="70" uuid="7d67ef52-2d80-49b7-8d6a-892c357f495e"/>
+				<reportElement x="95" y="151" width="119" height="45" uuid="7d67ef52-2d80-49b7-8d6a-892c357f495e"/>
 				<imageExpression><![CDATA["./afip.png"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="129" y="233" width="179" height="17" uuid="2995a62d-31ce-470d-974d-066db25ad62f"/>
+				<reportElement x="93" y="199" width="179" height="17" uuid="2995a62d-31ce-470d-974d-066db25ad62f"/>
 				<textElement>
 					<font fontName="Arial" size="12" isBold="true" isItalic="true"/>
 				</textElement>
 				<text><![CDATA[Comprobante Autorizado]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="130" y="250" width="430" height="30" uuid="c37f6bc5-bea1-47b2-a0d5-64f1426f7586"/>
+				<reportElement x="93" y="217" width="430" height="10" uuid="c37f6bc5-bea1-47b2-a0d5-64f1426f7586"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>

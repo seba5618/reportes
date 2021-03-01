@@ -20,6 +20,8 @@ import java.util.stream.Stream;
  */
 public class FacturaElectronicaBuilder {
 
+
+
     private static final int TIPO_FACTURA_B = 17;
     private static final int TIPO_FACTURA_A = 16;
     private static final int COTIZACION= 92;
@@ -30,6 +32,7 @@ public class FacturaElectronicaBuilder {
     FacturaElectronicaRequest request;
     Eventos cabecera;
     List<EvCont> detalle;
+    List<EvMedios> medios;
     EvMedios pie;
     Clientes clientes;
     TpvConfig tpvConfig;
@@ -41,6 +44,11 @@ public class FacturaElectronicaBuilder {
 
     public FacturaElectronicaBuilder withRequest(FacturaElectronicaRequest req) {
         this.request = req;
+        return this;
+    }
+
+    public FacturaElectronicaBuilder withEvMedios(List<EvMedios> medios){
+        this.medios = medios;
         return this;
     }
 
@@ -120,16 +128,17 @@ public class FacturaElectronicaBuilder {
             }
 
             try {
-                detalle.armarQr( this.cabecera,this.tpvConfig, this.clientes);
+                LOG.info("Cuit en tpv: "+ this.tpvConfig.getCuit());
+                detalle.armarQr( this.cabecera,this.tpvConfig, this.clientes, this.medios);
             } catch (JSONException e) {
-                e.printStackTrace();
+                LOG.error("Error armando qr",e);
             }
 
             //usaremos esto para las observaciones
             try {
                 detalle.setF2_XOBS(this.cabecera.getTipoEvento());
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error("Error armando observaciones",e);
             }
             result.addDetalle(detalle);
         });
