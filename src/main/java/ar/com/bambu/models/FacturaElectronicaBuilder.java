@@ -126,12 +126,14 @@ public class FacturaElectronicaBuilder {
             if(this.factuMem!=null) {
                 detalle.setTELTRANS(" " + this.factuMem.getValor());
             }
-
-            try {
-                LOG.info("Cuit en tpv: "+ this.tpvConfig.getCuit());
-                detalle.armarQr( this.cabecera,this.tpvConfig, this.clientes, this.medios);
-            } catch (JSONException e) {
-                LOG.error("Error armando qr",e);
+            if( this.cabecera.getTipoEvento() == TIPO_FACTURA_A || this.cabecera.getTipoEvento() == TIPO_FACTURA_B
+                    ||  this.cabecera.getTipoEvento() == Eventos.TIPO_NOTA_CREDITO_A || this.cabecera.getTipoEvento() == Eventos.TIPO_NOTA_CREDITO_B) {
+                try {
+                    LOG.info("Cuit en tpv: " + this.tpvConfig.getCuit());
+                    detalle.armarQr(this.cabecera, this.tpvConfig, this.clientes, this.medios);
+                } catch (JSONException e) {
+                    LOG.error("Error armando qr", e);
+                }
             }
 
             //usaremos esto para las observaciones
