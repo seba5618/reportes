@@ -672,7 +672,7 @@
 				<text><![CDATA[Comprobante Autorizado]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="93" y="217" width="430" height="10" uuid="c37f6bc5-bea1-47b2-a0d5-64f1426f7586"/>
+				<reportElement x="93" y="217" width="430" height="12" uuid="c37f6bc5-bea1-47b2-a0d5-64f1426f7586"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
