@@ -107,7 +107,8 @@ public class Clientes {
     }
 
     public String getCUIT() {
-        return CUIT;
+        return String.valueOf(CUIT).trim();
+
     }
 
     public void setCUIT(String CUIT) {
