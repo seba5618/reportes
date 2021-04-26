@@ -2,7 +2,6 @@ package ar.com.bambu.repos;
 
 import ar.com.bambu.entities.EvCont;
 import ar.com.bambu.entities.EvContId;
-import ar.com.bambu.entities.EventosId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
