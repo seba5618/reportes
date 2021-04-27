@@ -1,65 +1,67 @@
-veamos un caso evento 837 caja_z 300013. Los importes son CON IVA
-TOTAL DEL TICKET REAL 15116.54
+evento 9 caja_z = 300041
+analisis   
+art 659   =   17205.38  iva 10.5         
+art 874   =   752.18   iva 21
+art 2962  =   119.18   iva 21
 
-COD_ART 1644    	=   128.10   iva 21
-COD_ART 1644    	=   128.10   iva 21
-COD_ART 20881   	=  1315.60   iva 21
-COD_ART 666 		=20,023.26   iva 10,5
+Subtotal            = 18076,74
+descuento pago efec= - 5423.02
 
-Subtotal            = 21595.06
-descuento pago efec= - 6478.52
+total ticket iva incluido = 12653,72
 
-total ticket iva incluido = 15116.55
-
-Comparamos como sale en impresora y como sale en pdf
-
-Mi ticket fiscal TFA                          	Factura electronica
-
-2 x 105.86 = 211.73                               2 x 105.86 = 211.74
-1087.27                                           1 x 1087.27
-18120.60 (10.5)                                   1 x 181260.60
-
-descuento -5862.91                            descuento    -5862.91
-
-subtota imp neto gravado = 13556.69           subtotal = 13556.69
-alicuota 21 = 272.79                          iva 21 = 342.81
-Alicuota 10.5 = 1287.06                       iva 10.5 = 1902.66
-
-Sumatoria total = 15116.54					    total = 15802,16 (wrong!!!!)
-
-Como se graba el descuento en ev_cont?
-importe_sin_iva = -5862.91402714932
-iva1 = -615.605972850679  --> este es el que hay que distribuir
-total = -6478.52
-
-*****ATENTI CREO QUE TODO ESTE CALCULO SERIA PARA LAS FACTURAS A, es decir los tipo evento = 16;
-Veamos el calculo casero.
+Veamos el calculo casero QUE NO FUNCIONA pero es lo que esta ahora
 1)  sumemos todo el iva x tipo de iva
-select sum(iva1),cod_iva from ev_cont where id_evento in (837) and origen =1 group by cod_iva ;
+select sum(iva1),cod_iva from ev_cont where id_evento = 9 and caja_z = 300041 and origen =1 group by cod_iva ;
 Obtengo 2 regstros
 
-272.79047712     0
-1902.662904975   1
+151.22771265    0
+1634.9000       1
 
-2) la suma de ambos da = 272.790477 + 1902.6629 = 2175,453377 (siempre sin tener en cuenta los origenes 4 y 5 )
+2) la suma de ambos da = 151.22771265 + 1634.900039  = 1786,12771265 (siempre sin tener en cuenta los origenes 4 y 5 )
 
-3) veamos la incidencia de cada iva en el total de iva  iva 0 = 272.7904 / 2175.4533 = 0,1253947395699094
- el otro iva es facil 1- 0,125394 = 0.8746
+3) veamos la incidencia de cada iva en el total de iva  iva 0 = 151.22771265 / 1786,12771265  = 0,0846679153926032
+ el otro iva es facil 1- 0,0846679153926032 = 0.9153320846073968
  
  4) con esos 2 valores sacamos el iva del descuento
-select sum(iva1) from ev_cont where id_evento in (837) and origen in (4,5)  ;
-devuelve = -615.605972850679
+select sum(iva1) from ev_cont where id_evento = 9 and caja_z = 300041 and origen in (4,5)  ;
+devuelve = -515.309815  aca esta mal porque ya viene mal el iva.
 
-5) hacemos  615.6059 * 0.125394 = 77,1932862246  nos da el iva 21% a restar 
-   hacemos  615.6059 * 0.8746 = 538,40892014 nos da el iva 21% a restar 
+5) hacemos  515.309815 * 0,0846679153926032 = 43,6301998854385  nos da el iva 21% a restar 
+   hacemos  515.309815 * 0.9153320846073968 = 471,67956358358 nos da el iva 21% a restar 
    
-6) iva 0 que es el 21% = 272.7904 - 77.193286 =   195,597114
-   iva 1 que  el 10.5% =1902.6629  - 538.4089 =   1364,254
+6) iva 0 que es el 21% = 151.22771265  - 43,6301998854385=   107,59751277
+   iva 1 que  el 10.5% =1634.900039   - 471,67956358358 =   1163,22047542
    
 Finalmente la factura queda
    
-subtotal = 13556.69
-iva 21 = 195.597114
-iva 10.5 = 1364.254
+subtotal = 11382.9017118429
+iva 21 = 107,59751277   --> debio dar 105,8593
+iva 10.5 = 1163,22047542  --> 1144.4304
 
-  total = 15116,541114   UN ESPECTACULO!!!
+  total = 12653,7196 esta mal!!!!!!!!!!!!!!!
+  
+  en estos casos quizas hay que recurrir a ev_despro
+
+  SELECT * FROM ev_despro where id_evento = 9 and caja_z=300041
+  
+  vemos el campo iva de los 3 articulos
+  1144.4304 iva 10.5%
+  91.3805+14.4788 = 105,859453 iva 21%  
+  estos ivas son los correctos  no los de arriba
+ 
+como deberia quedar la factura?
+
+Subtotal------> 16290,6118 **select sum(importe_sin_iva) ,e.* from ev_cont e where id_evento = 9 and caja_z = 300041 and origen not in(4, 5);
+descuento-----> -4887.1835 ...  el total del descuento es 5423.02  ahora lo hace como 4907.71 + 515.30 pero mal los valores porque 
+esta mal distribuido el iva.
+  
+gravado =      11403,4303   
+iva 10.5% ----> +1144.4304 **
+iva 21    ----> +105,8593 **
+
+total = 12653,72
+ 
+
+
+
+

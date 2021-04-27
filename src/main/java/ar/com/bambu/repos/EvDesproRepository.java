@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface EvDesproRepository extends JpaRepository<EvDespro, EvDesproId> {
 
-        @Query(value = "select new ar.com.bambu.entities.EvDespro (ev) from EvDespro   where ev.idEvento=:idEvento and ev.cajaZ=:cajaZ")
+   /*     @Query(value = "select new ar.com.bambu.entities.EvDespro (ev) from EvDespro   where ev.idEvento=:idEvento and ev.cajaZ=:cajaZ")
         public List<EvDespro> findByIdEventoCajaZ(@Param("idEvento") Long idEvento, @Param("cajaZ") Long cajaZ);
-
+*/
 }

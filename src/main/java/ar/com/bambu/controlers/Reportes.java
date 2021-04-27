@@ -143,7 +143,7 @@ public class Reportes {
 
         FacturaElectronicaBuilder facturaElectronicaBuilder = new FacturaElectronicaBuilder();
         List<EvCont> byIdEventoArtiName = repoCont.findByIdEventoArtiName(req.getEvento().getIdEvento(), req.getEvento().getCajaZ());
-        List<EvDespro> byIdEventoCajaZ = evDespro.findByIdEventoCajaZ(req.getEvento().getIdEvento(), req.getEvento().getCajaZ());
+      //  List<EvDespro> byIdEventoCajaZ = evDespro.findByIdEventoCajaZ(req.getEvento().getIdEvento(), req.getEvento().getCajaZ());
 
         List<EvMedios> evMedios = medioRepository.findByIdEventoWithMedioName(req.getEvento().getIdEvento());
 
