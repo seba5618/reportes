@@ -138,7 +138,7 @@ public class FacturaElectronicaBuilder {
 
             //usaremos esto para las observaciones
             try {
-                detalle.setF2_XOBS(this.cabecera.getTipoEvento());
+                detalle.setF2_XOBS(this.cabecera.getTipoEvento(), this.clientes);
             } catch (IOException e) {
                 LOG.error("Error armando observaciones",e);
             }

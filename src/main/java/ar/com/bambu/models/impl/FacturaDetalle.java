@@ -238,7 +238,7 @@ public class FacturaDetalle implements Serializable {
         this.LOCALIDAD = clientes.getLocalidad();
         this.IIBB = clientes.getIngBrutos();
         this.a1_TIPO = clientes.getCondIvaString();
-        this.a1_TIPO = clientes.getCondIvaString();
+      //  this.a1_TIPO = clientes.getCondIvaString();
     }
 
     public void setDataPieMontoPromociones(List<EvCont> detalle, int tipoEvento) {
@@ -338,11 +338,18 @@ public class FacturaDetalle implements Serializable {
         this.f2_XOBS = f2_XOBS;
     }
 
-    public void setF2_XOBS( Integer tipo_evento) throws IOException {
+    public void setF2_XOBS( Integer tipo_evento, Clientes cli) throws IOException {
 
-        if( tipo_evento != COTIZACION )
-            this.f2_XOBS = "" ;
-        else {
+        if( tipo_evento != COTIZACION ) {
+            if( tipo_evento == TIPO_FACTURA_A && cli.getEmpleado() == 'M') {
+                String fichero = System.getProperty("user.dir") + "\\application.properties";
+                Properties p = new Properties();
+                p.load(new FileReader(fichero));
+                this.f2_XOBS = p.getProperty("jasper.monotributo.tipoA", " ");
+            } else
+              this.f2_XOBS = "" ;
+
+        } else {
             char CR = (char) 0x0D;
             char LF = (char) 0x0A;
             String CRLF = "" + CR + LF;

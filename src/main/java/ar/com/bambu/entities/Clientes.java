@@ -18,9 +18,18 @@ public class Clientes {
     private String CUIT;
     private String mail;
     private String localidad;
+    private char empleado;
     @Transient
     private String condIvaString;
 
+
+    public char getEmpleado() {
+        return empleado;
+    }
+
+    public void setEmpleado(char empleado) {
+        this.empleado = empleado;
+    }
 
     public Clientes(Clientes cl, String condIva) {
         this.status = cl.status;
@@ -33,6 +42,10 @@ public class Clientes {
         this.mail = cl.mail;
         this.localidad = cl.localidad;
         this.condIvaString = condIva;
+        this.empleado = cl.empleado;
+        if (this.empleado == 'M')
+            this.condIvaString = "Responsable Monotributo";
+
     }
 
     public Clientes() {
